@@ -1,39 +1,64 @@
 # Main flow configuration file for FileProcessor.
 #
-# Define one or more flows. Each flow ties together:
-# - Input/output/error/archive directories
-# - CSV/fixed-width format
-# - Mapping XLS file
-# - Optional XSD for validation
-# - Optional filters and grouping rules
+# Folder layout (see data/README.md):
+# - Outbound: internal → external (CSV in → XML out). Use data/outbound/*.
+# - Inbound:  external → internal (XML in → CSV out). Use data/inbound/*.
+#
+# Each flow ties together: input/success/error/archive dirs, mapping XLS,
+# optional XSD/skeleton (for csv_to_xml), filters and grouping.
 
 flows:
-  - name: example_orders_flow
+  # --- Outbound: CSV from internal systems → XML for external systems ---
+  - name: rolls_outbound
     mode: csv_to_xml
 
-    input_dir: ./data/in/orders
-    success_dir: ./data/out/orders
-    error_dir: ./data/error/orders
-    archive_dir: ./data/archive/orders
-    in_progress_dir: ./data/in_progress/orders
+    input_dir: ./data/outbound/in
+    success_dir: ./data/outbound/success
+    error_dir: ./data/outbound/error
+    archive_dir: ./data/outbound/archive
+    in_progress_dir: ./data/outbound/in_progress
 
     file_glob: "*.csv"
+
+    input_format: csv
+    delimiter: "|"
+
+    mapping_file: ./examples/mapping ROLLS SSW outgoing.xlsx
+    skeleton_xml: ./examples/skeleton_PldaSswDeclaration.xml
+    xsd_file: ./examples/PLDASSW.xsd
+
+    root_element_name: PldaSswDeclaration
+
+    # Example filters (disabled):
+    # filters:
+    #   - column_index: 5
+    #     operator: eq
+    #     value: "ACTIVE"
+    #
+    # Example grouping (disabled):
+    # grouping:
+    #   group_by_column_index: 1
+    #   group_root_xpath: /PldaSswDeclaration/MessageBody/SADDossier
+    #   item_xpath: /PldaSswDeclaration/MessageBody/SADDossier/GoodsDeclaration
+
+  # --- Inbound: XML from external systems → CSV for internal systems ---
+  - name: rolls_inbound
+    mode: xml_to_csv
+
+    input_dir: ./data/inbound/in
+    success_dir: ./data/inbound/success
+    error_dir: ./data/inbound/error
+    archive_dir: ./data/inbound/archive
+    in_progress_dir: ./data/inbound/in_progress
+
+    file_glob: "*.xml"
 
     input_format: csv
     delimiter: ";"
 
     mapping_file: ./examples/mapping ROLLS SSW outgoing.xlsx
-    xsd_file: ./examples/PLDASSW.xsd
+    skeleton_xml: null
+    xsd_file: null
 
-    root_element_name: Orders
-
-    filters:
-      - column_index: 5
-        operator: eq
-        value: "ACTIVE"
-
-    grouping:
-      group_by_column_index: 1
-      group_root_xpath: /Orders/Order
-      item_xpath: /Orders/Order/Line
+    root_element_name: PldaSswDeclaration
 

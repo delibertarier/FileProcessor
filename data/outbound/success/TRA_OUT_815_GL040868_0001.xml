@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<PldaSswDeclaration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="PLDASSW.xsd">
+  <typeDeclaration>PD</typeDeclaration>
+  <version>1.0</version>
+  <dateCreation>2026-01-18</dateCreation>
+  <timeCreation>23:59:59</timeCreation>
+  <CustomsStreamliner>
+    <company>TE</company>
+  </CustomsStreamliner>
+  <MessageBody>
+    <SADDossier>
+      <GoodsDeclaration>
+        <type>O</type>
+        <linkId>GL040868</linkId>
+        <Inbound>
+          <Consignor>
+            <Operator>
+              <operatorName>TotalEnergies Refinery Antwerp</operatorName>
+              <OperatorAddress>
+                <postalCode>B-2030</postalCode>
+                <streetAndNumber1>Haven 447 Scheldeln.16</streetAndNumber1>
+                <city>Antwerpen 3</city>
+                <country>BE</country>
+              </OperatorAddress>
+              <language>nl</language>
+            </Operator>
+            <erpId>BE1C000005899</erpId>
+          </Consignor>
+        </Inbound>
+        <Outbound>
+          <departedDate>2026-01-18</departedDate>
+          <ConsigneeEMCS>
+            <Operator>
+              <operatorName>KUWAIT Petroleum Belgium nv</operatorName>
+              <OperatorAddress>
+                <postalCode>B-2020</postalCode>
+                <streetAndNumber1>Petroleumkaai ‘ ‘7</streetAndNumber1>
+                <city>Antwerpen</city>
+                <country>BE</country>
+              </OperatorAddress>
+              <exciseNumber>BE1C007249999</exciseNumber>
+            </Operator>
+            <erpId>BE1C007249999</erpId>
+          </ConsigneeEMCS>
+          <destinationCountry>BE</destinationCountry>
+        </Outbound>
+        <dossierDate>2026-01-18</dossierDate>
+        <expectedDate>2026-01-25</expectedDate>
+        <destinationType>1</destinationType>
+        <TransportMeans>
+          <borderMode>3</borderMode>
+          <borderIdentity>VRACHTWAGENVRACHTWAGENVRACH</borderIdentity>
+          <departureNationality>BE</departureNationality>
+          <transportMode>3</transportMode>
+        </TransportMeans>
+        <Customs/>
+        <DispatchTrader>
+          <Operator>
+            <operatorName>TotalEnergies Marketing Belgium (Antwerpen)</operatorName>
+            <OperatorAddress>
+              <postalCode>B-2030</postalCode>
+              <streetAndNumber1>Scheldelaan14</streetAndNumber1>
+              <city>Antwerpen</city>
+              <country>BE</country>
+            </OperatorAddress>
+            <language>nl</language>
+          </Operator>
+          <erpId>BE1C000005801</erpId>
+        </DispatchTrader>
+        <DeliveryPlaceTrader>
+          <Operator>
+            <operatorName>KUWAIT Petroleum Belgium nv</operatorName>
+            <OperatorAddress>
+              <postalCode>B-2020</postalCode>
+              <streetAndNumber1>Petroleumkaai7</streetAndNumber1>
+              <city>Antwerpen</city>
+              <country>BE</country>
+            </OperatorAddress>
+          </Operator>
+          <erpId>BE1C007249001</erpId>
+        </DeliveryPlaceTrader>
+        <guarantorType>1</guarantorType>
+        <FirstTransporterTrader>
+          <Operator>
+            <operatorName>TotalEnergies Marketing Belgium (Antwerpen)</operatorName>
+            <OperatorAddress>
+              <postalCode>B-2030</postalCode>
+              <streetAndNumber1>Scheldelaan14</streetAndNumber1>
+              <city>Antwerpen</city>
+              <country>BE</country>
+            </OperatorAddress>
+            <language>nl</language>
+          </Operator>
+          <erpId>BE1C000005801</erpId>
+        </FirstTransporterTrader>
+        <TransportArrangerTrader>
+          <Operator>
+            <operatorName>KUWAIT Petroleum Belgium nv</operatorName>
+            <OperatorAddress>
+              <postalCode>B-2020</postalCode>
+              <streetAndNumber1>Petroleumkaai7</streetAndNumber1>
+              <city>Antwerpen</city>
+              <country>BE</country>
+            </OperatorAddress>
+            <language>nl</language>
+          </Operator>
+          <erpId>BE0404584525</erpId>
+        </TransportArrangerTrader>
+        <overview1>Week</overview1>
+        <businessUnit>TERA</businessUnit>
+      </GoodsDeclaration>
+      <GoodsItem>
+        <linkId>1</linkId>
+        <Outbound>
+          <stockType>EXCISE</stockType>
+        </Outbound>
+        <CustomProcedure>
+          <customLicensing>TE_NOSTOCK</customLicensing>
+        </CustomProcedure>
+        <Product>
+          <code>E460</code>
+          <description>KEROSINE                                ,Andere dan reactiemotorbrandstof        ,                                        ,                                        ,+Accutrace Plus + Red(&gt;12.5en&lt;18.72mg/l)</description>
+          <CommodityImport>
+            <commodityCode>27101925</commodityCode>
+            <customsGoodsDescription>KEROSINE                                ,Andere dan reactiemotorbrandstof        ,                                        ,                                        ,+Accutrace Plus + Red(&gt;12.5en&lt;18.72mg/l)</customsGoodsDescription>
+          </CommodityImport>
+          <stockLevel>LTR</stockLevel>
+          <declareLevel>KGM</declareLevel>
+          <CommercialDescription>
+            <commercialDescription>KEROSINE                                ,Andere dan reactiemotorbrandstof        ,                                        ,                                        ,+Accutrace Plus + Red(&gt;12.5en&lt;18.72mg/l)</commercialDescription>
+            <commercialDescriptionLanguage>nl</commercialDescriptionLanguage>
+          </CommercialDescription>
+          <density>0.81</density>
+        </Product>
+        <originCountry>BE</originCountry>
+        <netMass>00000100156</netMass>
+        <grossMass>00000100156</grossMass>
+        <stockAmount>00000123350</stockAmount>
+        <Packaging>
+          <marksNumber>Deellading 1</marksNumber>
+          <packageType>VL</packageType>
+        </Packaging>
+        <ProducedDocument>
+          <Document>
+            <documentReference>Levering met uitslag ten verbruik - vergunning Nr. D.A. 240404 van 14/3/2008</documentReference>
+            <emcsDocumentType>nl</emcsDocumentType>
+          </Document>
+        </ProducedDocument>
+      </GoodsItem>
+    </SADDossier>
+  </MessageBody>
+</PldaSswDeclaration>

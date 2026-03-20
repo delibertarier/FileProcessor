@@ -75,20 +75,55 @@ def _process_rows_csv_to_xml(flow: FlowConfig, mapping, file_path: Path, rows: l
 
         for key, group_rows in groups.items():
             xml_tree = build_xml_for_group(flow, mapping, group_rows, group_key=key)
-            validate_xml_with_xsd(xml_tree, flow.xsd_file)
+            try:
+                validate_xml_with_xsd(xml_tree, flow.xsd_file)
+            except Exception:
+                # On validation or other errors, still persist XML alongside the CSV in the error folder.
+                _write_xml_error_output(flow, file_path, xml_tree, suffix=f"_{key}")
+                raise
             _write_xml_output(flow, file_path, xml_tree, suffix=f"_{key}")
     else:
-        # Single document for all rows
-        xml_tree = build_xml_for_group(flow, mapping, rows, group_key=None)
-        validate_xml_with_xsd(xml_tree, flow.xsd_file)
-        _write_xml_output(flow, file_path, xml_tree)
+        # No grouping: each CSV row should produce its own XML document.
+        for idx, row in enumerate(rows, start=1):
+            xml_tree = build_xml_for_group(flow, mapping, [row], group_key=None)
+            try:
+                validate_xml_with_xsd(xml_tree, flow.xsd_file)
+            except Exception:
+                # On validation or other errors, still persist XML alongside the CSV in the error folder.
+                _write_xml_error_output(flow, file_path, xml_tree, suffix=f"_{idx:04d}")
+                raise
+            _write_xml_output(flow, file_path, xml_tree, suffix=f"_{idx:04d}")
 
 
 def _write_xml_output(flow: FlowConfig, source_file: Path, xml_tree: etree._ElementTree, suffix: str = ""):
-    # Successful XML results are written to the flow's success_dir
-    flow.success_dir.mkdir(parents=True, exist_ok=True)
+    """Write successful XML results to the flow's success_dir."""
+    _write_xml_output_to_dir(flow.success_dir, source_file, xml_tree, suffix)
+
+
+def _write_xml_error_output(flow: FlowConfig, source_file: Path, xml_tree: etree._ElementTree, suffix: str = ""):
+    """
+    Write XML that failed validation/processing next to the CSV in the error_dir.
+    The TransactionManager will move the CSV there; this writes the XML directly.
+    """
+    _write_xml_output_to_dir(flow.error_dir, source_file, xml_tree, suffix)
+
+
+def _strip_whitespace_only_text_tail(root: etree._Element) -> None:
+    """Remove whitespace-only .text and .tail so pretty_print can apply uniform indentation."""
+    for elem in root.iter():
+        if elem.text is not None and not elem.text.strip():
+            elem.text = None
+        if elem.tail is not None and not elem.tail.strip():
+            elem.tail = None
+
+
+def _write_xml_output_to_dir(
+    target_dir: Path, source_file: Path, xml_tree: etree._ElementTree, suffix: str = ""
+) -> None:
+    target_dir.mkdir(parents=True, exist_ok=True)
     base_name = source_file.stem + suffix + ".xml"
-    target_path = flow.success_dir / base_name
+    target_path = target_dir / base_name
+    _strip_whitespace_only_text_tail(xml_tree.getroot())
     xml_tree.write(str(target_path), encoding="utf-8", xml_declaration=True, pretty_print=True)
     logger.info("Wrote XML output to %s", target_path)
 

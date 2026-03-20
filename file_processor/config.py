@@ -71,9 +71,13 @@ class FlowConfig(BaseModel):
 
     file_glob: str = "*.csv"
 
-    # Mapping & schema
+    # Mapping, skeleton & schema
     mapping_file: Path = Field(
         ..., description="Path to mapping definition; for now this is expected to be an XLS file."
+    )
+    skeleton_xml: Optional[Path] = Field(
+        None,
+        description="Optional path to an XML skeleton template used as the base document for csv_to_xml.",
     )
     xsd_file: Optional[Path] = Field(
         None, description="Optional XSD file to validate generated XML when in csv_to_xml mode."
@@ -96,6 +100,7 @@ class FlowConfig(BaseModel):
         "archive_dir",
         "in_progress_dir",
         "mapping_file",
+        "skeleton_xml",
         "xsd_file",
     )
     @classmethod

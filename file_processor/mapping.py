@@ -12,12 +12,11 @@ TransformFunc = Callable[[str], str]
 
 @dataclass
 class MappingEntry:
-    """Single mapping from a source CSV column or constant to an XML XPath."""
+    """Single mapping from a source CSV column to an XML XPath."""
 
-    source_column_index: int | None  # 1-based; None means use constant_value
+    source_column_index: int  # 1-based CSV column index
     target_xpath: str
     transform_name: str | None = None
-    constant_value: str | None = None
 
 
 @dataclass
@@ -32,34 +31,60 @@ def load_mapping_from_xls(path: Path) -> Mapping:
     Load mapping definition from an XLS file.
 
     Convention (first sheet, from row 2 onward):
-    - Column 1: source column index (1-based). Empty or 0 -> constant or derived.
+    - Column 1: source column index (1-based).
     - Column 2: target XPath.
-    - Column 3: optional transform rule name.
-    - Column 4: optional constant value.
+    - Columns 3-5: free for codes/remarks (ignored by the loader).
+    - Column 6 (F): optional transform rule name (e.g. `first_3`, `skip`).
     """
     wb = load_workbook(path, data_only=True)
     ws = wb.worksheets[0]
 
+    # Read all relevant rows first so we can detect 0-based vs 1-based column numbering.
+    raw_rows = list(ws.iter_rows(min_row=2, values_only=True))
+
+    # Detect whether the mapping uses 0-based column numbers:
+    # if the first non-empty numeric source index is 0, we treat the whole sheet as 0-based
+    # and add +1 to all column numbers.
+    offset = 0
+    for row in raw_rows:
+        source_idx_raw = (row + (None,))[0]
+        if source_idx_raw in (None, ""):
+            continue
+        try:
+            first_index = int(source_idx_raw)
+        except (TypeError, ValueError):
+            continue
+        if first_index == 0:
+            offset = 1
+        break
+
     entries: list[MappingEntry] = []
 
-    for row in ws.iter_rows(min_row=2, values_only=True):
-        source_idx_raw, xpath_raw, transform_raw, constant_raw = (row + (None, None, None, None))[:4]
+    for row in raw_rows:
+        # We only care about:
+        # - Column 1: source index
+        # - Column 2: XPath
+        # - Column 6 (F): transform name
+        row_padded = (row + (None,) * 6)[:6]
+        source_idx_raw = row_padded[0]
+        xpath_raw = row_padded[1]
+        transform_raw = row_padded[5]
         if xpath_raw is None:
             # Skip empty rows
             continue
 
-        source_index: Optional[int] = None
-        if source_idx_raw not in (None, "", 0):
-            try:
-                source_index = int(source_idx_raw)
-            except (TypeError, ValueError):
-                raise ValueError(f"Invalid source column index in mapping XLS: {source_idx_raw!r}")
+        # We only support mappings from actual CSV columns.
+        if source_idx_raw in (None, ""):
+            continue
+        try:
+            source_index = int(source_idx_raw) + offset
+        except (TypeError, ValueError):
+            raise ValueError(f"Invalid source column index in mapping XLS: {source_idx_raw!r}")
 
         entry = MappingEntry(
             source_column_index=source_index,
             target_xpath=str(xpath_raw).strip(),
             transform_name=(str(transform_raw).strip() if transform_raw not in (None, "") else None),
-            constant_value=(str(constant_raw) if constant_raw not in (None, "") else None),
         )
         entries.append(entry)
 

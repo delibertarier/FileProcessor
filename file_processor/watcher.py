@@ -62,6 +62,13 @@ def run_daemon(registry: FlowRegistry) -> None:
     """
     stop_event = Event()
 
+    # Catch up on any files that already exist in the input folders.
+    # Daemon mode only triggers on newly created files, so without this step
+    # pre-existing files would never get processed until they change.
+    runner = FlowRunner(registry)
+    logger.info("Catch-up: processing existing files before watching for new ones...")
+    runner.run_all_pending()
+
     # In a full app we would hook OS signals; for now, expose stop_event to caller via thread.
     thread = Thread(target=start_watchers, args=(registry, stop_event), daemon=False)
     thread.start()
