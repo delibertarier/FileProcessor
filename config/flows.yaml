@@ -6,6 +6,8 @@
 #
 # Each flow ties together: input/success/error/archive dirs, mapping XLS,
 # optional XSD/skeleton (for csv_to_xml), filters and grouping.
+#
+# Windows: use absolute paths like E:\FTP\... — not ".E:\..." (leading dot breaks paths).
 
 flows:
   # --- Outbound: CSV from internal systems → XML for external systems ---
@@ -18,12 +20,13 @@ flows:
     archive_dir: ./data/outbound/archive
     in_progress_dir: ./data/outbound/in_progress
 
-    file_glob: "*.csv"
+    file_glob: "TRA*.TXT"
 
     input_format: csv
     delimiter: "|"
 
     mapping_file: ./examples/mapping ROLLS SSW outgoing.xlsx
+    mapping_sheet_name: "CSV to XML"
     skeleton_xml: ./examples/skeleton_PldaSswDeclaration.xml
     xsd_file: ./examples/PLDASSW.xsd
 
@@ -42,7 +45,7 @@ flows:
     #   item_xpath: /PldaSswDeclaration/MessageBody/SADDossier/GoodsDeclaration
 
   # --- Inbound: XML from external systems → CSV for internal systems ---
-  - name: rolls_inbound
+  - name: ssw_inbound
     mode: xml_to_csv
 
     input_dir: ./data/inbound/in
@@ -51,14 +54,35 @@ flows:
     archive_dir: ./data/inbound/archive
     in_progress_dir: ./data/inbound/in_progress
 
-    file_glob: "*.xml"
+    file_glob: "TE_FELUY_*.xml" #file format is BU_typeofmessage
 
     input_format: csv
-    delimiter: ";"
+    delimiter: "|"
 
     mapping_file: ./examples/mapping ROLLS SSW outgoing.xlsx
+    mapping_sheet_name: "SSW return message"
     skeleton_xml: null
     xsd_file: null
 
     root_element_name: PldaSswDeclaration
 
+  - name: emcs_arc_all
+    mode: xml_to_csv
+
+    input_dir: ./data/inbound/in
+    success_dir: ./data/inbound/success
+    error_dir: ./data/inbound/error
+    archive_dir: ./data/inbound/archive
+    in_progress_dir: ./data/inbound/in_progress
+
+    file_glob: "ARC_ALL*.xml" #files containing IE801 messages
+
+    input_format: csv
+    delimiter: "|"
+
+    mapping_file: ./examples/mapping ROLLS SSW outgoing.xlsx
+    mapping_sheet_name: "ARC response 801"
+    skeleton_xml: null
+    xsd_file: null
+
+    root_element_name: EmcsSswDeclaration 

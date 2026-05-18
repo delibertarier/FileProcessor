@@ -1,0 +1,96 @@
+# Production deployment definitions for prepare_production_bundle.py
+#
+# Copy to production_paths.yaml and adjust paths.
+# Each deployment = one Windows app instance (separate service, separate folder).
+#
+# Build all:  python scripts/prepare_production_bundle.py --purge-local-data
+# Build one:  python scripts/prepare_production_bundle.py --deployment OUT-ROLLS-SSW_Prod-MFTA01192
+
+defaults:
+  mapping_file: ./examples/mapping ROLLS SSW outgoing.xlsx
+  skeleton_xml: ./examples/skeleton_PldaSswDeclaration.xml
+  xsd_file: ./examples/PLDASSW.xsd
+
+# Base folder for bundles when bundle_output_dir is omitted on a deployment.
+bundle_output_base: dist
+
+deployments:
+  IN-SSW-ROLLS_Test-MFTA01193T:
+    description: Inbound XML → CSV (test, interface MFTA01193T)
+    bundle_output_dir: dist/IN-SSW-ROLLS_Test-MFTA01193T
+    purge_on_server:
+      - E:\FTP\AMFT_Test\IN\MFTA01193T\OUT
+      - E:\FTP\AMFT_Test\IN\MFTA01193T\error
+      - E:\FTP\AMFT_Test\IN\MFTA01193T\in_progress
+    flows:
+      rolls_inbound:
+        mode: xml_to_csv
+        input_dir: E:\FTP\AMFT_Test\IN\MFTA01193T\IN
+        success_dir: E:\FTP\AMFT_Test\IN\MFTA01193T\OUT
+        error_dir: E:\FTP\AMFT_Test\IN\MFTA01193T\error
+        archive_dir: E:\FTP\AMFT_Archive\ROLLS_Test\IN\MFTA01193T
+        in_progress_dir: E:\FTP\AMFT_Test\IN\MFTA01193T\in_progress
+        file_glob: "*.xml"
+        delimiter: "|"
+        mapping_sheet_name: "SSW return message"
+        root_element_name: PldaSswDeclaration
+
+  IN-SSW-ROLLS_Prod-MFTA01193:
+    description: Inbound XML → CSV (production, interface MFTA01193)
+    bundle_output_dir: dist/IN-SSW-ROLLS_Prod-MFTA01193
+    purge_on_server:
+      - E:\FTP\AMFT\IN\MFTA01193\OUT
+      - E:\FTP\AMFT\IN\MFTA01193\error
+      - E:\FTP\AMFT\IN\MFTA01193\in_progress
+    flows:
+      rolls_inbound:
+        mode: xml_to_csv
+        input_dir: E:\FTP\AMFT\IN\MFTA01193\IN
+        success_dir: E:\FTP\AMFT\IN\MFTA01193\OUT
+        error_dir: E:\FTP\AMFT\IN\MFTA01193\error
+        archive_dir: E:\FTP\AMFT_Archive\ROLLS_Test\IN\MFTA01193
+        in_progress_dir: E:\FTP\AMFT\IN\MFTA01193\in_progress
+        file_glob: "*.xml"
+        delimiter: "|"
+        mapping_sheet_name: "SSW return message"
+        root_element_name: PldaSswDeclaration
+
+  OUT-ROLLS-SSW_Test-MFTA01192T:
+    description: Outbound CSV → XML (test, interface MFTA01192T)
+    bundle_output_dir: dist/OUT-ROLLS-SSW_Test-MFTA01192T
+    purge_on_server:
+      - E:\FTP\AMFT_Test\OUT\MFTA01192T\OUT
+      - E:\FTP\AMFT_Test\OUT\MFTA01192T\error
+      - E:\FTP\AMFT_Test\OUT\MFTA01192T\in_progress
+    flows:
+      rolls_outbound:
+        mode: csv_to_xml
+        input_dir: E:\FTP\AMFT_Test\OUT\MFTA01192T\IN
+        success_dir: E:\FTP\AMFT_Test\OUT\MFTA01192T\OUT
+        error_dir: E:\FTP\AMFT_Test\OUT\MFTA01192T\error
+        archive_dir: E:\FTP\AMFT_Archive\AMFT_Test\OUT\MFTA01192T
+        in_progress_dir: E:\FTP\AMFT_Test\OUT\MFTA01192T\in_progress
+        file_glob: "TRA*.TXT"
+        delimiter: "|"
+        mapping_sheet_name: "CSV to XML"
+        root_element_name: PldaSswDeclaration
+
+  OUT-ROLLS-SSW_Prod-MFTA01192:
+    description: Outbound CSV → XML (production, interface MFTA01192)
+    bundle_output_dir: dist/OUT-ROLLS-SSW_Prod-MFTA01192
+    purge_on_server:
+      - E:\FTP\AMFT\OUT\MFTA01192\OUT
+      - E:\FTP\AMFT\OUT\MFTA01192\error
+      - E:\FTP\AMFT\OUT\MFTA01192\in_progress
+    flows:
+      rolls_outbound:
+        mode: csv_to_xml
+        input_dir: E:\FTP\AMFT\OUT\MFTA01192\IN
+        success_dir: E:\FTP\AMFT\OUT\MFTA01192\OUT
+        error_dir: E:\FTP\AMFT\OUT\MFTA01192\error
+        archive_dir: E:\FTP\AMFT_Archive\AMFT\OUT\MFTA01192
+        in_progress_dir: E:\FTP\AMFT\OUT\MFTA01192\in_progress
+        file_glob: "TRA*.TXT"
+        delimiter: "|"
+        mapping_sheet_name: "CSV to XML"
+        root_element_name: PldaSswDeclaration

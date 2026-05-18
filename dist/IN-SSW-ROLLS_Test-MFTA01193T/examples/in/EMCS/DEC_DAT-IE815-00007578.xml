@@ -1,0 +1,226 @@
+﻿<?xml version="1.0" encoding="ISO-8859-1" ?> 
+<EmcsSswDeclaration xmlns:ie="http://emcs.dgtaxud.ec/v10/cd815/ie" xmlns:tms="http://emcs.dgtaxud.ec/v10/tms" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="V:\PCIL9\Bin\DevMcf\120\Components\Interfaces\definition\Customs\PLDAST~1\EMCSSSW.xsd">
+  <typeDeclaration>ED</typeDeclaration>
+  <version>565.1.003</version>
+  <dateCreation>2026-03-30</dateCreation>
+  <timeCreation>15:33:02</timeCreation>
+  <linkIdERP>7593</linkIdERP>
+  <linkIdERP3>BE1C000005808W25000088</linkIdERP3>
+  <CustomsStreamliner>
+    <template>TE_ANR_SPOOR</template>
+    <company>TE</company>
+    <messageStatus>DEC_DAT</messageStatus>
+    <user>ADMIN</user>
+    <printLocation>DEFAULT PRINTGROEP</printLocation>
+    <createDeclaration>F</createDeclaration>
+    <sendingMode>O</sendingMode>
+    <sendDeclaration>F</sendDeclaration>
+    <commercialReference>-250303_075621_T-7593</commercialReference>
+    <ConsigneeTrader>
+      <id>LUACC00000</id>
+      <erpId>LUACC00000308</erpId>	
+    </ConsigneeTrader>
+    <DispatchTrader>
+      <id>TOTALENER2</id>
+      <erpId>BE1C000005808</erpId>	    
+    </DispatchTrader>
+    <ConsignorTrader>
+      <id>BE1C000005</id>
+      <erpId>BE1C000005899</erpId>	
+    </ConsignorTrader>
+    <DeliveryPlaceTrader>
+      <id>LUACC00010</id>
+      <erpId>LUACC00010308</erpId>
+	  </DeliveryPlaceTrader>
+    <FirstTransporterTrader>
+      <id>0</id>
+      <erpId>0</erpId>
+    </FirstTransporterTrader>
+        <AadReferenceCode></AadReferenceCode>
+ 	<Detail>
+		<sequence>1</sequence>
+		<linkIdItem>1</linkIdItem>
+	</Detail>
+  </CustomsStreamliner>
+  <MessageBody>
+<ie:IE815 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tms="urn:publicid:-:EC:DGTAXUD:EMCS:PHASE4:TMS:V3.13" xmlns:ie="urn:publicid:-:EC:DGTAXUD:EMCS:PHASE4:IE815:V3.13" xsi:schemaLocation="urn:publicid:-:EC:DGTAXUD:EMCS:PHASE4:IE815:V3.13 file:///H:/Douane%20nederland/EMCS/EMCS4.0/Download%20MIG%20EMCS%204.0-20220906/XSDs/ie815.xsd">
+  <ie:Header>
+    <tms:MessageSender>BE0404586901</tms:MessageSender>
+    <tms:MessageRecipient>NDEA.BE</tms:MessageRecipient>
+    <tms:DateOfPreparation>2026-03-30</tms:DateOfPreparation>
+    <tms:TimeOfPreparation>15:33:02</tms:TimeOfPreparation>
+    <tms:MessageIdentifier>260404586901T000007601</tms:MessageIdentifier>
+  </ie:Header>
+  <ie:Body>
+    <ie:SubmittedDraftOfEADESAD>
+      <ie:Attributes>
+        <ie:SubmissionMessageType>1</ie:SubmissionMessageType>
+      </ie:Attributes>
+      <ie:ConsigneeTrader language="nl">
+        <ie:Traderid>LUACC00000308</ie:Traderid>
+        <ie:TraderName>KUWAIT LUXEMBOURG</ie:TraderName>
+        <ie:StreetName>RUE DE L'INDUSTRIE 12</ie:StreetName>
+        <ie:Postcode>8069</ie:Postcode>
+        <ie:City>BERTRANGE</ie:City>
+      </ie:ConsigneeTrader>
+      <ie:ConsignorTrader language="nl">
+        <ie:TraderExciseNumber>BE1C000005899</ie:TraderExciseNumber>
+        <ie:TraderName>TOTALENERGIES REFINERY ANTWERP</ie:TraderName>
+        <ie:StreetName>SCHELDELAAN 16</ie:StreetName>
+        <ie:Postcode>2030</ie:Postcode>
+        <ie:City>ANTWERPEN</ie:City>
+      </ie:ConsignorTrader>
+      <ie:PlaceOfDispatchTrader language="nl">
+        <ie:ReferenceOfTaxWarehouse>BE1C000005808</ie:ReferenceOfTaxWarehouse>
+        <ie:TraderName>TOTALENERGIES MARKETING BELGIUM</ie:TraderName>
+        <ie:StreetName>ZONE INDUSTRIELLE A</ie:StreetName>
+        <ie:Postcode>7181</ie:Postcode>
+        <ie:City>FELUY</ie:City>
+      </ie:PlaceOfDispatchTrader>
+      <ie:DeliveryPlaceTrader language="nl">
+        <ie:Traderid>LUACC00010308</ie:Traderid>
+        <ie:TraderName>KUWAIT LUXEMBOURG DEPOT BERTRANGE</ie:TraderName>
+        <ie:StreetName>RUE DE L'INDUSTRIE 12</ie:StreetName>
+        <ie:Postcode>8069</ie:Postcode>
+        <ie:City>BERTRANGE</ie:City>
+      </ie:DeliveryPlaceTrader>
+      <ie:CompetentAuthorityDispatchOffice>
+        <ie:ReferenceNumber>BE101000</ie:ReferenceNumber>
+      </ie:CompetentAuthorityDispatchOffice>
+      <ie:FirstTransporterTrader language="nl">
+        <ie:TraderName>SNCB</ie:TraderName>
+        <ie:StreetName>RUE DE FRANCE 89</ie:StreetName>
+        <ie:Postcode>1070</ie:Postcode>
+        <ie:City>BRUXELLES</ie:City>
+      </ie:FirstTransporterTrader>
+      <ie:HeaderEadEsad>
+        <ie:DestinationTypeCode>1</ie:DestinationTypeCode>
+        <ie:JourneyTime>00</ie:JourneyTime>
+        <ie:TransportArrangement>2</ie:TransportArrangement>
+      </ie:HeaderEadEsad>
+      <ie:TransportMode>
+        <ie:TransportModeCode>2</ie:TransportModeCode>
+      </ie:TransportMode>
+      <ie:MovementGuarantee>
+        <ie:GuarantorTypeCode>1</ie:GuarantorTypeCode>
+      </ie:MovementGuarantee>
+      <ie:BodyEadEsad>
+        <ie:BodyRecordUniqueReference>1</ie:BodyRecordUniqueReference>
+        <ie:ExciseProductCode>E430</ie:ExciseProductCode>
+        <ie:CnCode>27102011</ie:CnCode>
+        <ie:Quantity>1709999.000</ie:Quantity>
+        <ie:GrossMass>1424431.000000</ie:GrossMass>
+        <ie:NetMass>1424431.000000</ie:NetMass>
+        <ie:Density>0.83</ie:Density>
+        <ie:CommercialDescription language="fr">Diesel / Gazole moteur, contenant du biodiesel, avec une teneur en poids de soufre n'excedent pas 0,001 %.</ie:CommercialDescription>
+        <ie:Package>
+          <ie:KindOfPackages>VL</ie:KindOfPackages>
+          <ie:CommercialSealIdentification>DEELLADING 1</ie:CommercialSealIdentification>
+          <ie:SealInformation>DEELLADING 1</ie:SealInformation>
+        </ie:Package>
+      </ie:BodyEadEsad>
+      <ie:EadEsadDraft>
+        <ie:LocalReferenceNumber>260404586901T000007601</ie:LocalReferenceNumber>
+        <ie:InvoiceNumber>250303_075621_T</ie:InvoiceNumber>
+        <ie:InvoiceDate>2025-03-04</ie:InvoiceDate>
+        <ie:OriginTypeCode>1</ie:OriginTypeCode>
+        <ie:DateOfDispatch>2026-03-30</ie:DateOfDispatch>
+        <ie:TimeOfDispatch>17:00:00</ie:TimeOfDispatch>
+      </ie:EadEsadDraft>
+      <ie:TransportDetails>
+        <ie:TransportUnitCode>2</ie:TransportUnitCode>
+        <ie:IdentityOfTransportUnits>TPT</ie:IdentityOfTransportUnits>
+      </ie:TransportDetails>
+      <ie:TransportDetails>
+        <ie:TransportUnitCode>2</ie:TransportUnitCode>
+        <ie:IdentityOfTransportUnits>338078404252</ie:IdentityOfTransportUnits>
+      </ie:TransportDetails>
+      <ie:TransportDetails>
+        <ie:TransportUnitCode>2</ie:TransportUnitCode>
+        <ie:IdentityOfTransportUnits>338078405002</ie:IdentityOfTransportUnits>
+      </ie:TransportDetails>
+      <ie:TransportDetails>
+        <ie:TransportUnitCode>2</ie:TransportUnitCode>
+        <ie:IdentityOfTransportUnits>338078405044</ie:IdentityOfTransportUnits>
+      </ie:TransportDetails>
+      <ie:TransportDetails>
+        <ie:TransportUnitCode>2</ie:TransportUnitCode>
+        <ie:IdentityOfTransportUnits>338078405077</ie:IdentityOfTransportUnits>
+      </ie:TransportDetails>
+      <ie:TransportDetails>
+        <ie:TransportUnitCode>2</ie:TransportUnitCode>
+        <ie:IdentityOfTransportUnits>338078405093</ie:IdentityOfTransportUnits>
+      </ie:TransportDetails>
+      <ie:TransportDetails>
+        <ie:TransportUnitCode>2</ie:TransportUnitCode>
+        <ie:IdentityOfTransportUnits>338078405242</ie:IdentityOfTransportUnits>
+      </ie:TransportDetails>
+      <ie:TransportDetails>
+        <ie:TransportUnitCode>2</ie:TransportUnitCode>
+        <ie:IdentityOfTransportUnits>338078405291</ie:IdentityOfTransportUnits>
+      </ie:TransportDetails>
+      <ie:TransportDetails>
+        <ie:TransportUnitCode>2</ie:TransportUnitCode>
+        <ie:IdentityOfTransportUnits>338078405390</ie:IdentityOfTransportUnits>
+      </ie:TransportDetails>
+      <ie:TransportDetails>
+        <ie:TransportUnitCode>2</ie:TransportUnitCode>
+        <ie:IdentityOfTransportUnits>338078408097</ie:IdentityOfTransportUnits>
+      </ie:TransportDetails>
+      <ie:TransportDetails>
+        <ie:TransportUnitCode>2</ie:TransportUnitCode>
+        <ie:IdentityOfTransportUnits>338078408204</ie:IdentityOfTransportUnits>
+      </ie:TransportDetails>
+      <ie:TransportDetails>
+        <ie:TransportUnitCode>2</ie:TransportUnitCode>
+        <ie:IdentityOfTransportUnits>338078408329</ie:IdentityOfTransportUnits>
+      </ie:TransportDetails>
+      <ie:TransportDetails>
+        <ie:TransportUnitCode>2</ie:TransportUnitCode>
+        <ie:IdentityOfTransportUnits>338078410622</ie:IdentityOfTransportUnits>
+      </ie:TransportDetails>
+      <ie:TransportDetails>
+        <ie:TransportUnitCode>2</ie:TransportUnitCode>
+        <ie:IdentityOfTransportUnits>338078410689</ie:IdentityOfTransportUnits>
+      </ie:TransportDetails>
+      <ie:TransportDetails>
+        <ie:TransportUnitCode>2</ie:TransportUnitCode>
+        <ie:IdentityOfTransportUnits>338078410697</ie:IdentityOfTransportUnits>
+      </ie:TransportDetails>
+      <ie:TransportDetails>
+        <ie:TransportUnitCode>2</ie:TransportUnitCode>
+        <ie:IdentityOfTransportUnits>338078410739</ie:IdentityOfTransportUnits>
+      </ie:TransportDetails>
+      <ie:TransportDetails>
+        <ie:TransportUnitCode>2</ie:TransportUnitCode>
+        <ie:IdentityOfTransportUnits>338078410754</ie:IdentityOfTransportUnits>
+      </ie:TransportDetails>
+      <ie:TransportDetails>
+        <ie:TransportUnitCode>2</ie:TransportUnitCode>
+        <ie:IdentityOfTransportUnits>338078442963</ie:IdentityOfTransportUnits>
+      </ie:TransportDetails>
+      <ie:TransportDetails>
+        <ie:TransportUnitCode>2</ie:TransportUnitCode>
+        <ie:IdentityOfTransportUnits>338078443425</ie:IdentityOfTransportUnits>
+      </ie:TransportDetails>
+      <ie:TransportDetails>
+        <ie:TransportUnitCode>2</ie:TransportUnitCode>
+        <ie:IdentityOfTransportUnits>338078444811</ie:IdentityOfTransportUnits>
+      </ie:TransportDetails>
+      <ie:TransportDetails>
+        <ie:TransportUnitCode>2</ie:TransportUnitCode>
+        <ie:IdentityOfTransportUnits>378078410016</ie:IdentityOfTransportUnits>
+      </ie:TransportDetails>
+      <ie:TransportDetails>
+        <ie:TransportUnitCode>2</ie:TransportUnitCode>
+        <ie:IdentityOfTransportUnits>378078480977</ie:IdentityOfTransportUnits>
+      </ie:TransportDetails>
+      <ie:TransportDetails>
+        <ie:TransportUnitCode>2</ie:TransportUnitCode>
+        <ie:IdentityOfTransportUnits>378078481132</ie:IdentityOfTransportUnits>
+      </ie:TransportDetails>
+    </ie:SubmittedDraftOfEADESAD>
+  </ie:Body>
+</ie:IE815>
+  </MessageBody>  
+</EmcsSswDeclaration>

@@ -1,0 +1,148 @@
+﻿<?xml version="1.0" encoding="ISO-8859-1" ?> 
+<!-- NOOT: dit is een voorbeeld dat qua inhoud niet volledig overeenkomt met de realitiet omwille van testopzet. De structuur van het bericht is wel gelijk aan een productie bericht -->
+<EmcsSswDeclaration xmlns:ie="http://emcs.dgtaxud.ec/v10/cd815/ie" xmlns:tms="http://emcs.dgtaxud.ec/v10/tms" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="V:\PCIL9\Bin\DevMcf\120\Components\Interfaces\definition\Customs\PLDAST~1\EMCSSSW.xsd">
+  <typeDeclaration>ED</typeDeclaration>
+  <version>564.1.005</version>
+  <dateCreation>2026-03-12</dateCreation>
+  <timeCreation>16:56:29</timeCreation>
+  <linkIdERP>7587</linkIdERP>
+  <linkIdERP2>7583</linkIdERP2>
+  <linkCompanyERP2></linkCompanyERP2>
+  <linkIdERP3>BE1C000005808W25000088</linkIdERP3><!-- linkid van dossier -->
+  <CustomsStreamliner>
+    <template>TE_ANR</template>
+    <company>TE</company>
+    <messageStatus>ARC_ALL</messageStatus>
+    <user>ADMIN</user>
+    <printLocation>DEFAULT PRINTGROEP</printLocation>
+    <createDeclaration>F</createDeclaration>
+    <sendingMode>O</sendingMode>
+    <sendDeclaration>F</sendDeclaration>
+    <commercialReference>-250303_075621_T-7587</commercialReference>
+    <ConsigneeTrader>
+      <id>LUACC00000</id>
+      <erpId>LUACC00000308</erpId>	
+    </ConsigneeTrader>
+    <DispatchTrader>
+      <id>TOTALENER2</id>
+      <erpId>BE1C000005808</erpId>	    
+    </DispatchTrader>
+    <ConsignorTrader>
+      <id>BE1C000005</id>
+      <erpId>BE1C000005899</erpId>	
+    </ConsignorTrader>
+    <DeliveryPlaceTrader>
+      <id>LUACC00010</id>
+      <erpId>LUACC00010308</erpId>
+	  </DeliveryPlaceTrader>
+    <FirstTransporterTrader>
+      <id>0</id>
+      <erpId>0</erpId>
+    </FirstTransporterTrader>
+        <ControlValues>
+          <totalGrossmass>1424431.000000</totalGrossmass>
+          <totalNetmass>1424431.000000</totalNetmass>
+          <totalPackages>0</totalPackages> 
+          <totalQuantity>0.000</totalQuantity> 
+        </ControlValues>
+        <AadReferenceCode>SSW7587_7585</AadReferenceCode><!-- fictief omwille van testopzet-->
+ 	<Detail>
+		<sequence>1</sequence>
+		<linkIdItem>1</linkIdItem>
+	</Detail>
+  </CustomsStreamliner>
+  <MessageBody>
+<C_EAD_VAL>
+  <Context>
+    <NameValue>
+      <name>Operation</name>
+      <value>submitDraftAAD</value>
+    </NameValue>
+    <NameValue>
+      <name>autorisationholder</name>
+      <value>BE1C000005808</value>
+    </NameValue>
+    <NameValue>
+      <name>storageplace</name>
+      <value>BE1C000005808</value>
+    </NameValue>
+  </Context>
+  <IE801>
+    <Header>
+      <MessageSender>NDEA.BE</MessageSender>
+      <MessageRecipient>BE0419276857</MessageRecipient>
+      <DateOfPreparation>2026-03-12</DateOfPreparation>
+      <TimeOfPreparation>16:56:18</TimeOfPreparation>
+      <MessageIdentifier>260404586901T000007585</MessageIdentifier>
+    </Header>
+    <Body>
+      <EADESADContainer>
+        <ConsigneeTrader language="nl">
+          <Traderid>LUACC00000308</Traderid>
+          <TraderName>KUWAIT LUXEMBOURG</TraderName>
+          <StreetName>RUE DE L'INDUSTRIE 12</StreetName>
+          <Postcode>8069</Postcode>
+          <City>BERTRANGE</City>
+        </ConsigneeTrader>
+        <ExciseMovement>
+          <AdministrativeReferenceCode>SSW7587_7585</AdministrativeReferenceCode>
+          <DateAndTimeOfValidationOfEad>2022-01-17T10:55:11</DateAndTimeOfValidationOfEad>
+        </ExciseMovement>
+        <ConsignorTrader language="nl">
+          <TraderExciseNumber>BE1C000005899</TraderExciseNumber>
+          <TraderName>TOTALENERGIES REFINERY ANTWERP</TraderName>
+          <StreetName>SCHELDELAAN 16</StreetName>
+          <Postcode>2030</Postcode>
+          <City>ANTWERPEN</City>
+        </ConsignorTrader>
+        <PlaceOfDispatchTrader language="nl">
+          <ReferenceOfTaxWarehouse>BE1C000005808</ReferenceOfTaxWarehouse>
+          <TraderName>TOTALENERGIES MARKETING BELGIUM</TraderName>
+          <StreetName>ZONE INDUSTRIELLE A</StreetName>
+          <Postcode>7181</Postcode>
+          <City>ANTWERPEN (BERCHEM)</City>
+        </PlaceOfDispatchTrader>
+        <DeliveryPlaceTrader language="nl">
+          <Traderid>BE1A000099100</Traderid>
+          <TraderName>DOUANETOETS</TraderName>
+          <StreetName>STRAAT</StreetName>
+          <Postcode>1000</Postcode>
+          <City>NL</City>
+        </DeliveryPlaceTrader>
+        <CompetentAuthorityDispatchOffice>
+          <ReferenceNumber></ReferenceNumber>
+        </CompetentAuthorityDispatchOffice>
+        <DocumentCertificate>
+          <DocumentDescription language="nl">TESTAANGIFTE</DocumentDescription>
+        </DocumentCertificate>
+        <EadEsad>
+          <LocalReferenceNumber>260404586901T000007585</LocalReferenceNumber>
+          <InvoiceNumber>250303_075621_T</InvoiceNumber>
+          <InvoiceDate>2025-03-04</InvoiceDate>
+          <OriginTypeCode>1</OriginTypeCode>
+          <DateOfDispatch>2025-03-04</DateOfDispatch>
+          <TimeOfDispatch>15:36:00</TimeOfDispatch>
+        </EadEsad>
+        <HeaderEadEsad>
+          <SequenceNumber>1</SequenceNumber>
+          <DateAndTimeOfUpdateValidation>2020-06-10T11:53:07.542</DateAndTimeOfUpdateValidation>
+          <DestinationTypeCode>1</DestinationTypeCode>
+          <JourneyTime>D04</JourneyTime>
+          <TransportArrangement>2</TransportArrangement>
+        </HeaderEadEsad>
+        <TransportMode>
+          <TransportModeCode>2</TransportModeCode>
+        </TransportMode>
+        <MovementGuarantee>
+          <GuarantorTypeCode>1</GuarantorTypeCode>
+        </MovementGuarantee>
+        <TransportDetails>
+          <TransportUnitCode>2</TransportUnitCode>
+          <IdentityOfTransportUnits>LOCO</IdentityOfTransportUnits>
+        </TransportDetails>
+      </EADESADContainer>
+    </Body>
+  </IE801>
+</C_EAD_VAL>
+  </MessageBody>  
+</EmcsSswDeclaration>

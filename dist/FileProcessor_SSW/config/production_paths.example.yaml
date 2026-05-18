@@ -1,0 +1,58 @@
+# Copy to production_paths.yaml and set your production paths.
+# Then run:  python scripts/prepare_production_bundle.py
+#
+# Backslashes in Windows paths: use single backslashes (YAML-safe), e.g. E:\FTP\...
+
+bundle_output_dir: dist/FileProcessor_SSW
+
+# Optional: empty these directories when preparing the bundle ON the server
+# (only dirs that exist are touched; files removed, subfolders kept).
+purge_on_server:
+  - E:\FTP\AMFT_Test\OUT\ROLLS_SSW_OUT\success
+  - E:\FTP\AMFT_Test\OUT\ROLLS_SSW_OUT\error
+  - E:\FTP\AMFT_Test\OUT\ROLLS_SSW_OUT\in_progress
+  - E:\FTP\AMFT_Test\IN\SSW_ROLLS_IN\success
+  - E:\FTP\AMFT_Test\IN\SSW_ROLLS_IN\error
+  - E:\FTP\AMFT_Test\IN\SSW_ROLLS_IN\in_progress
+
+# Paths relative to bundle root (after copy)
+mapping_file: ./examples/mapping ROLLS SSW outgoing.xlsx
+skeleton_xml: ./examples/skeleton_PldaSswDeclaration.xml
+xsd_file: ./examples/PLDASSW.xsd
+
+flows:
+  rolls_outbound:
+    mode: csv_to_xml
+    input_dir: E:\FTP\AMFT_Test\OUT\ROLLS_SSW_OUT\IN
+    success_dir: E:\FTP\AMFT_Test\OUT\ROLLS_SSW_OUT\OUT
+    error_dir: E:\FTP\AMFT_Test\OUT\ROLLS_SSW_OUT\error
+    archive_dir: E:\FTP\AMFT_Archive\AMFT_Test\OUT\ROLLS_SSW_OUT
+    in_progress_dir: E:\FTP\AMFT_Test\OUT\ROLLS_SSW_OUT\in_progress
+    file_glob: "TRA*.TXT"
+    delimiter: "|"
+    mapping_sheet_name: "CSV to XML"
+    root_element_name: PldaSswDeclaration
+
+  ssw_inbound:
+    mode: xml_to_csv
+    input_dir: E:\FTP\AMFT_Test\IN\SSW_ROLLS_IN\IN
+    success_dir: E:\FTP\AMFT_Test\IN\SSW_ROLLS_IN\OUT
+    error_dir: E:\FTP\AMFT_Test\IN\SSW_ROLLS_IN\error
+    archive_dir: E:\FTP\AMFT_Archive\ROLLS_Test\IN\SSW_ROLLS_IN
+    in_progress_dir: E:\FTP\AMFT_Test\IN\SSW_ROLLS_IN\in_progress
+    file_glob: "TE_FELUY_*.xml"
+    delimiter: "|"
+    mapping_sheet_name: "SSW return message"
+    root_element_name: PldaSswDeclaration
+
+  emcs_arc_all:
+    mode: xml_to_csv
+    input_dir: E:\FTP\AMFT_Test\IN\SSW_ROLLS_IN\IN
+    success_dir: E:\FTP\AMFT_Test\IN\SSW_ROLLS_IN\OUT
+    error_dir: E:\FTP\AMFT_Test\IN\SSW_ROLLS_IN\error
+    archive_dir: E:\FTP\AMFT_Archive\ROLLS_Test\IN\SSW_ROLLS_IN
+    in_progress_dir: E:\FTP\AMFT_Test\IN\SSW_ROLLS_IN\in_progress
+    file_glob: "ARC_ALL*.xml"
+    delimiter: "|"
+    mapping_sheet_name: "ARC response 801"
+    root_element_name: EmcsSswDeclaration

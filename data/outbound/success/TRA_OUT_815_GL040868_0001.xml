@@ -29,6 +29,7 @@
         </Inbound>
         <Outbound>
           <departedDate>2026-01-18</departedDate>
+          <departedTime>23:59:59</departedTime>
           <ConsigneeEMCS>
             <Operator>
               <operatorName>KUWAIT Petroleum Belgium nv</operatorName>
@@ -38,6 +39,7 @@
                 <city>Antwerpen</city>
                 <country>BE</country>
               </OperatorAddress>
+              <language>nl</language>
               <exciseNumber>BE1C007249999</exciseNumber>
             </Operator>
             <erpId>BE1C007249999</erpId>
@@ -50,7 +52,10 @@
         <TransportMeans>
           <borderMode>3</borderMode>
           <borderIdentity>VRACHTWAGENVRACHTWAGENVRACH</borderIdentity>
+          <transportType>2</transportType>
+          <dispatchCountry>BE</dispatchCountry>
           <departureNationality>BE</departureNationality>
+          <transportArrangment>2</transportArrangment>
           <transportMode>3</transportMode>
         </TransportMeans>
         <Customs/>
@@ -76,6 +81,8 @@
               <city>Antwerpen</city>
               <country>BE</country>
             </OperatorAddress>
+            <language>nl</language>
+            <exciseNumber>BE1C007249001</exciseNumber>
           </Operator>
           <erpId>BE1C007249001</erpId>
         </DeliveryPlaceTrader>
@@ -107,9 +114,12 @@
           <erpId>BE0404584525</erpId>
         </TransportArrangerTrader>
         <overview1>Week</overview1>
+        <overview3>GL040868</overview3>
+        <overview5>ROLLS</overview5>
         <businessUnit>TERA</businessUnit>
       </GoodsDeclaration>
       <GoodsItem>
+        <sequence>1</sequence>
         <linkId>1</linkId>
         <Outbound>
           <stockType>EXCISE</stockType>
@@ -121,17 +131,20 @@
           <code>E460</code>
           <description>KEROSINE                                ,Andere dan reactiemotorbrandstof        ,                                        ,                                        ,+Accutrace Plus + Red(&gt;12.5en&lt;18.72mg/l)</description>
           <CommodityImport>
+            <typeDeclaration>PI</typeDeclaration>
             <commodityCode>27101925</commodityCode>
             <customsGoodsDescription>KEROSINE                                ,Andere dan reactiemotorbrandstof        ,                                        ,                                        ,+Accutrace Plus + Red(&gt;12.5en&lt;18.72mg/l)</customsGoodsDescription>
           </CommodityImport>
           <stockLevel>LTR</stockLevel>
           <declareLevel>KGM</declareLevel>
+          <exciseProductCode>E460</exciseProductCode>
           <CommercialDescription>
             <commercialDescription>KEROSINE                                ,Andere dan reactiemotorbrandstof        ,                                        ,                                        ,+Accutrace Plus + Red(&gt;12.5en&lt;18.72mg/l)</commercialDescription>
             <commercialDescriptionLanguage>nl</commercialDescriptionLanguage>
           </CommercialDescription>
           <density>0.81</density>
         </Product>
+        <goodsDescription>KEROSINE                                ,Andere dan reactiemotorbrandstof        ,                                        ,                                        ,+Accutrace Plus + Red(&gt;12.5en&lt;18.72mg/l)</goodsDescription>
         <originCountry>BE</originCountry>
         <netMass>00000100156</netMass>
         <grossMass>00000100156</grossMass>
@@ -143,6 +156,7 @@
         <ProducedDocument>
           <Document>
             <documentReference>Levering met uitslag ten verbruik - vergunning Nr. D.A. 240404 van 14/3/2008</documentReference>
+            <documentReferenceLanguage>nl</documentReferenceLanguage>
             <emcsDocumentType>nl</emcsDocumentType>
           </Document>
         </ProducedDocument>

@@ -1,0 +1,4532 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!-- edited with XMLSpy v2020 sp1 (x64) (http://www.altova.com) by  (Stream Software NV) -->
+<xs:schema xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified" attributeFormDefault="unqualified" jaxb:version="2.0" jaxb:extensionBindingPrefixes="xjc">
+	<!-- Please remove the following block(marked with BEGIN and  END) before distribution or if any issues are faced during stub generation -->
+	<!--
+    - Basic types
+  -->
+	<xs:simpleType name="TDate">
+		<xs:annotation>
+			<xs:documentation>AAAA-MM-JJ</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:date"/>
+	</xs:simpleType>
+	<xs:simpleType name="THeure">
+		<xs:annotation>
+			<xs:documentation>hh:mm:ss</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:time">
+			<xs:pattern value="\d\d:\d\d:\d\d"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="code">
+		<xs:annotation>
+			<xs:documentation>
+        A character string (letters, figures or symbols) that for brevity and / or language independence may be used to represent or
+        replace a definitive value or text of a Property. [Note: The term 'Code' should not be used if the character string
+        identifies an instance of an Object Class or an object in the real world, in which case the Representation Term identifier
+        should be used.]
+      </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:simpleType name="identifier">
+		<xs:annotation>
+			<xs:documentation>
+        A character string used to establish the identity of, and distinguish uniquely, one instance of an object within an
+        identification scheme from all other objects within the same scheme
+      </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:simpleType name="indicator">
+		<xs:annotation>
+			<xs:documentation>
+        A list of exactly two mutually exclusive Boolean values that express the only possible states of a Property. [Note: Values
+        typically indicate a condition such as on/off; true/false etc.]
+      </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:boolean"/>
+	</xs:simpleType>
+	<xs:simpleType name="numeric">
+		<xs:annotation>
+			<xs:documentation>
+        Numeric information that is assigned or is determined by calculation, counting or sequencing. It does not require a unit of
+        quantity or a unit of measure. [Note: This Representation Term shall also be used for Data Types representing Ratios (i.e.
+        rates where the two units are not included or where they are the same), Percentages, etc.)
+      </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:integer"/>
+	</xs:simpleType>
+	<xs:simpleType name="amount">
+		<xs:restriction base="xs:decimal"/>
+	</xs:simpleType>
+	<xs:simpleType name="measure">
+		<xs:annotation>
+			<xs:documentation>
+        A numeric value determined by measuring an object. Measures are specified with a unit of measure. The applicable unit of
+        measure is taken from UN/ECE Rec. 20. [Note: This Representation Term shall also be used for measured coefficients (e.g.
+        m/s).]
+      </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:integer"/>
+	</xs:simpleType>
+	<xs:simpleType name="quantity">
+		<xs:restriction base="xs:decimal"/>
+	</xs:simpleType>
+	<xs:simpleType name="text">
+		<xs:annotation>
+			<xs:documentation>
+        A character string (i.e. a finite set of characters) generally in the form of words of a language. [Note: This
+        Representation Term shall also be used for names (i.e. word or phrase that constitutes the distinctive designation of a
+        person, place, thing or concept).]
+      </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:simpleType name="chassisNumber">
+		<xs:restriction base="identifier">
+			<xs:minLength value="0"/>
+			<xs:maxLength value="70"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- Customs elements -->
+	<!--Generic elements-->
+	<xs:simpleType name="country">
+		<xs:restriction base="code">
+			<xs:minLength value="2"/>
+			<xs:maxLength value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="postalCode">
+		<xs:restriction base="identifier">
+			<xs:maxLength value="10"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="city">
+		<xs:restriction base="text">
+			<xs:maxLength value="35"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="CountrySubEntity">
+		<xs:restriction base="text">
+			<xs:maxLength value="35"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="streetAndNumber1">
+		<xs:restriction base="identifier">
+			<xs:maxLength value="35"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="streetAndNumber2">
+		<xs:restriction base="identifier">
+			<xs:maxLength value="35"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ContactPersonName">
+		<xs:restriction base="text">
+			<xs:maxLength value="35"/>
+			<xs:minLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="contactPersonEmail">
+		<xs:restriction base="text">
+			<xs:maxLength value="70"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ContactPersonFaxNumber">
+		<xs:restriction base="text">
+			<xs:maxLength value="15"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ContactPersonCommunicationNumber">
+		<xs:restriction base="text">
+			<xs:maxLength value="15"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!--GoodsDeclaration elements-->
+	<xs:simpleType name="typePartOne">
+		<xs:annotation>
+			<xs:documentation>SAD REF - Box 1 (part 1) - Declaration DESC - First sub division of declaration type</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="code">
+			<xs:minLength value="2"/>
+			<xs:maxLength value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="typePartTwo">
+		<xs:annotation>
+			<xs:documentation>SAD REF - Box 1 (part 2) - Declaration DESC - Second sub division of declaration type</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="code">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="typePartThree">
+		<xs:restriction base="code">
+			<xs:maxLength value="5"/>
+			<xs:minLength value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="languagecode">
+		<xs:annotation>
+			<xs:documentation>Languagecode for the declaration</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="code">
+			<xs:minLength value="2"/>
+			<xs:maxLength value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="items">
+		<xs:annotation>
+			<xs:documentation>SAD REF - Box 5 - Items</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="quantity">
+			<xs:totalDigits value="5"/>
+			<xs:fractionDigits value="0"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="transactionNature1">
+		<xs:annotation>
+			<xs:documentation>
+        SAD REF - Box 24 (parts 1 2) - Nature of transaction DESC - The type of transaction concerned
+      </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="code">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="transactionNature2">
+		<xs:annotation>
+			<xs:documentation>
+        SAD REF - Box 24 (parts 1 2) - Nature of transaction DESC - The type of transaction concerned
+      </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="code">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="packages">
+		<xs:restriction base="quantity">
+			<xs:totalDigits value="6"/>
+			<xs:fractionDigits value="0"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ucr">
+		<xs:annotation>
+			<xs:documentation>Unique Consignment Reference Number</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="identifier">
+			<xs:maxLength value="35"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="localreferenceNumber">
+		<xs:restriction base="identifier">
+			<xs:maxLength value="22" fixed="false"/>
+			<xs:minLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="commercialReference">
+		<xs:restriction base="identifier">
+			<xs:maxLength value="35"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="checkString">
+		<xs:restriction base="identifier">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="35"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="controlType">
+		<xs:restriction base="code">
+			<xs:maxLength value="10"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="controlTypeDescription">
+		<xs:restriction base="text">
+			<xs:minLength value="0"/>
+			<xs:maxLength value="512"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="additionalInformationLicenseNumber">
+		<xs:restriction base="code">
+			<xs:maxLength value="20"/>
+			<xs:minLength value="1"/>
+		</xs:restriction>
+		<!-- Added by Steve Geudens for AC4 -->
+	</xs:simpleType>
+	<xs:simpleType name="additionalInformationProductCode">
+		<xs:restriction base="code">
+			<xs:maxLength value="20"/>
+			<xs:minLength value="1"/>
+		</xs:restriction>
+		<!-- Added by Steve Geudens for AC4 -->
+	</xs:simpleType>
+	<xs:simpleType name="selfAddedDutyType">
+		<xs:restriction base="code">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="10"/>
+		</xs:restriction>
+		<!-- Added by Steve Geudens for AC4 -->
+	</xs:simpleType>
+	<xs:simpleType name="selfAddedDutyCode">
+		<xs:restriction base="code">
+			<xs:minLength value="3"/>
+			<xs:maxLength value="4"/>
+		</xs:restriction>
+		<!-- Added by Steve Geudens for AC4 -->
+	</xs:simpleType>
+	<xs:simpleType name="selfAddedDutyAmount">
+		<xs:restriction base="amount">
+			<xs:totalDigits value="18"/>
+			<xs:fractionDigits value="2"/>
+		</xs:restriction>
+		<!-- Added by Steve Geudens for AC4 -->
+	</xs:simpleType>
+	<xs:simpleType name="ac4PeriodDate">
+		<xs:restriction base="TDate"/>
+		<!-- Added by Steve Geudens for AC4 -->
+	</xs:simpleType>
+	<!-- Start added by Manas for ST_20673 -->
+	<xs:simpleType name="ac4PeriodDateGoodsItem">
+		<xs:restriction base="TDate"/>
+	</xs:simpleType>
+	<!-- End ST_20673 -->
+	<xs:simpleType name="authorizationMonthDeclaration">
+		<xs:restriction base="xs:string"/>
+		<!-- Added by Steve Geudens for AC4 -->
+		<!-- boolean to string Modify by Manas for ST_21273  -->
+	</xs:simpleType>
+	<xs:simpleType name="consigneeLicenseNumber">
+		<xs:restriction base="code">
+			<xs:maxLength value="20"/>
+			<xs:minLength value="1"/>
+		</xs:restriction>
+		<!-- Added by Steve Geudens for AC4 -->
+	</xs:simpleType>
+	<xs:simpleType name="consigneeLicenseStatute">
+		<xs:restriction base="code">
+			<xs:maxLength value="20"/>
+			<xs:minLength value="1"/>
+		</xs:restriction>
+		<!-- Added by Steve Geudens for AC4 -->
+	</xs:simpleType>
+	<xs:simpleType name="PaymentVatIndicator">
+		<xs:restriction base="xs:boolean"/>
+		<!-- Added by Steve Geudens for AC4 -->
+	</xs:simpleType>
+	<!-- Added by Manas for ST_21273 -->
+	<xs:simpleType name="PaymentVatIndicatorAC4Print">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<!-- End ST_21273 -->
+	<xs:simpleType name="taxesAmount">
+		<xs:annotation>
+			<xs:documentation>
+        SAD REF - Box 47 - Calculation of taxes DESC - Grand total (total of all the totals in boxes 47)
+      </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="amount">
+			<xs:totalDigits value="18"/>
+			<xs:fractionDigits value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="valueDetails">
+		<xs:annotation>
+			<xs:documentation>
+        SAD REF - Box 12 - Value details DESC - Valuation information such as a reference to the authorisation by which Customs
+        authorities accept not to request the presentation of a DV1 form for each declaration or elements related with adjustments.
+      </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="text">
+			<xs:maxLength value="30"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!--ExchangeRate-->
+	<xs:simpleType name="exchangeRate">
+		<xs:annotation>
+			<xs:documentation>
+        Exchange rate. DESC - The exchange rate in force between the invoice currency and the currency of the Member State concerned
+      </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="amount">
+			<xs:totalDigits value="11"/>
+			<xs:fractionDigits value="5"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="acceptanceDate">
+		<xs:restriction base="TDate"/>
+	</xs:simpleType>
+	<xs:simpleType name="exchangeDate">
+		<xs:restriction base="TDate"/>
+	</xs:simpleType>
+	<xs:simpleType name="exitDate">
+		<xs:restriction base="TDate"/>
+	</xs:simpleType>
+	<xs:simpleType name="registrationNumber">
+		<xs:annotation>
+			<xs:documentation>SAD REF - Box 14</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="35"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="PaymentMethodVat">
+		<xs:restriction base="identifier">
+			<xs:maxLength value="1"/>
+			<xs:minLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="deferredPaymentVAT">
+		<xs:restriction base="identifier">
+			<xs:maxLength value="17"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="PaymentMethodTaxes">
+		<xs:restriction base="identifier">
+			<xs:maxLength value="1"/>
+			<xs:minLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="deferredPayment">
+		<xs:annotation>
+			<xs:documentation>
+        SAD REF - Box 48 - Deferred payment DESC - Reference particulars of the authorisation in question; deferred payment here
+        refers both to deferred payment of customs duties and to tax credit
+      </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="identifier">
+			<xs:maxLength value="17"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="deferredPaymentAccountHolder">
+		<xs:restriction base="identifier">
+			<xs:maxLength value="35"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="invoiceAmount">
+		<xs:annotation>
+			<xs:documentation>
+        SAD REF - Box 22 (part 2) - Currency and total amount invoiced DESC - The invoiced price for all goods declared.
+      </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="amount">
+			<xs:totalDigits value="18" fixed="false"/>
+			<xs:fractionDigits value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="currency">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:restriction base="code">
+			<xs:minLength value="3"/>
+			<xs:maxLength value="3"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="issuePlace">
+		<xs:annotation>
+			<xs:documentation>
+        SAD REF - Box 54 - Place and date, signature and name of the declarant or his representative DESC - Place of completion
+      </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="text">
+			<xs:maxLength value="17"/>
+			<xs:minLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="issueDate">
+		<xs:annotation>
+			<xs:documentation>
+        SAD REF - Box 54 - Place and date, signature and name of the declarant or his representitive DESC - Date of completion
+      </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="TDate"/>
+	</xs:simpleType>
+	<xs:simpleType name="totalNetMass">
+		<xs:restriction base="quantity">
+			<xs:totalDigits value="18" fixed="false"/>
+			<xs:fractionDigits value="3"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="totalGrossMass">
+		<xs:restriction base="quantity">
+			<xs:totalDigits value="18" fixed="false"/>
+			<xs:fractionDigits value="3" fixed="false"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!--Packaging elements-->
+	<xs:simpleType name="marksNumber">
+		<xs:annotation>
+			<xs:documentation>
+        SAD REF - Box 31 (part) - Packages and description of goods; Marks and numbers - Container No(s) - Number and kind DESC -
+        Marks and numbers
+      </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="identifier">
+			<xs:maxLength value="105"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="containerIdentifier">
+		<xs:annotation>
+			<xs:documentation>
+        SAD REF - Box 31 (part) - Packages and description of goods; Marks and numbers - Container No(s) - Number and kind DESC -
+        Container number(s)
+      </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="identifier">
+			<xs:maxLength value="17"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="container">
+		<xs:restriction base="indicator"/>
+	</xs:simpleType>
+	<xs:simpleType name="packageType">
+		<xs:annotation>
+			<xs:documentation>SAD Box 31 DESC: Identification of description of the form in which goods are presented.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="code">
+			<xs:minLength value="2"/>
+			<xs:maxLength value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="pieces">
+		<xs:annotation>
+			<xs:documentation>SAD REF - None DESC - Number of pieces</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="quantity">
+			<xs:totalDigits value="6"/>
+			<xs:fractionDigits value="0"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!--CustomsTreatment (GoodsItem level) -->
+	<xs:simpleType name="adjustmentAmount">
+		<xs:annotation>
+			<xs:documentation>
+        SAD REF - Box 45 - Adjustment DESC - Adjustment percentage as ordered in the EU legislation
+      </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="amount">
+			<xs:totalDigits value="18"/>
+			<xs:fractionDigits value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="adjustment">
+		<xs:annotation>
+			<xs:documentation>
+        SAD REF - Box 45 - Adjustment DESC - Adjustment amount. This box contains information of any adjustments when no DV1 form is
+        produced in support of a declaration.
+      </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="amount">
+			<xs:totalDigits value="18"/>
+			<xs:fractionDigits value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="totalTaxes">
+		<xs:annotation>
+			<xs:documentation>
+        SAD REF - Box 47 (part 6) - Calculation of taxes DESC - Total of each occurrence of box 47
+      </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="amount">
+			<xs:totalDigits value="18"/>
+			<xs:fractionDigits value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="valuationMethod">
+		<xs:annotation>
+			<xs:documentation>SAD REF - Box 43 - Valuation method DESC - Valuation method code</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="code">
+			<xs:maxLength value="1"/>
+			<xs:minLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="quota">
+		<xs:annotation>
+			<xs:documentation>
+        SAD REF - Box 39 - Quota DESC - The order number of the tariff quota for which the declarant is applying, coded
+      </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="code">
+			<xs:maxLength value="6"/>
+			<xs:minLength value="6"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="preference1">
+		<xs:restriction base="code"/>
+	</xs:simpleType>
+	<xs:simpleType name="preference2">
+		<xs:annotation>
+			<xs:documentation>SAD REF - Box 36 - Preference DESC - Information of the tariff treatment of the goods.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="code">
+			<xs:maxLength value="2"/>
+			<xs:minLength value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!--Customs-->
+	<xs:simpleType name="entryOffice">
+		<xs:annotation>
+			<xs:documentation>
+        SAD REF - Box 29 - Office of entry DESC - The first customs office encountered by the goods when they enter into the customs
+        territory of the Community
+      </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="identifier">
+			<xs:maxLength value="11"/>
+			<xs:minLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="destinationOffice">
+		<xs:restriction base="identifier">
+			<xs:maxLength value="8"/>
+			<xs:minLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="dispatchOffice">
+		<xs:restriction base="identifier">
+			<xs:maxLength value="8"/>
+			<xs:minLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="exitOffice">
+		<xs:annotation>
+			<xs:documentation>SAD REF - Box 29 - Office of exit</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="identifier">
+			<xs:maxLength value="11"/>
+			<xs:minLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="departureOffice">
+		<xs:restriction base="identifier">
+			<xs:maxLength value="8"/>
+			<xs:minLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!--Location-->
+	<xs:simpleType name="precise">
+		<xs:annotation>
+			<xs:documentation>
+        SAD REF - Box 30 - Location of goods DESC - The precise location where the goods may be examined.
+      </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="identifier">
+			<xs:maxLength value="35"/>
+			<xs:minLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!--warehouse-->
+	<xs:simpleType name="warehouseType">
+		<xs:annotation>
+			<xs:documentation>
+        SAD REF - Box 49 (part 1) - Identification of warehouse DESC - Identification of type of warehouse, coded
+      </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="code">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="warehouseIdentity">
+		<xs:annotation>
+			<xs:documentation>
+        SAD REF - Box 49 (part 2) - Identification of warehouse DESC - Identification of warehouse, coded
+      </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="identifier">
+			<xs:maxLength value="14"/>
+			<xs:minLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="warehouseCountry">
+		<xs:annotation>
+			<xs:documentation>
+        SAD REF - Box 49 (part 3) - Identification of warehouse DESC - Country code of warehouse, coded
+      </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="code">
+			<xs:minLength value="2"/>
+			<xs:maxLength value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!--Operators-->
+	<xs:simpleType name="operatorIdentifier">
+		<xs:annotation>
+			<xs:documentation>Identifier of the operatoridentificationcode</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="code"/>
+	</xs:simpleType>
+	<xs:simpleType name="operatorIdentity">
+		<xs:annotation>
+			<xs:documentation>DESC - Reference number assigned to the operator.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="identifier">
+			<xs:maxLength value="35"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="operatorName">
+		<xs:annotation>
+			<xs:documentation>DESC - The full name address</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="text">
+			<xs:maxLength value="70"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="partyName">
+		<xs:annotation>
+			<xs:documentation>DESC - The full name address</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="text">
+			<xs:maxLength value="70"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="declarantStatus">
+		<xs:annotation>
+			<xs:documentation>SAD REF - Box 14 - Declarant/representative DESC - Status of declarant</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="code">
+			<xs:maxLength value="1"/>
+			<xs:minLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="capacity">
+		<xs:annotation>
+			<xs:documentation>Capacity of representative</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="code">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="35"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="signature">
+		<xs:annotation>
+			<xs:documentation>SAD REF - Box 54 - Identification of the representative of the declarant</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="identifier">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="18"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!--Documents-->
+	<xs:simpleType name="previousDocumentCategory">
+		<xs:annotation>
+			<xs:documentation>
+        SAD REF - Box 40 (Part 1) - Summary declaration/Previous document DESC - Document type category
+      </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="code">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="originRegion">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:restriction base="code">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="documentReference">
+		<xs:restriction base="identifier">
+			<xs:maxLength value="35"/>
+			<xs:minLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="previousdocumentTransitType">
+		<xs:restriction base="code">
+			<xs:maxLength value="4"/>
+			<xs:minLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="previousdocumentType">
+		<xs:annotation>
+			<xs:documentation>DESC - Previous Document type, coded</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="code">
+			<xs:maxLength value="3"/>
+			<xs:minLength value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="produceddocumentType">
+		<xs:annotation>
+			<xs:documentation>DESC - Produced Document type, coded</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="code">
+			<xs:maxLength value="4"/>
+			<xs:minLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="documentQuantity">
+		<xs:restriction base="quantity">
+			<xs:totalDigits value="18"/>
+			<xs:fractionDigits value="3"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="documentQuantityCode">
+		<xs:restriction base="code">
+			<xs:maxLength value="4"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="complementaryInformation">
+		<xs:annotation>
+			<xs:documentation>
+        SAD REF - Box 44 - Additional information/Documents produced/Certificates and authorisations DESC - Additional information
+        required by any specific rules applicable together with reference particulars of the documents produced in support of the
+        declaration
+      </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="text">
+			<xs:maxLength value="25"/>
+			<xs:minLength value="0"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="complementaryInformationProduced">
+		<xs:annotation>
+			<xs:documentation>
+        SAD REF - Box 44 - Additional information/Documents produced/Certificates and authorisations DESC - Additional information
+        required by any specific rules applicable together with reference particulars of the documents produced in support of the
+        declaration
+      </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="text">
+			<xs:maxLength value="25"/>
+			<xs:minLength value="0"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!--GoodsItem-->
+	<xs:simpleType name="grossMass">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:restriction base="quantity">
+			<xs:totalDigits value="18"/>
+			<xs:fractionDigits value="3"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="netMass">
+		<xs:annotation>
+			<xs:documentation>
+        SAD REF - Box 38 - Net mass (kg) DESC - Mass of the goods themselves without any packaging
+      </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="quantity">
+			<xs:totalDigits value="18"/>
+			<xs:fractionDigits value="3"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="sequence">
+		<xs:restriction base="quantity">
+			<xs:totalDigits value="6"/>
+			<xs:fractionDigits value="0"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="originCountry">
+		<xs:annotation>
+			<xs:documentation>SAD REF Box 34a</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="code">
+			<xs:minLength value="2"/>
+			<xs:maxLength value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="commodityCode">
+		<xs:annotation>
+			<xs:documentation>SAD REF - Box 33 - Commodity code</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="code">
+			<xs:maxLength value="10"/>
+			<xs:minLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="firstAdditionalCommodity">
+		<xs:restriction base="code">
+			<xs:maxLength value="4"/>
+			<xs:minLength value="4"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="secondAdditionalCommodity">
+		<xs:restriction base="code">
+			<xs:minLength value="4"/>
+			<xs:maxLength value="4"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="nationalAdditionalCommodity1">
+		<xs:restriction base="code">
+			<xs:minLength value="4"/>
+			<xs:maxLength value="4"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="nationalAdditionalCommodity2">
+		<xs:restriction base="code">
+			<xs:minLength value="4"/>
+			<xs:maxLength value="4"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="nationalAdditionalCommodity3">
+		<xs:restriction base="code">
+			<xs:minLength value="4"/>
+			<xs:maxLength value="4"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="nationalProcedureCode">
+		<xs:restriction base="code">
+			<xs:maxLength value="3"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="goodsDescription">
+		<xs:annotation>
+			<xs:documentation>
+        SAD REF - Box 31 (part) - Packages and description of goods; Marks and numbers - Container No(s) - Number and kind DESC -
+        The description of the goods means the normal trade description. Except for non-Community goods placed under the customs
+        warehousing procedure in a type A, B, C, E or F warehouse, this description must be expressed in terms sufficiently precise
+        to enable immediate and unambiguous identification and classification. This covers VAT and excise duties.
+      </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="text">
+			<xs:maxLength value="500"/>
+			<xs:minLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="price">
+		<xs:annotation>
+			<xs:documentation>SAD REF - Box 42 - Item price DESC - The price of the item in question</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="amount">
+			<xs:totalDigits value="18"/>
+			<xs:fractionDigits value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="statisticalValue">
+		<xs:annotation>
+			<xs:documentation>SAD REF - Box 46 - Statistical value DESC</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="amount">
+			<xs:totalDigits value="18"/>
+			<xs:fractionDigits value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="statisticalValueAdjustment">
+		<xs:annotation>
+			<xs:documentation>SAD REF - Box 46 - Statistical value Adjustment</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="amount">
+			<xs:totalDigits value="18"/>
+			<xs:fractionDigits value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!--TransportMeans-->
+	<xs:simpleType name="borderIdentity">
+		<xs:restriction base="identifier">
+			<xs:minLength value="0"/>
+			<xs:maxLength value="27"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="departureIdentity">
+		<xs:annotation>
+			<xs:documentation>
+        SAD REF - Box 18 (Part 1) - Identity and nationality of means of transport at departure DESC - Identification of means of
+        transport on which the goods are directly loaded at the time of transit formalities.
+      </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="identifier">
+			<xs:maxLength value="37"/>
+			<xs:minLength value="0"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="loadingPlaceIdentity">
+		<xs:annotation>
+			<xs:documentation>
+        SAD REF - Box 27 - Place of loading DESC - Place at which the goods are loaded onto the active means of transport.
+      </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="identifier">
+			<xs:maxLength value="35"/>
+			<xs:minLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="borderType">
+		<xs:annotation>
+			<xs:documentation>
+        SAD REF - Box 21 (part 3) - Active means of transport crossing border DESC - The type of transport means used.
+      </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="code">
+			<xs:maxLength value="2"/>
+			<xs:minLength value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="dispatchCountry">
+		<xs:annotation>
+			<xs:documentation>
+        SAD REF - Box 15a - Country of dispatch/export DESC - The code for the Member State of dispatch of the goods.
+      </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="code">
+			<xs:minLength value="2"/>
+			<xs:maxLength value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="destinationCountry">
+		<xs:annotation>
+			<xs:documentation>
+        SAD REF - Box 17a - Country of destination DESC - The country of destination of the goods as known at the time of
+        declaration.
+      </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="code">
+			<xs:minLength value="2"/>
+			<xs:maxLength value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="destinationRegion">
+		<xs:annotation>
+			<xs:documentation>SAD REF - Box 17b - Country of destination DESC - Region of destination, coded</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="code">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="departureNationality">
+		<xs:annotation>
+			<xs:documentation>
+        SAD REF - Box 18 (part 2) - Identity and nationality of means of transport at departure DESC - Nationality of means of
+        transport on which the goods are directly loaded at the time of transit formalities.
+      </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="code">
+			<xs:minLength value="2"/>
+			<xs:maxLength value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="borderNationality">
+		<xs:annotation>
+			<xs:documentation>
+        SAD REF - Box 21 (part 2) - Identity and nationality of active means of transport crossing the border DESC - Refers to
+        Community's external border.
+      </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="code">
+			<xs:minLength value="2"/>
+			<xs:maxLength value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="borderMode">
+		<xs:annotation>
+			<xs:documentation>
+        SAD REF - Box 25 - Mode of transport at the border DESC - The mode of transport corresponding to the active means of
+        transport which it is expected will be used on exit from the customs territory of the Community.
+      </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="code">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="inlandMode">
+		<xs:annotation>
+			<xs:documentation>
+        SAD REF - Box 26 - Inland mode of transport DESC - The mode of transport used at departure.
+      </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="code">
+			<xs:maxLength value="1"/>
+			<xs:minLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="authorisedIdentityTransit">
+		<xs:restriction base="xs:boolean"/>
+	</xs:simpleType>
+	<xs:simpleType name="authorisedIdentity">
+		<xs:annotation>
+			<xs:documentation>SAD - Box 14</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="4"/>
+			<xs:minLength value="4"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="deliveryTerms">
+		<xs:annotation>
+			<xs:documentation>SAD REF - Box 20 (part 1) - Delivery terms DESC - Terms of the commercial contract</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="code">
+			<xs:minLength value="3"/>
+			<xs:maxLength value="3"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="deliveryTermsPlace">
+		<xs:annotation>
+			<xs:documentation>
+        SAD REF - Box 20 (part 2) - Delivery terms DESC - Place of delivery. To be specified in text
+      </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="text">
+			<xs:maxLength value="35"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!--TaxCalculation-->
+	<xs:simpleType name="taxType">
+		<xs:annotation>
+			<xs:documentation>SAD REF - Box 47 (Part 1) - Type DESC - Type of tax, coded</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="code">
+			<xs:minLength value="3"/>
+			<xs:maxLength value="3"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="taxDue">
+		<xs:annotation>
+			<xs:documentation>SAD REF - Box 47 (Part4) - Calculation of taxes DESC - Amount of tax</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="amount">
+			<xs:totalDigits value="18"/>
+			<xs:fractionDigits value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="taxRate">
+		<xs:annotation>
+			<xs:documentation>SAD REF - Box 47 (Part3) - Calculation of taxes - rate DESC - Rate of tax</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="amount">
+			<xs:totalDigits value="11"/>
+			<xs:fractionDigits value="5"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- Start added by Manas for ST_21472 -->
+	<xs:simpleType name="taxrateCalculationCode">
+		<xs:annotation>
+			<xs:documentation>SAD AC4 Print XML - tax rate calculation code</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<!-- End ST_21472 -->
+	<xs:simpleType name="taxBaseValue">
+		<xs:annotation>
+			<xs:documentation>SAD REF - Box 47 (Part 2) - Calculation of taxes DESC - Tax base</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="amount">
+			<xs:totalDigits value="18"/>
+			<xs:fractionDigits value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="paymentMethod">
+		<xs:annotation>
+			<xs:documentation>SAD REF - Box 47 (Part 5) - Calculation of taxes - MP DESC - Method of payment</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="code">
+			<xs:maxLength value="1"/>
+			<xs:minLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!--CustomsValue, recto-->
+	<!--Additional Information  (Import, Export, Transit)-->
+	<xs:simpleType name="additionalInformationContent">
+		<xs:annotation>
+			<xs:documentation>
+        SAD REF - Box 44 - Additional information/Documents produced/Certificates and authorisations DESC - Additional information
+        required by any specific rules applicable together with reference particulars of the documents produced in support of the
+        declaration.
+      </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="text">
+			<xs:maxLength value="50"/>
+			<xs:minLength value="0"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="additionalInformationType">
+		<xs:annotation>
+			<xs:documentation>SAD REF - Box 44</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="code">
+			<xs:maxLength value="17"/>
+			<xs:minLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="additionalInformationDescription">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="512"/>
+			<xs:minLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ProducedDocumentsValidationOffice">
+		<xs:annotation>
+			<xs:documentation>SAD REF - Box 44</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="text">
+			<xs:maxLength value="35"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ProducedDocumentsInformationDate">
+		<xs:annotation>
+			<xs:documentation>SAD REF - Box 44</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:date"/>
+	</xs:simpleType>
+	<xs:simpleType name="exportCountry">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:restriction base="code">
+			<xs:minLength value="2"/>
+			<xs:maxLength value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="exportEU">
+		<xs:restriction base="xs:boolean"/>
+	</xs:simpleType>
+	<!--Customs Decision  (Import)-->
+	<xs:simpleType name="previousDecisionDate">
+		<xs:annotation>
+			<xs:documentation>
+        DV1 REF - Box 6 - Previous customs decisions issuing date DESC - Previous customs decisions date
+      </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="TDate"/>
+	</xs:simpleType>
+	<xs:simpleType name="previousDecisionIdentifier">
+		<xs:annotation>
+			<xs:documentation>DV1 REF - Box 6 - Previous customs decision number DESC - Previous customs decisions</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="identifier"/>
+	</xs:simpleType>
+	<!--Guarantee (Transit)-->
+	<xs:simpleType name="guaranteeTypeImport">
+		<xs:restriction base="code">
+			<xs:maxLength value="5"/>
+			<xs:minLength value="5"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="guaranteeType">
+		<xs:restriction base="code">
+			<xs:maxLength value="1"/>
+			<xs:minLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="guaranteeAccess">
+		<xs:annotation>
+			<xs:documentation>SAD REF - Box 52 (part) - Guarantee</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="identifier"/>
+	</xs:simpleType>
+	<xs:simpleType name="guaranteeNumber">
+		<xs:annotation>
+			<xs:documentation>SAD REF - Box 52 (part) Guarantee DESC - Guarantee reference number (GRN)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="identifier">
+			<xs:maxLength value="70"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="guaranteeOffice">
+		<xs:restriction base="code">
+			<xs:maxLength value="35"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="guaranteeDate">
+		<xs:restriction base="TDate"/>
+	</xs:simpleType>
+	<xs:simpleType name="guaranteeOther">
+		<xs:annotation>
+			<xs:documentation>SAD REF - Box 52 (part) - Guarantee DESC - Guarantee other reference.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="identifier"/>
+	</xs:simpleType>
+	<xs:simpleType name="transportInsuranceCharges">
+		<xs:restriction base="amount">
+			<xs:totalDigits value="18"/>
+			<xs:fractionDigits value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="VATCharges">
+		<xs:restriction base="amount">
+			<xs:totalDigits value="18"/>
+			<xs:fractionDigits value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="procedurePart1">
+		<xs:restriction base="code">
+			<xs:minLength value="2"/>
+			<xs:maxLength value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="procedurePart2">
+		<xs:restriction base="code">
+			<xs:minLength value="2"/>
+			<xs:maxLength value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="procedureNat">
+		<xs:annotation>
+			<xs:documentation>SAD REF - Box 37 part 2</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="code">
+			<xs:maxLength value="3"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="procedureType">
+		<xs:restriction base="code">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="calculationCode">
+		<xs:restriction base="code">
+			<xs:maxLength value="4"/>
+			<xs:minLength value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="calculationUnits">
+		<xs:restriction base="quantity">
+			<xs:totalDigits value="18"/>
+			<xs:fractionDigits value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- Added Under PLDA Ticket 17699-->
+	<xs:simpleType name="calculationUnitsAC4">
+		<xs:restriction base="quantity">
+			<xs:totalDigits value="18"/>
+			<xs:fractionDigits value="4"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="supplementaryUnits">
+		<xs:restriction base="quantity">
+			<xs:totalDigits value="18"/>
+			<xs:fractionDigits value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="supplementaryUnitsCode">
+		<xs:restriction base="code">
+			<xs:maxLength value="4"/>
+			<xs:minLength value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="UNDGCode">
+		<xs:restriction base="code">
+			<xs:maxLength value="4"/>
+			<xs:minLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!--previous document-->
+	<xs:simpleType name="previousDocumentLoc">
+		<xs:restriction base="text">
+			<xs:maxLength value="11"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="previousDocumentArt">
+		<xs:restriction base="numeric">
+			<xs:totalDigits value="4"/>
+			<xs:fractionDigits value="0"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="previousDocumentBillOfLoading">
+		<xs:restriction base="identifier">
+			<xs:maxLength value="35"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="previousDocumentItem">
+		<xs:restriction base="numeric">
+			<xs:totalDigits value="4"/>
+			<xs:fractionDigits value="0"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="previousDocumentDate">
+		<xs:restriction base="TDate"/>
+	</xs:simpleType>
+	<xs:simpleType name="archiveLocationIndicator">
+		<xs:restriction base="numeric">
+			<xs:totalDigits value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="previousDocumentTransitReference">
+		<xs:restriction base="identifier">
+			<xs:maxLength value="20"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="previousDocumentComplementaryInformation">
+		<xs:restriction base="text">
+			<xs:maxLength value="26"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="archiveSupport">
+		<xs:restriction base="numeric">
+			<xs:totalDigits value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="archiveRelatedLocationContent">
+		<xs:restriction base="text">
+			<xs:maxLength value="70"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="functionCode">
+		<xs:restriction base="identifier">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="1" fixed="false"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="transitOffice">
+		<xs:restriction base="identifier">
+			<xs:maxLength value="11"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="seal">
+		<xs:restriction base="numeric">
+			<xs:totalDigits value="5"/>
+			<xs:fractionDigits value="0"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="agreedLocation">
+		<xs:annotation>
+			<xs:documentation>
+        SAD REF - Box 30 - Location of goods DESC - Location of the goods where it is agreed that the goods may be examined
+      </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="identifier">
+			<xs:maxLength value="17"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="authorisedLocation">
+		<xs:annotation>
+			<xs:documentation>
+        SAD REF - Box 30 - Location of goods DESC - The precise authorised location where the goods may be examined
+      </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="identifier">
+			<xs:maxLength value="17"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="customsSubPlace">
+		<xs:annotation>
+			<xs:documentation>
+        SAD REF - Box 30 - Location of goods DESC - The precise Customs sub-place location where the goods may be examined
+      </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="identifier">
+			<xs:maxLength value="17"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!--Sensitive Goods (Transit)-->
+	<xs:simpleType name="customsMainReferenceNumber">
+		<xs:restriction base="code">
+			<xs:maxLength value="35"/>
+			<xs:minLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="sensitiveNotification">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:restriction base="code">
+			<xs:minLength value="0"/>
+			<xs:maxLength value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="sensitiveAdditionnal">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:restriction base="quantity"/>
+	</xs:simpleType>
+	<xs:simpleType name="controlResultCode">
+		<xs:restriction base="identifier"/>
+	</xs:simpleType>
+	<xs:simpleType name="limitDate">
+		<xs:restriction base="TDate"/>
+	</xs:simpleType>
+	<xs:simpleType name="sealingparty">
+		<xs:restriction base="code">
+			<xs:maxLength value="2"/>
+			<xs:minLength value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="sealAffixed">
+		<xs:annotation>
+			<xs:documentation>SAD REF - Box D - Seals affixed identity DESC - Identity of affixed seals</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="identifier">
+			<xs:maxLength value="35"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="loadingList">
+		<xs:annotation>
+			<xs:documentation>SAD REF - Box 4 - Loading lists DESC - Number of loading lists</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="quantity">
+			<xs:totalDigits value="5"/>
+			<xs:fractionDigits value="0"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="nonECContractedParty">
+		<xs:annotation>
+			<xs:documentation>
+        SAD REF - Box 52 (part) - Guarantee DESC - Country code of where guarantee not valid. TAG - TDED 3207 - Country name code -
+        an..3 used with qualifier TDED 3209 Country qualifier - an..3 RULES - Mandatory - See IE 15 rule 231 FORMAT - a2 CODES -
+        NCTS code list
+      </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="code">
+			<xs:minLength value="2"/>
+			<xs:maxLength value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ecValidity">
+		<xs:annotation>
+			<xs:documentation>
+        SAD REF - Box 52 (part) - Guarantee DESC - Indicates that guarantee limited. TAG - TDED 4377 - Obligation guarantee code -
+        n1 RULES - Conditional - See IE 15 rule 230 FORMAT - n1 CODES - NCTS code list
+      </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="code">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="validationOffice">
+		<xs:restriction base="identifier">
+			<xs:maxLength value="35"/>
+			<xs:minLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="responseFunctionCode">
+		<xs:restriction base="code">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="cancellationDate">
+		<xs:restriction base="TDate"/>
+	</xs:simpleType>
+	<xs:simpleType name="investigationStartDate">
+		<xs:restriction base="TDate"/>
+	</xs:simpleType>
+	<xs:simpleType name="cancellationTime">
+		<xs:restriction base="THeure"/>
+	</xs:simpleType>
+	<xs:simpleType name="investigationStartTime">
+		<xs:restriction base="THeure"/>
+	</xs:simpleType>
+	<xs:simpleType name="acceptanceTime">
+		<xs:restriction base="THeure"/>
+	</xs:simpleType>
+	<xs:simpleType name="dataElementPath">
+		<xs:restriction base="text"/>
+	</xs:simpleType>
+	<xs:simpleType name="dataElementSequence">
+		<xs:restriction base="text"/>
+	</xs:simpleType>
+	<xs:simpleType name="errorCode">
+		<xs:restriction base="code"/>
+	</xs:simpleType>
+	<xs:simpleType name="errorDescription">
+		<xs:restriction base="text"/>
+	</xs:simpleType>
+	<xs:simpleType name="errorContent">
+		<xs:restriction base="text"/>
+	</xs:simpleType>
+	<xs:simpleType name="reason">
+		<xs:restriction base="text">
+			<xs:maxLength value="512"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!--
+    - Basic components & elements
+  -->
+	<xs:complexType name="TTransactionNature">
+		<xs:sequence>
+			<xs:element name="transactionNature1" type="transactionNature1"/>
+			<xs:element name="transactionNature2" type="transactionNature2" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!--Customs (Import)-->
+	<xs:complexType name="TCustomsImport">
+		<xs:sequence>
+			<xs:element name="GoodsLocation" type="TGoodsLocationImportExport">
+				<!--place of the goods coded (UNLOCODE + national identification number-->
+			</xs:element>
+			<xs:element name="validationOffice">
+				<xs:simpleType>
+					<xs:restriction base="validationOffice">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="35"/>
+					</xs:restriction>
+				</xs:simpleType>
+				<!--customs office _ validation office, coded	 (codes not yet defined)
+        -->
+			</xs:element>
+			<xs:element name="Seal" type="TSeal" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="seals" type="seal" minOccurs="0"/>
+			<!-- presentationCustomsOffice added under e-Globalization -->
+			<xs:element name="presentationCustomsOffice" type="presentationCustomsOffice" minOccurs="0"/>
+			<!-- supervisingCustomsOffice added under e-Globalization -->
+			<xs:element name="supervisingCustomsOffice" type="supervisingCustomsOffice" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!--Customs (Glob Import Init)-->
+	<xs:complexType name="TCustomsGlobImportInit">
+		<xs:sequence>
+			<xs:element name="GoodsLocation" type="TGoodsLocationImportExport">
+				<!--place of the goods coded (UNLOCODE + national identification number-->
+			</xs:element>
+			<xs:element name="validationOffice">
+				<xs:simpleType>
+					<xs:restriction base="validationOffice">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="35"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<!-- presentationCustomsOffice added under e-Globalization -->
+			<xs:element name="presentationCustomsOffice" type="presentationCustomsOffice" minOccurs="0"/>
+			<!-- supervisingCustomsOffice added under e-Globalization -->
+			<xs:element name="supervisingCustomsOffice" type="supervisingCustomsOffice" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!--Customs (Export)-->
+	<xs:complexType name="TCustomsExport">
+		<xs:sequence>
+			<xs:element name="exitOffice" type="exitOffice" minOccurs="0"/>
+			<xs:element name="GoodsLocation" type="TGoodsLocationImportExport" minOccurs="0"/>
+			<xs:element name="loadingPlaceIdentity" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="loadingPlaceIdentity">
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="validationOffice">
+				<xs:simpleType>
+					<xs:restriction base="validationOffice">
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Seal" type="TSeal" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="seals" type="seal" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!--Goods Location (Import, Export)-->
+	<xs:complexType name="TGoodsLocationImportExport">
+		<xs:sequence>
+			<xs:element name="precise" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="precise">
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="agreedLocation" type="agreedLocation" minOccurs="0"/>
+			<xs:element name="authorisedLocation" type="authorisedLocation" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!--Warehouse (Import, Export)-->
+	<xs:complexType name="TWarehouse">
+		<xs:sequence>
+			<xs:element name="warehouseType" type="warehouseType"/>
+			<xs:element name="warehouseIdentity">
+				<xs:simpleType>
+					<xs:restriction base="warehouseIdentity">
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="warehouseCountry" type="warehouseCountry"/>
+			<xs:element name="WarehouseDepositor" type="TOperator" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TWarehouseCiv">
+		<xs:sequence>
+			<xs:element name="warehouseType" type="warehouseType"/>
+			<xs:element name="warehouseIdentity" type="warehouseIdentity"/>
+			<xs:element name="warehouseCountry" type="warehouseCountry"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!--Operators  (Import, Export, Transit)-->
+	<xs:complexType name="TContactPerson">
+		<xs:sequence>
+			<xs:element name="contactPersonName">
+				<xs:simpleType>
+					<xs:restriction base="ContactPersonName">
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="contactPersonCommunicationNumber" type="ContactPersonCommunicationNumber" minOccurs="0"/>
+			<xs:element name="contactPersonEmail" type="contactPersonEmail" minOccurs="0"/>
+			<xs:element name="contactPersonFaxNumber" type="ContactPersonFaxNumber" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TAddress">
+		<xs:sequence>
+			<xs:element name="postalCode" type="postalCode"/>
+			<xs:element name="streetAndNumber1" type="streetAndNumber1"/>
+			<xs:element name="streetAndNumber2" type="streetAndNumber2" minOccurs="0"/>
+			<xs:element name="city" type="city"/>
+			<xs:element name="countrySubEntity" type="CountrySubEntity" minOccurs="0"/>
+			<xs:element name="country" type="country"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TOperatorId">
+		<xs:sequence>
+			<xs:element name="OperatorIdentity" type="TOperatorIdentification"/>
+			<xs:element name="Operator" type="TOperatorName"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TDeclarantOperatorTransit">
+		<xs:sequence>
+			<xs:element name="declarantstatus" type="declarantStatus" minOccurs="0"/>
+			<xs:element name="authorisedIdentity" type="authorisedIdentity" minOccurs="0"/>
+			<xs:element name="operatorIdentity" type="operatorIdentity" minOccurs="0"/>
+			<xs:element name="operatorName" type="TOperatorNameContact" minOccurs="0"/>
+			<xs:element name="capacity" type="capacity" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TDeclarantOperator">
+		<xs:sequence>
+			<xs:element name="declarantstatus" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="declarantStatus">
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="authorisedIdentity" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="authorisedIdentity">
+						<xs:minLength value="4"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="OperatorIdentity" type="TOperatorIdentification" minOccurs="0"/>
+			<xs:element name="Operator" type="TOperatorNameContact" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TConsigneeTransit">
+		<xs:sequence>
+			<xs:element name="OperatorIdentity" type="TOperatorIdentification" minOccurs="0"/>
+			<xs:element name="operatorName" type="operatorName" minOccurs="0"/>
+			<xs:element name="OperatorAddress" type="TAddress" minOccurs="0"/>
+			<xs:element name="ContactPerson" type="TContactPerson" minOccurs="0"/>
+			<xs:element name="consigneeAuthorizedTransit" type="authorisedIdentityTransit" nillable="0" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TOperatorIdentification">
+		<xs:sequence>
+			<xs:element name="country" type="country"/>
+			<xs:element name="identifier">
+				<xs:simpleType>
+					<xs:restriction base="operatorIdentifier"/>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="operatorIdentity">
+				<xs:simpleType>
+					<xs:restriction base="operatorIdentity">
+						<xs:maxLength value="30"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TOperatorContact">
+		<xs:sequence>
+			<xs:element name="OperatorIdentity" type="TOperatorIdentification" minOccurs="0"/>
+			<xs:element name="Operator" type="TOperatorNameContact" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TOperatorNameContact">
+		<xs:sequence>
+			<xs:element name="operatorName" type="operatorName"/>
+			<xs:element name="OperatorAddress" type="TAddress"/>
+			<xs:element name="ContactPerson" type="TContactPerson" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TOperatorName">
+		<xs:sequence>
+			<xs:element name="operatorName" type="operatorName"/>
+			<xs:element name="OperatorAddress" type="TAddress"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TOperator">
+		<xs:sequence>
+			<xs:element name="OperatorIdentity" type="TOperatorIdentification" minOccurs="0"/>
+			<xs:element name="Operator" type="TOperatorName" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TConsignee">
+		<xs:annotation>
+			<xs:documentation>SAD Box 8</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="operatorIdentity" type="operatorIdentity" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TDeclarant">
+		<xs:annotation>
+			<xs:documentation>SAD Box 14</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="DeclarantOperator">
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="TOperator"/>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="declarantStatus" type="declarantStatus" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TRepresentative">
+		<xs:annotation>
+			<xs:documentation>SAD Box 50</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="RepresentativeOperator" type="TOperator" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!--TransportMeans  (Import)-->
+	<xs:complexType name="TTransportMeansImport">
+		<xs:sequence>
+			<xs:element name="DeliveryTerms" type="TDeliveryTerms" minOccurs="0"/>
+			<xs:element name="borderMode" type="borderMode" minOccurs="0"/>
+			<xs:element name="borderNationality" type="borderNationality" minOccurs="0"/>
+			<xs:element name="inlandMode" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="inlandMode">
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="dispatchCountry" type="dispatchCountry" minOccurs="0"/>
+			<xs:element name="departureIdentity" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="departureIdentity"/>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TTransportMeansImportCorrection">
+		<xs:sequence>
+			<xs:element name="borderNationality" type="borderNationality" minOccurs="0"/>
+			<xs:element name="departureIdentity" type="departureIdentity" minOccurs="0"/>
+			<xs:element name="DeliveryTerms" type="TDeliveryTerms" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!--Transport Means  ( Export)-->
+	<xs:complexType name="TTransportMeansExport">
+		<xs:sequence>
+			<xs:element name="DeliveryTerms" type="TDeliveryTerms" minOccurs="0"/>
+			<xs:element name="borderMode" type="borderMode" minOccurs="0"/>
+			<xs:element name="borderNationality" type="borderNationality" minOccurs="0"/>
+			<xs:element name="borderIdentity" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="borderIdentity">
+						<xs:minLength value="0"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="departureIdentity" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="departureIdentity">
+						<xs:minLength value="0"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="inlandMode" type="inlandMode" minOccurs="0"/>
+			<xs:element name="dispatchCountry" type="dispatchCountry" minOccurs="0"/>
+			<xs:element name="methodOfPayment" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TTransportMeansExportCorrection">
+		<xs:sequence>
+			<xs:element name="borderNationality" type="borderNationality" minOccurs="0"/>
+			<xs:element name="borderIdentity" type="borderIdentity" minOccurs="0"/>
+			<xs:element name="departureIdentity" type="departureIdentity" minOccurs="0"/>
+			<xs:element name="DeliveryTerms" type="TDeliveryTerms" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!--DeliveryTerms (Import, Export)-->
+	<xs:complexType name="TDeliveryTerms">
+		<xs:sequence>
+			<xs:element name="deliveryTerms" type="deliveryTerms" minOccurs="0"/>
+			<xs:element name="deliveryTermsPlace" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="deliveryTermsPlace"/>
+				</xs:simpleType>
+			</xs:element>
+			<!-- deliveryTermsPlaceCode added under e-Globalization  -->
+			<xs:element name="deliveryTermsPlaceCode" type="deliveryTermsPlaceCode" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!--Packaging  (Import, Export)-->
+	<xs:complexType name="TPackagingImportExport">
+		<xs:sequence>
+			<xs:element name="marksNumber" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="marksNumber"/>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="packages" type="packages"/>
+			<xs:element name="packageType" type="packageType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TPackagingImportExportCorrection">
+		<xs:sequence>
+			<xs:element name="packageType" type="packageType" minOccurs="0"/>
+			<xs:element name="marksNumber" type="marksNumber" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TPreviousDocument">
+		<xs:sequence>
+			<xs:element name="documentReference">
+				<xs:simpleType>
+					<xs:restriction base="documentReference">
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="documentType">
+				<xs:simpleType>
+					<xs:restriction base="previousdocumentType">
+						<xs:maxLength value="3"/>
+						<xs:minLength value="2"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TProducedDocument">
+		<xs:sequence>
+			<xs:element name="documentReference" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="documentReference">
+						<xs:maxLength value="35"/>
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="documentType">
+				<xs:simpleType>
+					<xs:restriction base="produceddocumentType"/>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- TProducedDocumentGlob added under e-Globalization -->
+	<xs:complexType name="TProducedDocumentGlob">
+		<xs:sequence>
+			<xs:element name="documentReference">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="70"/>
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="documentType">
+				<xs:simpleType>
+					<xs:restriction base="produceddocumentType"/>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<!--Documents  (Import, Export)-->
+	<xs:complexType name="TPreviousDocumentImportExport">
+		<xs:annotation>
+			<xs:documentation>SAD REF - Box 40 (Part 3) - Summary declaration/Previous document DESC - Document number</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Document" type="TPreviousDocument"/>
+			<xs:element name="previousDocumentCategory" type="previousDocumentCategory"/>
+			<xs:element name="previousDocumentLoc" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="previousDocumentLoc">
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="previousDocumentArt" type="previousDocumentArt" minOccurs="0"/>
+			<xs:element name="previousDocumentBillOfLoading" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="previousDocumentBillOfLoading">
+						<xs:maxLength value="35"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="previousDocumentItem" type="previousDocumentItem" minOccurs="0"/>
+			<xs:element name="previousDocumentDate" type="previousDocumentDate" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TPreviousDocumentTransit">
+		<xs:sequence>
+			<xs:element name="previousDocumentCategory" type="previousDocumentCategory"/>
+			<xs:element name="documentType" type="previousdocumentTransitType"/>
+			<xs:element name="documentReference" type="previousDocumentTransitReference"/>
+			<xs:element name="complementaryInformation" type="previousDocumentComplementaryInformation" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- Produced Document added under e-Globalization -->
+	<xs:complexType name="TProducedDocumentGlobImport">
+		<xs:annotation>
+			<xs:documentation>SAD REF - Box 44</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Document" type="TProducedDocumentGlob"/>
+			<xs:element name="producedDocumentsValidationOffice" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="ProducedDocumentsValidationOffice"/>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="producedDocumentsInformationDate" type="ProducedDocumentsInformationDate" minOccurs="0"/>
+			<xs:element name="ArchiveInformation" type="TArchiveInformation" minOccurs="0"/>
+			<xs:element name="DocumentQuantity" type="TDocumentQuantity" minOccurs="0"/>
+			<xs:element name="complementaryInformation" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="complementaryInformationProduced">
+						<xs:maxLength value="25"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="authorisationHolderCategory" type="authorisationHolderCategory" minOccurs="0"/>
+			<xs:element name="authorisationHolderID" type="authorisationHolderID" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TProducedDocumentImportExport">
+		<xs:annotation>
+			<xs:documentation>SAD REF - Box 44</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Document" type="TProducedDocument"/>
+			<xs:element name="producedDocumentsValidationOffice" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="ProducedDocumentsValidationOffice"/>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="producedDocumentsInformationDate" type="ProducedDocumentsInformationDate" minOccurs="0"/>
+			<xs:element name="ArchiveInformation" type="TArchiveInformation" minOccurs="0"/>
+			<xs:element name="DocumentQuantity" type="TDocumentQuantity" minOccurs="0"/>
+			<xs:element name="complementaryInformation" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="complementaryInformationProduced">
+						<xs:maxLength value="25"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<!-- authorisationHolderCategory added under e-Globalization -->
+			<xs:element name="authorisationHolderCategory" type="authorisationHolderCategory" minOccurs="0"/>
+			<!-- authorisationHolderID added under e-Globalization -->
+			<xs:element name="authorisationHolderID" type="authorisationHolderID" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TProducedDocumentCIV">
+		<xs:sequence>
+			<xs:element name="Document" type="TProducedDocument"/>
+			<xs:element name="validationOffice" type="validationOffice"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!--Customs Treatments  (Import)-->
+	<xs:complexType name="TCustomsTreatmentImport">
+		<xs:sequence>
+			<xs:element name="quota" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="quota">
+						<xs:minLength value="6"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="valuationMethod" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="valuationMethod">
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Preference" type="TPreference" minOccurs="0"/>
+			<xs:element name="TaxCalculation" type="TTaxCalculation" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="Procedure" type="TProcedureImport"/>
+			<xs:element name="Warehouse" type="TWarehouse" minOccurs="0"/>
+			<xs:element name="CalculationUnits" type="TCalculationUnits" minOccurs="0" maxOccurs="3"/>
+			<xs:element name="ChargesImport" type="TChargesImport" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TCustomsTreatmentImportRelease">
+		<xs:sequence>
+			<xs:element name="quota" type="quota" minOccurs="0"/>
+			<xs:element name="valuationMethod" type="valuationMethod" minOccurs="0"/>
+			<xs:element name="Preference" type="TPreference" minOccurs="0"/>
+			<xs:element name="Procedure" type="TProcedureImport"/>
+			<xs:element name="Warehouse" type="TWarehouse" minOccurs="0"/>
+			<xs:element name="CalculationUnits" type="TCalculationUnits" minOccurs="0" maxOccurs="3"/>
+			<xs:element name="ChargesImport" type="TChargesImport" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!--Customs Treatments  Export)-->
+	<xs:complexType name="TCustomsTreatmentExport">
+		<xs:sequence>
+			<xs:element name="Procedure" type="TProcedureExport"/>
+			<xs:element name="Warehouse" type="TWarehouse" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!--Preference-->
+	<xs:complexType name="TPreference">
+		<xs:sequence>
+			<xs:element name="preference1">
+				<xs:simpleType>
+					<xs:restriction base="preference1">
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="preference2">
+				<xs:simpleType>
+					<xs:restriction base="preference2">
+						<xs:minLength value="2"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<!--Taxes Calculation  (Import, Export)-->
+	<xs:complexType name="TTaxCalculation">
+		<xs:sequence>
+			<xs:element name="taxType" type="taxType"/>
+			<xs:element name="taxDue">
+				<xs:simpleType>
+					<xs:restriction base="taxDue">
+						<xs:totalDigits value="18"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TTaxCalculationResponse">
+		<xs:sequence>
+			<xs:element name="taxType" type="taxType"/>
+			<xs:element name="taxdue" type="taxDue"/>
+			<xs:element name="paymentMethod" type="paymentMethod"/>
+			<xs:element name="CalculationResults" type="TTaxCalculationResults" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- Start added by Rakesh for ST_20566 -->
+	<xs:complexType name="TExemptionsCalculationResults">
+		<xs:sequence>
+			<xs:element name="ExemptionItem" type="TExemptionCalculationResults" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TExemptionCalculationResults">
+		<xs:sequence>
+			<xs:element name="calculationUnit" type="taxBaseValue"/>
+			<xs:element name="calculationCode">
+				<xs:simpleType>
+					<xs:restriction base="calculationCode"/>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- End ST_20566 -->
+	<xs:complexType name="TTaxCalculationResults">
+		<xs:sequence>
+			<xs:element name="taxBaseValue" type="taxBaseValue"/>
+			<xs:element name="taxrate">
+				<xs:simpleType>
+					<xs:restriction base="taxRate">
+						<xs:totalDigits value="11"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<!-- Start added by Manas for ST_21472 -->
+			<xs:element name="taxrateCalculationCode" type="taxrateCalculationCode"/>
+			<!-- End ST_21472 -->
+			<xs:element name="taxdue" type="taxDue"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TTaxCiv">
+		<xs:sequence>
+			<xs:element name="taxType" type="taxType"/>
+			<xs:element name="taxBase" type="taxBaseValue" minOccurs="0"/>
+			<xs:element name="taxRate" type="taxRate" minOccurs="0"/>
+			<xs:element name="taxDue" type="taxDue" minOccurs="0"/>
+			<xs:element name="paymentMethod" type="paymentMethod" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TTotalTaxCalculationResponse">
+		<xs:sequence>
+			<xs:element name="taxType" type="taxType"/>
+			<xs:element name="totalTaxDue">
+				<xs:simpleType>
+					<xs:restriction base="taxDue">
+						<xs:totalDigits value="18"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="paymentMethod" type="paymentMethod"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!--Additional Information  (Import, Export)-->
+	<xs:complexType name="TAdditionalInformationImportExport">
+		<xs:annotation>
+			<xs:documentation>SAD REF - Box 44</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="additionalInformationContent" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="additionalInformationContent">
+						<xs:minLength value="0"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="additionalInformationType">
+				<xs:simpleType>
+					<xs:restriction base="additionalInformationType">
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TAdditionalInformationRelease">
+		<xs:annotation>
+			<xs:documentation>SAD REF - Box 44</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="additionalInformationContent" type="additionalInformationContent" minOccurs="0"/>
+			<xs:element name="additionalInformationType" type="additionalInformationType"/>
+			<xs:element name="additionalInformationDescription" type="additionalInformationDescription"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!--Customs Decision  (Import)-->
+	<xs:complexType name="TCustomsDecision">
+		<xs:sequence>
+			<xs:element name="previousDecisionDate" type="previousDecisionDate"/>
+			<xs:element name="previousDecisionIdentifier" type="previousDecisionIdentifier"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TGuaranteeImport">
+		<xs:sequence>
+			<xs:element name="guaranteeType">
+				<xs:simpleType>
+					<xs:restriction base="guaranteeTypeImport">
+						<xs:minLength value="5"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="guaranteeReference" type="TGuaranteeReferenceImport"/>
+			<!-- guaranteeAccess added under e-Globalization -->
+			<xs:element name="guaranteeAccess" type="guaranteeAccessCode" minOccurs="0"/>
+			<!-- guaranteeAmount added under e-Globalization -->
+			<xs:element name="guaranteeAmount" type="guaranteeAmount" minOccurs="0"/>
+			<!-- guaranteeCurrencyCode added under e-Globalization -->
+			<xs:element name="guaranteeCurrencyCode" type="guaranteeCurrencyCode" minOccurs="0"/>
+			<!-- guaranteeOtherRef added under e-Globalization -->
+			<xs:element name="guaranteeOtherRef" type="guaranteeOtherRef" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- Added for ticket MSPPLDA-2520 -->
+	<xs:complexType name="TGuaranteeImportGlob">
+		<xs:sequence>
+			<xs:element name="guaranteeType">
+				<xs:simpleType>
+					<xs:restriction base="guaranteeTypeImport">
+						<xs:minLength value="5"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="GuaranteeReference" type="TGuaranteeReferenceImport"/>
+			<!-- guaranteeAccess added under e-Globalization -->
+			<xs:element name="guaranteeAccess" type="guaranteeAccessCode" minOccurs="0"/>
+			<!-- guaranteeAmount added under e-Globalization -->
+			<xs:element name="guaranteeAmount" type="guaranteeAmount" minOccurs="0"/>
+			<!-- guaranteeCurrencyCode added under e-Globalization -->
+			<xs:element name="guaranteeCurrencyCode" type="guaranteeCurrencyCode" minOccurs="0"/>
+			<!-- guaranteeOtherRef added under e-Globalization -->
+			<xs:element name="guaranteeOtherRef" type="guaranteeOtherRef" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TGuaranteeReference">
+		<xs:sequence>
+			<xs:element name="guaranteeAccess" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="guaranteeAccess">
+						<xs:minLength value="4"/>
+						<xs:maxLength value="4"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="guaranteeNumber" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="guaranteeNumber">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="35"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="guaranteeOther" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="guaranteeOther">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="35"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ecValidity" type="ecValidity" minOccurs="0"/>
+			<xs:element name="nonECContractedParty" type="nonECContractedParty" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TGuaranteeReferenceImport">
+		<xs:sequence>
+			<xs:element name="guaranteeNumber" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="guaranteeNumber">
+						<xs:maxLength value="70"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="guaranteeOffice" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="guaranteeOffice"/>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="guaranteeDate" type="guaranteeDate" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TOperatorIdentity">
+		<xs:sequence>
+			<xs:element name="operatorIdentity" type="operatorIdentity"/>
+			<xs:element name="ContactPerson" type="TContactPerson" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!--Exchange rate-->
+	<xs:complexType name="TExchangeRate">
+		<xs:annotation>
+			<xs:documentation>SAD REF - Box 23 - Exchange rate</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="exchangeRate" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="exchangeRate">
+						<xs:totalDigits value="11"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="currency" type="currency"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!--Invoice-->
+	<xs:complexType name="Ttotals">
+		<xs:sequence>
+			<xs:element name="items" type="items" minOccurs="0"/>
+			<xs:element name="totalGrossmass" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="totalGrossMass">
+						<xs:totalDigits value="18"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="totalNetmass">
+				<xs:simpleType>
+					<xs:restriction base="totalNetMass">
+						<xs:totalDigits value="18"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="packages" type="packages" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>SAD REF - Box 6 - Total packages</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TInvoice">
+		<xs:sequence>
+			<xs:element name="ExchangeRate" type="TExchangeRate"/>
+			<xs:element name="invoiceAmount" type="invoiceAmount"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!--Charges-->
+	<xs:complexType name="TCustomsCharges">
+		<xs:sequence>
+			<xs:element name="transportInsuranceCharges">
+				<xs:simpleType>
+					<xs:restriction base="transportInsuranceCharges">
+						<xs:totalDigits value="18"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ExchangeRate" type="TExchangeRate"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TDuties">
+		<xs:sequence>
+			<xs:element name="taxBase" type="taxBaseValue"/>
+			<xs:element name="taxDue" type="taxDue"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TChargesImport">
+		<xs:sequence>
+			<xs:element name="VATCharges" type="TVATCharges" minOccurs="0"/>
+			<xs:element name="CustomsCharges" type="TCustomsCharges" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TVATCharges">
+		<xs:sequence>
+			<xs:element name="charges">
+				<xs:simpleType>
+					<xs:restriction base="VATCharges">
+						<xs:totalDigits value="18"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ExchangeRate" type="TExchangeRate"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TVat">
+		<xs:sequence>
+			<xs:element name="paymentMethod" type="paymentMethod"/>
+			<xs:element name="taxbase" type="taxBaseValue"/>
+			<xs:element name="taxRate" type="taxRate"/>
+			<xs:element name="taxDue" type="taxDue"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TCalculationUnits">
+		<xs:sequence>
+			<xs:element name="calculationCode">
+				<xs:simpleType>
+					<xs:restriction base="calculationCode"/>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="calculationUnits">
+				<xs:simpleType>
+					<xs:restriction base="calculationUnits">
+						<xs:totalDigits value="18"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TProcedureImport">
+		<xs:annotation>
+			<xs:documentation>
+        SAD REF - Box 37 - 44 Procedure DESC - The procedure for which the goods are declared. BOX 37 Code is in three parts : Part
+        1A - First 2 digits. The procedure for which the goods are declared (Community Code) Part 1B - Second 2 digits (Previous
+        Customs procedure, coded) Part 2 - Procedure code (Community procedure, coded BOX44 2 additional codes
+      </xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="procedurePart1" type="procedurePart1"/>
+			<xs:element name="procedurePart2" type="procedurePart2"/>
+			<xs:element name="procedureType" type="procedureType"/>
+			<xs:element name="procedureNat" minOccurs="0" maxOccurs="3">
+				<xs:simpleType>
+					<xs:restriction base="procedureNat"/>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="nationalProcedureCode" minOccurs="0" maxOccurs="3">
+				<xs:simpleType>
+					<xs:restriction base="nationalProcedureCode"/>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TProcedureExport">
+		<xs:annotation>
+			<xs:documentation>
+        SAD REF - Box 37 - 44 Procedure DESC - The procedure for which the goods are declared. BOX 37 Code is in three parts : Part
+        1A - First 2 digits. The procedure for which the goods are declared (Community Code) Part 1B - Second 2 digits (Previous
+        Customs procedure, coded) Part 2 - Procedure code (Community procedure, coded BOX44 2 additional codes
+      </xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="procedurePart1" type="procedurePart1" minOccurs="0"/>
+			<xs:element name="procedurePart2" type="procedurePart2" minOccurs="0"/>
+			<xs:element name="procedureType" type="procedureType"/>
+			<xs:element name="procedureNat" type="procedureNat" minOccurs="0" maxOccurs="3"/>
+			<xs:element name="nationalProcedureCode" minOccurs="0" maxOccurs="3">
+				<xs:simpleType>
+					<xs:restriction base="nationalProcedureCode">
+						<xs:minLength value="3"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TSupplementaryUnits">
+		<xs:annotation>
+			<xs:documentation>
+        SAD Box 41 NOTES: Can be used for tariff quantity or supplementary quantity Also includes:
+      </xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="supplementaryUnits">
+				<xs:simpleType>
+					<xs:restriction base="supplementaryUnits">
+						<xs:totalDigits value="18"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="supplementaryUnitsCode">
+				<xs:simpleType>
+					<xs:restriction base="supplementaryUnitsCode"/>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TArchiveInformation">
+		<xs:sequence>
+			<xs:element name="archiveLocationIndicator" type="archiveLocationIndicator" minOccurs="0"/>
+			<xs:element name="archiveSupport" type="archiveSupport" minOccurs="0"/>
+			<xs:element name="archiveRelatedLocationContent" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="archiveRelatedLocationContent"/>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<!--TransportMeans  (Transit)-->
+	<xs:complexType name="TTransportMeansTransit">
+		<xs:sequence>
+			<xs:element name="borderMode" type="borderMode"/>
+			<xs:element name="borderNationality" type="borderNationality"/>
+			<xs:element name="borderIdentity" type="borderIdentity"/>
+			<xs:element name="loadingPlaceIdentity" type="loadingPlaceIdentity" minOccurs="0"/>
+			<xs:element name="borderType" type="borderType"/>
+			<xs:element name="inlandMode" type="inlandMode"/>
+			<xs:element name="dispatchCountry" type="dispatchCountry"/>
+			<xs:element name="departureIdentity" type="departureIdentity" minOccurs="0"/>
+			<xs:element name="departureNationality" type="departureNationality" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TPrincipal">
+		<xs:sequence>
+			<xs:element name="PrincipalOperator" type="TOperatorContact"/>
+			<xs:element name="capacity" type="capacity" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!--Customs (Transit)-->
+	<xs:complexType name="TCustomsTransit">
+		<xs:sequence>
+			<xs:element name="destinationOffice" type="destinationOffice" minOccurs="0"/>
+			<xs:element name="departureOffice" type="departureOffice" minOccurs="0"/>
+			<xs:element name="Seal" type="TSeal" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="seals" type="seal" minOccurs="0"/>
+			<xs:element name="transitOffice" type="transitOffice" minOccurs="0" maxOccurs="6"/>
+			<xs:element name="GoodsLocation" type="TGoodsLocationTransit" minOccurs="0"/>
+			<xs:element name="loadingPlaceIdentity" type="loadingPlaceIdentity"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!--Goods Location (transit)-->
+	<xs:complexType name="TGoodsLocationTransit">
+		<xs:sequence>
+			<xs:element name="precise" type="precise"/>
+			<xs:element name="agreedLocation" type="agreedLocation" minOccurs="0"/>
+			<xs:element name="authorisedLocation" type="authorisedLocation" minOccurs="0"/>
+			<xs:element name="customsSubPlace" type="customsSubPlace" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TGuarantee">
+		<xs:sequence>
+			<xs:element name="guaranteeType" type="guaranteeType"/>
+			<xs:element name="guaranteeAccess" type="guaranteeAccess" minOccurs="0"/>
+			<xs:element name="guaranteeNumber" type="guaranteeNumber" minOccurs="0"/>
+			<xs:element name="guaranteeOther" type="guaranteeOther" minOccurs="0"/>
+			<xs:element name="ecValidity" type="ecValidity" minOccurs="0"/>
+			<xs:element name="nonEcContractedParty" type="nonECContractedParty" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TPackagingTransit">
+		<xs:sequence>
+			<xs:element name="marksNumber" type="marksNumber" minOccurs="0"/>
+			<xs:element name="packages" type="packages" minOccurs="0"/>
+			<xs:element name="packageType" type="packageType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!--Documents  (Transit)-->
+	<xs:complexType name="TProducedDocumentTransit">
+		<xs:sequence>
+			<xs:element name="Document" type="TProducedDocument"/>
+			<xs:element name="complementaryInformation" type="complementaryInformation" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!--Additional Information  (transit)-->
+	<xs:complexType name="TAdditionalInformationTransit">
+		<xs:sequence>
+			<xs:element name="additionalInformationContent" type="additionalInformationContent" minOccurs="0"/>
+			<xs:element name="additionalInformationType" type="additionalInformationType"/>
+			<xs:element name="ExportIndicator" type="TExportIndicator" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!--Sensitive Goods (Transit)-->
+	<xs:complexType name="TSensitiveGoods">
+		<xs:sequence>
+			<xs:element name="sensitiveNotification" type="sensitiveNotification" minOccurs="0"/>
+			<xs:element name="sensitiveAdditionnal" type="sensitiveAdditionnal" minOccurs="0"/>
+			<xs:element name="Undgcode" type="UNDGCode"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TPrice">
+		<xs:annotation>
+			<xs:documentation>SAD REF - Box 42 - Item price DESC - The price of the item in question</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="price">
+				<xs:simpleType>
+					<xs:restriction base="price">
+						<xs:totalDigits value="18"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ExchangeRate" type="TExchangeRate"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TSeal">
+		<xs:sequence>
+			<xs:element name="sealAffixed" type="sealAffixed"/>
+			<xs:element name="sealingparty" type="sealingparty"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TPaymentTaxes">
+		<xs:sequence>
+			<xs:element name="paymentMethodTaxes" type="PaymentMethodTaxes"/>
+			<xs:element name="deferredPayment" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="deferredPayment"/>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="deferredPaymentAccountHolder" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="deferredPaymentAccountHolder"/>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TPaymentVat">
+		<xs:sequence>
+			<xs:element name="deferredPaymentVat" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="deferredPaymentVAT"/>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="paymentMethodVat" type="PaymentMethodVat"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TResponseSADHeader">
+		<xs:sequence>
+			<xs:element name="typePartOne" type="typePartOne" minOccurs="0"/>
+			<xs:element name="typePartTwo" type="typePartTwo" minOccurs="0"/>
+			<xs:element name="typePartThree" type="typePartThree" minOccurs="0"/>
+			<xs:element name="localReferenceNumber" type="localreferenceNumber" minOccurs="0"/>
+			<xs:element name="commercialReference" type="commercialReference" minOccurs="0"/>
+			<xs:element name="customsMainReferenceNumber" type="customsMainReferenceNumber" minOccurs="0"/>
+			<!-- sequenceNumber added under e-Globalization  -->
+			<xs:element name="sequenceNumber" type="sequenceNumber" minOccurs="0"/>
+			<xs:element name="acceptanceDate" type="acceptanceDate" minOccurs="0"/>
+			<xs:element name="acceptanceTime" type="acceptanceTime" minOccurs="0"/>
+			<!-- status added under e-Globalization  -->
+			<xs:element name="status" type="status" minOccurs="0"/>
+			<xs:element name="cancellationDate" type="cancellationDate" minOccurs="0"/>
+			<xs:element name="cancellationTime" type="cancellationTime" minOccurs="0"/>
+			<xs:element name="investigationStartDate" type="investigationStartDate" minOccurs="0"/>
+			<xs:element name="investigationStartTime" type="investigationStartTime" minOccurs="0"/>
+			<xs:element name="departureOffice" type="departureOffice" minOccurs="0"/>
+			<xs:element name="exitOffice" type="exitOffice" minOccurs="0"/>
+			<xs:element name="placeOfCustomsExamination" type="precise" minOccurs="0"/>
+			<xs:element name="Declarant" type="TDeclarant" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TResponseSADItem">
+		<xs:sequence>
+			<xs:element name="dataElementPath" type="dataElementPath" minOccurs="0"/>
+			<xs:element name="dataElementSequence" type="dataElementSequence" minOccurs="0"/>
+			<xs:element name="errorCode" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="errorCode">
+						<xs:maxLength value="17"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="errorContent" type="errorContent" minOccurs="0"/>
+			<xs:element name="errorDescription" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="errorDescription">
+						<xs:maxLength value="512"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TResponseSadCalculation">
+		<xs:sequence>
+			<xs:element name="sequence" type="sequence"/>
+			<!-- acceptancedate added under e-Globalization  -->
+			<xs:element name="acceptancedate" type="acceptanceDate" minOccurs="0"/>
+			<xs:element name="Duties" type="TTotalTaxCalculationResponse" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TSimplifiedProcedureTransit">
+		<xs:sequence>
+			<xs:element name="limitDate" type="limitDate"/>
+			<xs:element name="controlResultcode" type="controlResultCode"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TDocumentQuantity">
+		<xs:sequence>
+			<xs:element name="quantityCode" type="documentQuantityCode"/>
+			<xs:element name="quantity">
+				<xs:simpleType>
+					<xs:restriction base="documentQuantity">
+						<xs:totalDigits value="18"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<!--Export Indicator (Transit)-->
+	<xs:complexType name="TExportIndicator">
+		<xs:sequence>
+			<xs:element name="exportEU" type="exportEU"/>
+			<xs:element name="exportCountry" type="exportCountry"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TControl">
+		<xs:sequence>
+			<xs:element name="controlType" type="controlType"/>
+			<xs:element name="controlTypeDescription" type="controlTypeDescription" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="TControlResultCode">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="2"/>
+			<xs:maxLength value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="TControlResult">
+		<xs:sequence>
+			<xs:element name="Code" type="TControlResultCode"/>
+			<xs:element name="limitDate" type="TDate"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!--
+    - Main schema
+  -->
+	<xs:element name="SADTransit">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="GoodsDeclaration" type="TGoodsDeclarationTransit"/>
+				<xs:element name="GoodsItem" type="TGoodsItemTransit" maxOccurs="unbounded"/>
+				<xs:element name="functionCode" type="functionCode"/>
+				<xs:element name="MessageSender" type="TOperatorContact" minOccurs="0"/>
+				<xs:element name="languageCode" type="languagecode"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="SADImport">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="MessageSender" type="TOperatorContact" minOccurs="0"/>
+				<xs:element name="functionCode" type="functionCode"/>
+				<xs:element name="languageCode" type="languagecode"/>
+				<xs:element name="GoodsDeclaration" type="TGoodsDeclarationImport"/>
+				<xs:element name="GoodsItem" type="TGoodsItemImport" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="SADExport">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="MessageSender" type="TOperatorContact" minOccurs="0"/>
+				<xs:element name="functionCode" type="functionCode"/>
+				<xs:element name="languageCode" type="languagecode"/>
+				<xs:element name="GoodsDeclaration" type="TGoodsDeclarationExport"/>
+				<xs:element name="GoodsItem" type="TGoodsItemExport" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="SADCombine">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="MessageSender" type="TOperatorContact" minOccurs="0"/>
+				<xs:element name="functionCode" type="functionCode"/>
+				<xs:element name="languageCode" type="languagecode"/>
+				<xs:element name="GoodsDeclaration" type="TGoodsDeclarationCombine"/>
+				<xs:element name="GoodsItem" type="TGoodsItemCombine" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="SADResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="ResponseSADHeader" type="TResponseSADHeader"/>
+				<xs:element name="ResponseSADItem" type="TResponseSADItem" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="CalculationResults" type="TResponseSadCalculation" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="functionCode" type="responseFunctionCode"/>
+				<xs:element name="languageCode" type="languagecode"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="SADImportRelease">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="SADImportReleaseHeader" type="TGoodsDeclarationImportRelease"/>
+				<xs:element name="SADImportReleaseItem" type="TGoodsItemImportRelease" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="functionCode" type="responseFunctionCode"/>
+				<xs:element name="MessageSender" type="TOperatorContact" minOccurs="0"/>
+				<xs:element name="languageCode" type="languagecode"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="SADExportRelease">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="MessageSender" type="TOperatorContact" minOccurs="0"/>
+				<xs:element name="functionCode" type="functionCode"/>
+				<xs:element name="SADExportReleaseHeader" type="TGoodsDeclarationExportRelease"/>
+				<xs:element name="SADExportReleaseItem" type="TGoodsItemExportRelease" maxOccurs="unbounded"/>
+				<xs:element name="languageCode" type="languagecode"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="SADImportCorrection">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="MessageSender" type="TOperator" minOccurs="0"/>
+				<xs:element name="functionCode" type="functionCode"/>
+				<xs:element name="languageCode" type="languagecode"/>
+				<xs:element name="GoodsDeclaration" type="TGoodsDeclarationImportCorrection"/>
+				<xs:element name="GoodsItem" type="TGoodsItemImportCorrection" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="SADExportCorrection">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="MessageSender" type="TOperator" minOccurs="0"/>
+				<xs:element name="functionCode" type="functionCode"/>
+				<xs:element name="languageCode" type="languagecode"/>
+				<xs:element name="GoodsDeclaration" type="TGoodsDeclarationExportCorrection"/>
+				<xs:element name="GoodsItem" type="TGoodsItemExportCorrection" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="SADCancellation">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="MessageSender" type="TOperator" minOccurs="0"/>
+				<xs:element name="functionCode" type="functionCode"/>
+				<xs:element name="GoodsDeclaration" type="TGoodsDeclarationCancellation"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="SADAC4">
+		<!-- Added by Steve Geudens for AC4 -->
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="MessageSender" type="TOperatorContact" minOccurs="0"/>
+				<xs:element name="functionCode" type="functionCode"/>
+				<xs:element name="languageCode" type="languagecode"/>
+				<xs:element name="GoodsDeclaration" type="TGoodsDeclarationAC4"/>
+				<xs:element name="GoodsItem" type="TGoodsItemAC4" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="SADAC4Print">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="SADAC4PrintHeader" type="TGoodsDeclarationAC4Print"/>
+				<xs:element name="SADAC4PrintItem" type="TGoodsItemAC4Print" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="functionCode" type="responseFunctionCode"/>
+				<xs:element name="MessageSender" type="TOperatorContact" minOccurs="0"/>
+				<xs:element name="languageCode" type="languagecode"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<!-- This message contains the "header" information of the e-globalization, meaning it contains information which is valid 
+		for ALL goods item, like the declarant or office of validation -->
+	<xs:element name="SADGlobImportInit">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="MessageSender" type="TOperatorContact" minOccurs="1"/>
+				<xs:element name="functionCode" type="functionCode"/>
+				<xs:element name="languageCode" type="languagecode"/>
+				<xs:element name="localReferenceNumber" type="localreferenceNumber"/>
+				<xs:element name="GoodsDeclaration" type="TGoodsDeclarationGlobImport"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<!-- This message contains the "article" or "goods item" information of the e-globalization, meaning it contains information 
+		which concerns SPECIFIC goods items, like goods code or net weight. -->
+	<xs:element name="SADGlobImportSubSequent">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="MessageSender" type="TOperatorContact" minOccurs="1"/>
+				<xs:element name="functionCode" type="functionCode"/>
+				<xs:element name="languageCode" type="languagecode"/>
+				<xs:element name="localReferenceNumber" type="localreferenceNumber" minOccurs="1"/>
+				<xs:element name="sequenceNumber">
+					<xs:simpleType>
+						<xs:restriction base="sequenceNumber">
+							<xs:totalDigits value="6"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="GoodsItem" type="TGoodsItemGlobImport" minOccurs="1" maxOccurs="999"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<!-- This message relates to a susbsequent message (same sequence number and LRN) and is used to correct it -->
+	<xs:element name="SADGlobImportCorrection">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="MessageSender" type="TOperatorContact" minOccurs="1"/>
+				<xs:element name="functionCode" type="functionCode"/>
+				<xs:element name="languageCode" type="languagecode"/>
+				<xs:element name="localReferenceNumber" type="localreferenceNumber" minOccurs="1"/>
+				<xs:element name="sequenceNumber" type="sequenceNumber"/>
+				<xs:element name="removeAllArticles" type="removeAllArticles"/>
+				<xs:element name="GlobDeleteGoodsItem" type="TGlobDeleteGoodsItem" minOccurs="0"/>
+				<xs:element name="GoodsItem" type="TGoodsItemGlobImport" minOccurs="0" maxOccurs="999"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<!-- This message is used to finalize and validate an e-globalization declaration -->
+	<xs:element name="SADGlobImportFinal">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="MessageSender" type="TOperatorContact" minOccurs="1"/>
+				<xs:element name="functionCode" type="functionCode"/>
+				<xs:element name="languageCode" type="languagecode"/>
+				<xs:element name="localReferenceNumber" type="localreferenceNumber" minOccurs="1"/>
+				<xs:element name="numberOfSubsequentMessages" type="messagesequenceNumber"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<!-- TGoodsDeclarationGlobImport added under e-Globalization  -->
+	<xs:complexType name="TGoodsDeclarationGlobImport">
+		<xs:sequence>
+			<xs:element name="loadingList" type="loadingList" minOccurs="0"/>
+			<xs:element name="beginDatePeriod" type="datePeriod"/>
+			<xs:element name="endDatePeriod" type="datePeriod"/>
+			<!-- commercialReference is present in SADGlobImportInit "Changed@04-Sep-2018" -->
+			<xs:element name="commercialReference" type="commercialReference" minOccurs="0"/>
+			<xs:element name="TransactionNature" type="TTransactionNature" minOccurs="0"/>
+			<xs:element name="Declarant" type="TDeclarantOperator"/>
+			<xs:element name="Consignee" type="TOperatorContact" minOccurs="0"/>
+			<xs:element name="Representative" type="TOperatorId" minOccurs="0"/>
+			<xs:element name="registrationNumber" type="registrationNumber" minOccurs="0"/>
+			<xs:element name="issuePlace" type="issuePlace"/>
+			<!-- Removed IssueDate from SADGlobImportInit message "Changed@04-Sep-2018" -->
+			<xs:element name="signature" type="signature" minOccurs="0"/>
+			<xs:element name="typePartOne" type="typePartOne"/>
+			<!-- Removed typePartTwo from SADGlobImportInit as it will always be "Z" "Changed@04-Sep-2018" -->
+			<xs:element name="PaymentTaxes" type="TPaymentTaxes" minOccurs="0"/>
+			<xs:element name="PaymentVat" type="TPaymentVat" minOccurs="0"/>
+			<!-- Validations will be introduced for SADGlobImportInit so that seal & seals can not be added "Changed@04-Sep-2018"  -->
+			<xs:element name="Customs" type="TCustomsGlobImportInit"/>
+			<!-- Removed DeliveryTerms from SADGlobImportInit message "Changed@04-Sep-2018" -->
+			<!-- This attribute mapped to regime -->
+			<xs:element name="procedurePart1" type="procedurePart1"/>
+			<!-- This attribute mapped to Previous regime -->
+			<xs:element name="procedurePart2" type="procedurePart2"/>
+			<!-- type changed to TProducedDocumentGlobImport "Changed@06-Feb-2019"  -->
+			<xs:element name="ProducedDocument" type="TProducedDocumentGlobImport" minOccurs="0" maxOccurs="99"/>
+			<!-- Removed guarantee from SADGlobImportInit message "Changed@04-Sep-2018" -->
+			<xs:element name="AdditionalInformation" type="TAdditionalInformationImportExport" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TGoodsDeclaration">
+		<xs:sequence>
+			<xs:element name="loadingList" type="loadingList" minOccurs="0"/>
+			<xs:element name="acceptanceDate" type="acceptanceDate">
+				<!--registration date of previous customs declaration                Indien het bericht een aanzuivering is van een voorlopige aangifte, een vereenvoudigde aangifte van de of indien het een regularisatie aangifte betreft ( zie daartoe inhoud van voorafgaande douaneregeling) dient hier de datum te worden vermeld van aanvaarding van deze voorlopige, vereenvoudigde aangifte, regularisatie aangifte. 
+          Per tarieflijn kan verwezen worden naar verschillende voorafgaande douaneregelingen Ingeval van verwijzing naar een voorlopige aangifte of vereenvoudigde aangifte dient de datum van aanvaarding van de aangifte echter steeds de zelfde te zijn.
+          
+          De in dit geval opgegeven datum wordt gebruikt voor het vaststellen van de maatregelen welke op de datum van aanvaarding van de voorlopige aangifte, vereenvoudigde aangifte van toepassing waren alsmede voor het bepalen van de te gebruiken wisselkoers  indien bedragen in buitenlandse munt worden opgegeven.-->
+			</xs:element>
+			<xs:element name="localReferenceNumber" type="localreferenceNumber"/>
+			<xs:element name="commercialReference" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>SAD REF - Box 7 - Reference number</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="commercialReference">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="35"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Totals" type="Ttotals"/>
+			<xs:element name="TransactionNature" type="TTransactionNature" minOccurs="0"/>
+			<xs:element name="Declarant" type="TDeclarantOperator"/>
+			<xs:element name="registrationNumber" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="registrationNumber">
+						<xs:minLength value="0"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="issuePlace">
+				<xs:simpleType>
+					<xs:restriction base="issuePlace">
+						<xs:maxLength value="17"/>
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<!--code of the customs office responsible for follow up of the declaration-->
+			<xs:element name="signature" type="signature" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TGoodsDeclarationRelease">
+		<xs:sequence>
+			<xs:element name="loadingList" type="loadingList" minOccurs="0"/>
+			<xs:element name="customsMainReferenceNumber" type="customsMainReferenceNumber"/>
+			<xs:element name="acceptanceDate" type="acceptanceDate"/>
+			<xs:element name="localReferenceNumber" type="localreferenceNumber"/>
+			<xs:element name="commercialReference" type="commercialReference" minOccurs="0"/>
+			<xs:element name="Totals" type="Ttotals"/>
+			<xs:element name="TransactionNature" type="TTransactionNature" minOccurs="0"/>
+			<xs:element name="Declarant" type="TDeclarantOperator"/>
+			<xs:element name="registrationNumber" type="registrationNumber" minOccurs="0"/>
+			<xs:element name="issueDate" type="issueDate"/>
+			<xs:element name="issuePlace">
+				<xs:simpleType>
+					<xs:restriction base="issuePlace">
+						<xs:maxLength value="17"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="signature" type="signature" minOccurs="0"/>
+			<xs:element name="checkstring" type="checkString"/>
+			<xs:element name="Control" type="TControl" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TGoodsDeclarationImport">
+		<xs:complexContent>
+			<xs:extension base="TGoodsDeclaration">
+				<xs:sequence>
+					<xs:element name="typePartOne" type="typePartOne"/>
+					<xs:element name="typePartTwo" type="typePartTwo"/>
+					<!--If AC in position 1 and 2, only A in 3th position is possible-->
+					<xs:element name="Consignor" type="TOperatorContact" minOccurs="0"/>
+					<xs:element name="Consignee" type="TOperatorContact" minOccurs="0"/>
+					<xs:element name="Carrier" type="TOperatorContact" minOccurs="0"/>
+					<xs:element name="valueDetails" minOccurs="0">
+						<xs:simpleType>
+							<xs:restriction base="valueDetails"/>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="ChargesImport" type="TChargesImport" minOccurs="0"/>
+					<xs:element name="PaymentTaxes" type="TPaymentTaxes" minOccurs="0"/>
+					<xs:element name="PaymentVat" type="TPaymentVat" minOccurs="0"/>
+					<xs:element name="Intracom" type="TOperatorId" minOccurs="0"/>
+					<xs:element name="Representative" type="TOperatorId" minOccurs="0"/>
+					<xs:element name="Customs" type="TCustomsImport"/>
+					<xs:element name="TransportMeans" type="TTransportMeansImport" minOccurs="0"/>
+					<!--DV1 (Declaration of particulars relating to Customs Value) Header Level  -->
+					<xs:element name="DV1DeclarationHeader" type="TDV1DeclarationHeader" minOccurs="0"/>
+					<!-- internalCurrencyUnit added under e-Globalization -->
+					<xs:element name="internalCurrencyUnit" type="internalCurrencyUnit" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="TGoodsDeclarationImportRelease">
+		<xs:complexContent>
+			<xs:extension base="TGoodsDeclarationRelease">
+				<xs:sequence>
+					<xs:element name="typePartOne" type="typePartOne"/>
+					<xs:element name="typePartTwo" type="typePartTwo"/>
+					<xs:element name="Consignor" type="TOperatorContact" minOccurs="0"/>
+					<xs:element name="Consignee" type="TOperatorContact" minOccurs="0"/>
+					<xs:element name="valueDetails" minOccurs="0">
+						<xs:simpleType>
+							<xs:restriction base="valueDetails"/>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="ChargesImport" type="TChargesImport" minOccurs="0"/>
+					<xs:element name="PaymentTaxes" type="TPaymentTaxes" minOccurs="0"/>
+					<xs:element name="PaymentVat" type="TPaymentVat" minOccurs="0"/>
+					<xs:element name="Intracom" type="TOperatorId" minOccurs="0"/>
+					<xs:element name="Representative" type="TOperator" minOccurs="0"/>
+					<xs:element name="Customs" type="TCustomsImport"/>
+					<xs:element name="TransportMeans" type="TTransportMeansImport" minOccurs="0"/>
+					<xs:element name="TotalTaxCalculationResponse" type="TTotalTaxCalculationResponse" minOccurs="0" maxOccurs="unbounded"/>
+					<!--DV1 (Declaration of particulars relating to Customs Value) Header Level  -->
+					<xs:element name="DV1DeclarationHeader" type="TDV1DeclarationHeader" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="representativeStatus">
+		<xs:restriction base="xs:integer">
+			<xs:totalDigits value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="TItinerary">
+		<xs:sequence>
+			<xs:element name="countryOfRoutingCode" type="country" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="specificCircumStance">
+		<xs:restriction base="xs:string">
+			<xs:length value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="TGoodsDeclarationExport">
+		<xs:complexContent>
+			<xs:extension base="TGoodsDeclaration">
+				<xs:sequence>
+					<xs:element name="typePartOne" type="typePartOne" minOccurs="0"/>
+					<xs:element name="typePartTwo" type="typePartTwo" minOccurs="0"/>
+					<xs:element name="typePartThree" type="typePartThree" minOccurs="0"/>
+					<xs:element name="Consignor" type="TOperatorContact" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>SAD REF - Box 2 - Consignor/Exporter</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Consignee" type="TOperatorContact" minOccurs="0"/>
+					<xs:element name="TransportMeans" type="TTransportMeansExport" minOccurs="0"/>
+					<xs:element name="Customs" type="TCustomsExport"/>
+					<xs:element name="Representative" type="TOperator" minOccurs="0"/>
+					<!--xs:element name="representativeStatus" type="representativeStatus"/-->
+					<xs:element name="Itinerary" type="TItinerary" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>SAD REF - Box 51 - Intended offices of transit</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Beneficiary" type="TOperator" minOccurs="0"/>
+					<xs:element name="Invoice" type="TInvoice" minOccurs="0"/>
+					<xs:element name="deferredPayment" type="deferredPayment" minOccurs="0"/>
+					<xs:element name="container" type="xs:boolean"/>
+					<xs:element name="specificCircumStance" type="specificCircumStance" minOccurs="0"/>
+					<xs:element name="Warehouse" type="TWarehouse" minOccurs="0"/>
+					<xs:element name="ControlResult" type="TControlResult" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="TGoodsDeclarationExportRelease">
+		<xs:complexContent>
+			<xs:extension base="TGoodsDeclarationRelease">
+				<xs:sequence>
+					<xs:element name="typePartOne" type="typePartOne" minOccurs="0"/>
+					<xs:element name="typePartTwo" type="typePartTwo" minOccurs="0"/>
+					<xs:element name="typePartThree" type="typePartThree" minOccurs="0"/>
+					<xs:element name="Consignor" type="TOperatorContact" minOccurs="0"/>
+					<xs:element name="Consignee" type="TOperatorContact" minOccurs="0"/>
+					<xs:element name="TransportMeans" type="TTransportMeansExport"/>
+					<xs:element name="Customs" type="TCustomsExport"/>
+					<xs:element name="Representative" type="TOperator" minOccurs="0"/>
+					<xs:element name="SensitiveGoods" type="TSensitiveGoods" minOccurs="0"/>
+					<xs:element name="Beneficiary" type="TOperator" minOccurs="0"/>
+					<xs:element name="Invoice" type="TInvoice" minOccurs="0"/>
+					<xs:element name="exitDate" type="exitDate" minOccurs="0"/>
+					<xs:element name="Itinerary" type="TItinerary" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>SAD REF - Box 51 - Intended offices of transit</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="TGoodsDeclarationCombine">
+		<xs:complexContent>
+			<xs:extension base="TGoodsDeclarationExport">
+				<xs:sequence>
+					<xs:element name="destinationOffice" type="destinationOffice" minOccurs="0"/>
+					<xs:element name="departureOffice" type="departureOffice" minOccurs="0"/>
+					<xs:element name="transitOffice" minOccurs="0" maxOccurs="6">
+						<xs:simpleType>
+							<xs:restriction base="transitOffice">
+								<xs:minLength value="11"/>
+								<xs:maxLength value="11"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="GoodsLocationTransit" type="TGoodsLocationTransit"/>
+					<xs:element name="departureNationality" type="departureNationality" minOccurs="0"/>
+					<xs:element name="Guarantee" type="TGuarantee" maxOccurs="unbounded"/>
+					<xs:element name="SimplifiedProcedureTransit" type="TSimplifiedProcedureTransit" minOccurs="0"/>
+					<xs:element name="consigneeAuthorizedTransit" type="authorisedIdentityTransit" minOccurs="0"/>
+					<xs:element name="borderType" type="borderType" minOccurs="0"/>
+					<xs:element name="declarantCapacity" type="capacity"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="TGoodsDeclarationTransit">
+		<xs:sequence>
+			<xs:element name="typePartThree" type="typePartThree"/>
+			<xs:element name="Consignor" type="TOperatorContact" minOccurs="0"/>
+			<xs:element name="customsMainReferenceNumber" type="customsMainReferenceNumber" minOccurs="0"/>
+			<xs:element name="additionnal" type="commercialReference" minOccurs="0"/>
+			<xs:element name="Totals" type="Ttotals"/>
+			<xs:element name="Consignee" type="TConsigneeTransit" minOccurs="0"/>
+			<xs:element name="issuePlace" type="issuePlace"/>
+			<xs:element name="loadinglists" type="loadingList" minOccurs="0"/>
+			<xs:element name="Customs" type="TCustomsTransit"/>
+			<xs:element name="Principal" type="TPrincipal"/>
+			<xs:element name="TransportMeans" type="TTransportMeansTransit"/>
+			<xs:element name="Guarantee" type="TGuarantee" maxOccurs="unbounded"/>
+			<xs:element name="destinationCountry" type="destinationCountry"/>
+			<xs:element name="SimplifiedProcedureTransit" type="TSimplifiedProcedureTransit" minOccurs="0"/>
+			<xs:element name="commercialReferenceLrn" type="localreferenceNumber"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TGoodsDeclarationImportCorrection">
+		<xs:sequence>
+			<xs:element name="typePartOne" type="typePartOne"/>
+			<xs:element name="typePartTwo" type="typePartTwo"/>
+			<xs:element name="customsMainReferenceNumber" type="customsMainReferenceNumber"/>
+			<xs:element name="localReferenceNumber" type="localreferenceNumber"/>
+			<xs:element name="TransportMeans" type="TTransportMeansImportCorrection" minOccurs="0"/>
+			<xs:element name="Intracom" type="TOperatorId" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TGoodsDeclarationExportCorrection">
+		<xs:sequence>
+			<xs:element name="typePartOne" type="typePartOne" minOccurs="0"/>
+			<xs:element name="typePartTwo" type="typePartTwo" minOccurs="0"/>
+			<xs:element name="typePartThree" type="typePartThree" minOccurs="0"/>
+			<xs:element name="customsMainReferenceNumber" type="customsMainReferenceNumber"/>
+			<xs:element name="localReferenceNumber" type="localreferenceNumber"/>
+			<xs:element name="TransportMeans" type="TTransportMeansExportCorrection" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TGoodsDeclarationCancellation">
+		<xs:sequence>
+			<xs:element name="typePartOne" type="typePartOne" minOccurs="0"/>
+			<xs:element name="typePartTwo" type="typePartTwo" minOccurs="0"/>
+			<xs:element name="typePartThree" type="typePartThree" minOccurs="0"/>
+			<xs:element name="customsMainReferenceNumber" type="customsMainReferenceNumber"/>
+			<xs:element name="localReferenceNumber" type="localreferenceNumber"/>
+			<xs:element name="reason" type="reason"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- TGoodsItemGlobImport added under e-Globalization -->
+	<xs:complexType name="TGoodsItemGlobImport">
+		<xs:sequence>
+			<xs:element name="sequence">
+				<xs:annotation>
+					<xs:documentation>SAD REF - Box 32 - Item number</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="sequence">
+						<xs:fractionDigits value="0"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="acceptancedate" type="acceptanceDate"/>
+			<xs:element name="commodityCode" type="commodityCode" minOccurs="0"/>
+			<xs:element name="firstAdditionalCommodity" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="firstAdditionalCommodity">
+						<xs:minLength value="4"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="secondAdditionalCommodity" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="secondAdditionalCommodity">
+						<xs:minLength value="4"/>
+						<xs:maxLength value="4"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="nationalAdditionalCommodity1" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="nationalAdditionalCommodity1">
+						<xs:minLength value="4"/>
+						<xs:maxLength value="4"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="nationalAdditionalCommodity2" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="nationalAdditionalCommodity2">
+						<xs:minLength value="4"/>
+						<xs:maxLength value="4"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="nationalAdditionalCommodity3" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="nationalAdditionalCommodity3">
+						<xs:minLength value="4"/>
+						<xs:maxLength value="4"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="netMass">
+				<xs:simpleType>
+					<xs:restriction base="netMass">
+						<xs:totalDigits value="18"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="grossMass" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>SAD REF - Box 35 - Gross mass</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="grossMass">
+						<xs:totalDigits value="18"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="goodsDescription">
+				<xs:simpleType>
+					<xs:restriction base="goodsDescription">
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Packaging" type="TPackagingImportExport" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="containerIdentifier" minOccurs="0" maxOccurs="99">
+				<xs:simpleType>
+					<xs:restriction base="containerIdentifier"/>
+				</xs:simpleType>
+			</xs:element>
+			<!-- type changed to TProducedDocumentGlobImport "Changed@06-Feb-2019"  -->
+			<xs:element name="ProducedDocument" type="TProducedDocumentGlobImport" minOccurs="0" maxOccurs="99"/>
+			<xs:element name="destinationCountry" type="destinationCountry" minOccurs="0"/>
+			<xs:element name="TransportMeans" type="TTransportMeansImport" minOccurs="0"/>
+			<xs:element name="SupplementaryUnits" type="TSupplementaryUnits" minOccurs="0"/>
+			<xs:element name="ucr" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="ucr"/>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="TransactionNature" type="TTransactionNature" minOccurs="0"/>
+			<xs:element name="originCountry" type="originCountry"/>
+			<xs:element name="Consignor" type="TOperator" minOccurs="0"/>
+			<!-- Added CustomsTreatment at article level in SADGlobImportSubSequent "Changed@04-Sep-2018"  -->
+			<xs:element name="CustomsTreatment" type="TCustomsTreatmentGlobImport"/>
+			<xs:element name="statisticalValueAdjustment" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="statisticalValueAdjustment">
+						<xs:totalDigits value="18"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="destinationRegion" type="destinationRegion" minOccurs="0"/>
+			<!-- Added Guarantee in SADGlobImportSubSequent at article level "Changed@04-Sep-2018"  -->
+			<xs:element name="Guarantee" type="TGuaranteeImportGlob" minOccurs="0"/>
+			<xs:element name="Price" type="TPrice" minOccurs="0"/>
+			<xs:element name="AdditionalInformation" type="TAdditionalInformationImportExport" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="PreviousDocument" type="TPreviousDocumentImportExport"/>
+			<xs:element name="cusCode" type="CUSCode" minOccurs="0"/>
+			<xs:element name="valuationIndicators" type="Valuationindicators" minOccurs="0"/>
+			<!-- Added Seal in SADGlobImportSubSequent at article level "Changed@04-Sep-2018"  -->
+			<xs:element name="Seal" type="TSeal" minOccurs="0" maxOccurs="unbounded"/>
+			<!-- Added seals in SADGlobImportSubSequent at article level "Changed@04-Sep-2018"  -->
+			<xs:element name="seals" type="seal" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- TCustomsTreatmentGlobImport Added Under E-Globalization "Changed@04-Sep-2018"-->
+	<xs:complexType name="TCustomsTreatmentGlobImport">
+		<xs:sequence>
+			<!-- Quota is not aplicable for e-Globalized declaration "Changed@04-Sep-2018" -->
+			<xs:element name="valuationMethod" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="valuationMethod">
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<!-- Removed user specified taxes as for e-Globalization not allowed "Changed@04-Sep-2018" -->
+			<xs:element name="Preference" type="TPreference" minOccurs="0"/>
+			<xs:element name="Procedure" type="TProcedureGlobImport"/>
+			<xs:element name="Warehouse" type="TWarehouse" minOccurs="0"/>
+			<xs:element name="CalculationUnits" type="TCalculationUnits" minOccurs="0" maxOccurs="3"/>
+			<xs:element name="ChargesImport" type="TChargesImport" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TGoodsItem">
+		<xs:sequence>
+			<xs:element name="sequence">
+				<xs:annotation>
+					<xs:documentation>SAD REF - Box 32 - Item number</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="sequence">
+						<xs:fractionDigits value="0"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="commodityCode" type="commodityCode" minOccurs="0"/>
+			<xs:element name="firstAdditionalCommodity" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="firstAdditionalCommodity">
+						<xs:minLength value="4"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="secondAdditionalCommodity" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="secondAdditionalCommodity">
+						<xs:minLength value="4"/>
+						<xs:maxLength value="4"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="nationalAdditionalCommodity1" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="nationalAdditionalCommodity1">
+						<xs:minLength value="4"/>
+						<xs:maxLength value="4"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="nationalAdditionalCommodity2" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="nationalAdditionalCommodity2">
+						<xs:minLength value="4"/>
+						<xs:maxLength value="4"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="nationalAdditionalCommodity3" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="nationalAdditionalCommodity3">
+						<xs:minLength value="4"/>
+						<xs:maxLength value="4"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="netMass">
+				<xs:simpleType>
+					<xs:restriction base="netMass">
+						<xs:totalDigits value="18"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="grossMass" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>SAD REF - Box 35 - Gross mass</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="grossMass">
+						<xs:totalDigits value="18"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="goodsDescription">
+				<xs:simpleType>
+					<xs:restriction base="goodsDescription">
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Packaging" type="TPackagingImportExport" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="containerIdentifier" minOccurs="0" maxOccurs="99">
+				<xs:simpleType>
+					<xs:restriction base="containerIdentifier"/>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="chassisNumber" type="chassisNumber" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="ProducedDocument" type="TProducedDocumentImportExport" minOccurs="0" maxOccurs="99"/>
+			<xs:element name="destinationCountry" type="destinationCountry" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>SAD REF - Box 53 - Destination country</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DeliveryTerms" type="TDeliveryTerms" minOccurs="0"/>
+			<xs:element name="SupplementaryUnits" type="TSupplementaryUnits" minOccurs="0"/>
+			<xs:element name="ucr" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="ucr"/>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="TransactionNature" type="TTransactionNature" minOccurs="0"/>
+			<xs:element name="undg" type="undg" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TGoodsItemExport">
+		<xs:complexContent>
+			<xs:extension base="TGoodsItem">
+				<xs:sequence>
+					<xs:element name="Consignor" type="TOperator" minOccurs="0"/>
+					<xs:element name="Consignee" type="TOperator" minOccurs="0"/>
+					<xs:element name="statisticalValue" minOccurs="0">
+						<xs:simpleType>
+							<xs:restriction base="statisticalValue">
+								<xs:totalDigits value="15"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="originCountry" type="originCountry" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>SAD REF - Box 16 - Country of Origin</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="originRegion" type="originRegion" minOccurs="0"/>
+					<xs:element name="CustomsTreatment" type="TCustomsTreatmentExport"/>
+					<xs:element name="AdditionalInformation" type="TAdditionalInformationImportExport" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="PreviousDocument" type="TPreviousDocumentImportExport" minOccurs="0"/>
+					<xs:element name="exportCountry" type="country" minOccurs="0"/>
+					<!--Accompanying Document added against ST27864 -->
+					<xs:element name="AccompanyingDocument" type="TAccompanyingDocument" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="undg">
+		<xs:restriction base="code">
+			<xs:length value="4"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="TGoodsItemExportRelease">
+		<xs:complexContent>
+			<xs:extension base="TGoodsItem">
+				<xs:sequence>
+					<xs:element name="Consignor" type="TOperator" minOccurs="0"/>
+					<xs:element name="Consignee" type="TOperator" minOccurs="0"/>
+					<xs:element name="statisticalValue" minOccurs="0">
+						<xs:simpleType>
+							<xs:restriction base="statisticalValue">
+								<xs:totalDigits value="15"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="originCountry" type="originCountry" minOccurs="0"/>
+					<xs:element name="originRegion" type="originRegion" minOccurs="0"/>
+					<xs:element name="CustomsTreatment" type="TCustomsTreatmentExport"/>
+					<xs:element name="AdditionalInformation" type="TAdditionalInformationRelease" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="PreviousDocument" type="TPreviousDocumentImportExport" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="TGoodsItemImport">
+		<xs:complexContent>
+			<xs:extension base="TGoodsItem">
+				<xs:sequence>
+					<xs:element name="Consignor" type="TOperator" minOccurs="0"/>
+					<xs:element name="Consignee" type="TOperator" minOccurs="0"/>
+					<xs:element name="originCountry" type="originCountry"/>
+					<xs:element name="CustomsTreatment" type="TCustomsTreatmentImport"/>
+					<xs:element name="statisticalValueAdjustment" minOccurs="0">
+						<xs:simpleType>
+							<xs:restriction base="statisticalValueAdjustment">
+								<xs:totalDigits value="18"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="destinationRegion" type="destinationRegion" minOccurs="0"/>
+					<xs:element name="Guarantee" type="TGuaranteeImport" minOccurs="0"/>
+					<xs:element name="PaymentVat" type="TPaymentVat" minOccurs="0"/>
+					<xs:element name="Intracom" type="TOperatorId" minOccurs="0"/>
+					<xs:element name="Representative" type="TOperatorId" minOccurs="0"/>
+					<xs:element name="Price" type="TPrice" minOccurs="0"/>
+					<xs:element name="AdditionalInformation" type="TAdditionalInformationImportExport" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="PreviousDocument" type="TPreviousDocumentImportExport"/>
+					<!--DV1 goods item level details  -->
+					<xs:element name="DV1Detail" type="TDV1Detail" minOccurs="0"/>
+					<!--Accompanying Document added against ST27864 -->
+					<xs:element name="AccompanyingDocument" type="TAccompanyingDocument" minOccurs="0" maxOccurs="unbounded"/>
+					<!-- CUSCode added under e-Globalization -->
+					<xs:element name="CUSCode" type="CUSCode" minOccurs="0"/>
+					<!-- Valuationindicators added under e-Globalization -->
+					<xs:element name="Valuationindicators" type="Valuationindicators" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!--Accompanying Document added against ST27864 ... Starts Here -->
+	<xs:complexType name="TAccompanyingDocument">
+		<xs:annotation>
+			<xs:documentation>Accompanying Document at Goods Item level</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="attachedDocName" type="attachedDocName"/>
+			<xs:element name="attachedDocContent" type="attachedDocContent"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="attachedDocName">
+		<xs:annotation>
+			<xs:documentation>Accompanying Document Name</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:simpleType name="attachedDocContent">
+		<xs:annotation>
+			<xs:documentation>Accompanying Document Content</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:base64Binary"/>
+	</xs:simpleType>
+	<!--Accompanying Document added against ST27864 ... Ends Here -->
+	<xs:complexType name="TGoodsItemImportRelease">
+		<xs:complexContent>
+			<xs:extension base="TGoodsItem">
+				<xs:sequence>
+					<xs:element name="Consignor" type="TOperator" minOccurs="0"/>
+					<xs:element name="Consignee" type="TOperator" minOccurs="0"/>
+					<xs:element name="originCountry" type="originCountry" minOccurs="0"/>
+					<xs:element name="CustomsTreatment" type="TCustomsTreatmentImportRelease"/>
+					<xs:element name="statisticalValue" minOccurs="0">
+						<xs:simpleType>
+							<xs:restriction base="statisticalValue">
+								<xs:totalDigits value="18"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="destinationRegion" type="destinationRegion" minOccurs="0"/>
+					<xs:element name="Guarantee" type="TGuaranteeImport" minOccurs="0"/>
+					<xs:element name="Intracom" type="TOperatorId" minOccurs="0"/>
+					<xs:element name="PaymentVat" type="TPaymentVat" minOccurs="0"/>
+					<xs:element name="Representative" type="TOperator" minOccurs="0"/>
+					<xs:element name="TaxCalculationResponse" type="TTaxCalculationResponse" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="Price" type="TPrice" minOccurs="0"/>
+					<xs:element name="AdditionalInformation" type="TAdditionalInformationRelease" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="PreviousDocument" type="TPreviousDocumentImportExport"/>
+					<!--DV1 goods item level details  -->
+					<xs:element name="DV1Detail" type="TDV1Detail" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="TGoodsItemCombine">
+		<xs:complexContent>
+			<xs:extension base="TGoodsItemExport">
+				<xs:sequence>
+					<xs:element name="SensitiveGoods" type="TSensitiveGoods" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="AdditionalInformationTransit" type="TAdditionalInformationTransit" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="ProducedDocumentTransit" type="TProducedDocumentTransit" minOccurs="0" maxOccurs="25"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="TGoodsItemTransit">
+		<xs:sequence>
+			<xs:element name="sequence" type="sequence"/>
+			<xs:element name="commodityCode" type="commodityCode" minOccurs="0"/>
+			<xs:element name="netMass" type="netMass"/>
+			<xs:element name="goodsDescription" type="goodsDescription"/>
+			<xs:element name="grossMass" type="grossMass"/>
+			<xs:element name="destinationCountry" type="destinationCountry" minOccurs="0"/>
+			<xs:element name="dispatchCountry" type="dispatchCountry" minOccurs="0"/>
+			<xs:element name="typePartThree" type="typePartThree" minOccurs="0"/>
+			<xs:element name="containerIdentifier" type="containerIdentifier" minOccurs="0" maxOccurs="99"/>
+			<xs:element name="procedureType" type="procedureType" minOccurs="0"/>
+			<xs:element name="Packaging" type="TPackagingTransit" maxOccurs="unbounded"/>
+			<xs:element name="PreviousDocument" type="TPreviousDocumentTransit" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="ProducedDocument" type="TProducedDocumentTransit" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="AdditionalInformation" type="TAdditionalInformationTransit" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="SensitiveGoods" type="TSensitiveGoods" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="Consignor" type="TOperator" minOccurs="0"/>
+			<xs:element name="Consignee" type="TOperator" minOccurs="0"/>
+			<xs:element name="ucr" type="ucr" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TGoodsItemImportCorrection">
+		<xs:sequence>
+			<xs:element name="sequence" type="sequence"/>
+			<xs:element name="Packaging" type="TPackagingImportExportCorrection" minOccurs="0"/>
+			<xs:element name="goodsDescription" type="goodsDescription" minOccurs="0"/>
+			<xs:element name="containerIdentifier" type="containerIdentifier" minOccurs="0" maxOccurs="99"/>
+			<xs:element name="ProducedDocument" type="TProducedDocumentImportExport" minOccurs="0" maxOccurs="99"/>
+			<xs:element name="Intracom" type="TOperatorId" minOccurs="0"/>
+			<xs:element name="DeliveryTerms" type="TDeliveryTerms" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TGoodsItemExportCorrection">
+		<xs:sequence>
+			<xs:element name="sequence" type="sequence"/>
+			<xs:element name="Packaging" type="TPackagingImportExportCorrection" minOccurs="0"/>
+			<xs:element name="netMass" type="netMass" minOccurs="0"/>
+			<xs:element name="grossMass" type="grossMass" minOccurs="0"/>
+			<xs:element name="goodsDescription" type="goodsDescription" minOccurs="0"/>
+			<xs:element name="containerIdentifier" type="containerIdentifier" minOccurs="0" maxOccurs="99"/>
+			<xs:element name="ProducedDocument" type="TProducedDocumentImportExport" minOccurs="0" maxOccurs="99"/>
+			<xs:element name="DeliveryTerms" type="TDeliveryTerms" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TGoodsDeclarationAC4">
+		<xs:complexContent>
+			<xs:extension base="TGoodsDeclaration">
+				<xs:sequence>
+					<xs:element name="typePartOne" type="typePartOne"/>
+					<xs:element name="typePartTwo" type="typePartTwo"/>
+					<xs:element name="Consignee" type="TConsigneeAC4Operator"/>
+					<xs:element name="PaymentTaxes" type="TPaymentTaxes"/>
+					<xs:element name="PaymentVat" type="TPaymentVatAC4"/>
+					<xs:element name="Customs" type="TCustomsAC4"/>
+					<xs:element name="Period" type="TAC4Period"/>
+					<xs:element name="SelfAddedDuty" type="TSelfAddedDuty" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+		<!-- Added by Steve Geudens for AC4 -->
+	</xs:complexType>
+	<xs:complexType name="TGoodsDeclarationAC4Print">
+		<xs:complexContent>
+			<xs:extension base="TGoodsDeclarationRelease">
+				<xs:sequence>
+					<xs:element name="typePartOne" type="typePartOne"/>
+					<xs:element name="typePartTwo" type="typePartTwo"/>
+					<xs:element name="Consignee" type="TConsigneeAC4Operator"/>
+					<xs:element name="PaymentTaxes" type="TPaymentTaxes" minOccurs="0"/>
+					<!-- TPaymentVat to TPaymentVatAC4Print Modify by Manas for ST_21273 -->
+					<xs:element name="PaymentVat" type="TPaymentVatAC4Print" minOccurs="0"/>
+					<!-- End ST_21273 -->
+					<xs:element name="Customs" type="TCustomsAC4"/>
+					<xs:element name="Period" type="TAC4Period"/>
+					<xs:element name="SelfAddedDuty" type="TSelfAddedDuty" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="TotalTaxCalculationResponse" type="TTotalTaxCalculationResponse" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="TGoodsItemAC4">
+		<xs:sequence>
+			<xs:element name="sequence">
+				<xs:simpleType>
+					<xs:restriction base="sequence">
+						<xs:fractionDigits value="0"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="nationalAdditionalCommodity1">
+				<xs:simpleType>
+					<xs:restriction base="nationalAdditionalCommodity1">
+						<xs:minLength value="4"/>
+						<xs:maxLength value="4"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="nationalAdditionalCommodity2" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="nationalAdditionalCommodity2">
+						<xs:minLength value="4"/>
+						<xs:maxLength value="4"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="nationalAdditionalCommodity3" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="nationalAdditionalCommodity3">
+						<xs:minLength value="4"/>
+						<xs:maxLength value="4"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="netMass" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="netMass">
+						<xs:totalDigits value="18"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="goodsDescription" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="goodsDescription">
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Packaging" type="TPackagingImportExport"/>
+			<xs:element name="Price" type="TPrice" minOccurs="0"/>
+			<xs:element name="CustomsTreatment" type="TCustomsTreatmentAC4"/>
+			<xs:element name="SelfAddedDuty" type="TSelfAddedDuty" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="AdditionalInformation" type="TAdditionalInformationAC4" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="PreviousDocument" type="TPreviousDocumentAC4" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="ProducedDocument" type="TProducedDocumentAC4" minOccurs="0" maxOccurs="unbounded"/>
+			<!-- Start added by Manas for ST_20673 -->
+			<xs:element name="PeriodGoodsItem" type="TAC4PeriodGoodsItem" minOccurs="0"/>
+			<!-- End ST_20673 -->
+			<!--Accompanying Document added against ST27864 -->
+			<xs:element name="AccompanyingDocument" type="TAccompanyingDocument" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<!-- Added by Steve Geudens for AC4 -->
+	</xs:complexType>
+	<xs:complexType name="TGoodsItemAC4Print">
+		<xs:sequence>
+			<xs:element name="sequence">
+				<xs:simpleType>
+					<xs:restriction base="sequence">
+						<xs:fractionDigits value="0"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="nationalAdditionalCommodity1">
+				<xs:simpleType>
+					<xs:restriction base="nationalAdditionalCommodity1">
+						<xs:minLength value="4"/>
+						<xs:maxLength value="4"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<!-- Added by Manas for ST_21273 -->
+			<xs:element name="nationalAdditionalCommodity2" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="nationalAdditionalCommodity2">
+						<xs:minLength value="4"/>
+						<xs:maxLength value="4"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="nationalAdditionalCommodity3" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="nationalAdditionalCommodity3">
+						<xs:minLength value="4"/>
+						<xs:maxLength value="4"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<!-- End ST_21273 -->
+			<xs:element name="netMass" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="netMass">
+						<xs:totalDigits value="18"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="goodsDescription" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="goodsDescription">
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Packaging" type="TPackagingImportExport" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="Price" type="TPrice" minOccurs="0"/>
+			<xs:element name="CustomsTreatment" type="TCustomsTreatmentAC4"/>
+			<xs:element name="SelfAddedDuty" type="TSelfAddedDuty" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="AdditionalInformation" type="TAdditionalInformationAC4" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="PreviousDocument" type="TPreviousDocumentAC4" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="ProducedDocument" type="TProducedDocumentAC4" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="TaxCalculationResponse" type="TTaxCalculationResponse" minOccurs="0" maxOccurs="unbounded"/>
+			<!-- Start added by Rakesh for ST_20566 -->
+			<xs:element name="Exemptions" type="TExemptionsCalculationResults" minOccurs="0" maxOccurs="1"/>
+			<!-- End ST_20566 -->
+			<!-- Start added by Manas for ST_20673 -->
+			<xs:element name="PeriodGoodsItem" type="TAC4PeriodGoodsItem" minOccurs="0"/>
+			<!-- End ST_20673 -->
+		</xs:sequence>
+		<!-- Added by Steve Geudens for AC4 -->
+	</xs:complexType>
+	<xs:complexType name="TConsigneeAC4Operator">
+		<xs:sequence>
+			<xs:element name="consigneeLicenseStatute" type="consigneeLicenseStatute"/>
+			<xs:element name="consigneeLicenseNumber" type="consigneeLicenseNumber"/>
+			<xs:element name="OperatorIdentity" type="TOperatorIdentification" minOccurs="0"/>
+			<xs:element name="Operator" type="TOperatorNameContact" minOccurs="0"/>
+		</xs:sequence>
+		<!-- Added by Steve Geudens for AC4 -->
+	</xs:complexType>
+	<xs:complexType name="TPaymentVatAC4">
+		<xs:sequence>
+			<xs:element name="paymentVat" type="PaymentVatIndicator"/>
+			<xs:element name="paymentMethodVat" type="PaymentMethodVat" minOccurs="0"/>
+		</xs:sequence>
+		<!-- Added by Steve Geudens for AC4 -->
+	</xs:complexType>
+	<!-- Added by Manas for ST_21273 -->
+	<xs:complexType name="TPaymentVatAC4Print">
+		<xs:sequence>
+			<xs:element name="deferredPaymentVat" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="deferredPaymentVAT"/>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="paymentVat" type="PaymentVatIndicatorAC4Print"/>
+			<xs:element name="paymentMethodVat" type="PaymentMethodVat" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- End ST_21273 -->
+	<xs:complexType name="TAC4Period">
+		<xs:sequence>
+			<xs:element name="beginDatePeriod" type="ac4PeriodDate"/>
+			<xs:element name="endDatePeriod" type="ac4PeriodDate"/>
+			<xs:element name="authorizationMonthDeclaration" type="authorizationMonthDeclaration"/>
+		</xs:sequence>
+		<!-- Added by Steve Geudens for AC4 -->
+	</xs:complexType>
+	<!-- Start added by Manas for ST_20673 -->
+	<xs:complexType name="TAC4PeriodGoodsItem">
+		<xs:sequence>
+			<xs:element name="ac4BeginDateGoodsItem" type="ac4PeriodDateGoodsItem"/>
+			<xs:element name="ac4EndDateGoodsItem" type="ac4PeriodDateGoodsItem"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- End ST_20673 -->
+	<xs:complexType name="TCustomsAC4">
+		<xs:sequence>
+			<xs:element name="validationOffice">
+				<xs:simpleType>
+					<xs:restriction base="validationOffice">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="35"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+		<!-- Added by Steve Geudens for AC4 -->
+	</xs:complexType>
+	<xs:complexType name="TSelfAddedDuty">
+		<xs:sequence>
+			<xs:element name="selfAddedDutyType" type="selfAddedDutyType"/>
+			<xs:element name="selfAddedDutyCode" type="selfAddedDutyCode"/>
+			<xs:element name="selfAddedDutyAmount" type="selfAddedDutyAmount"/>
+		</xs:sequence>
+		<!-- Added by Steve Geudens for AC4 -->
+	</xs:complexType>
+	<xs:complexType name="TCustomsTreatmentAC4">
+		<xs:sequence>
+			<xs:element name="Procedure" type="TProcedureAC4"/>
+			<!--Update Under PLDA Ticket 17699 -->
+			<xs:element name="CalculationUnits" type="TCalculationUnitsAC4" minOccurs="0" maxOccurs="3"/>
+		</xs:sequence>
+		<!-- Added by Steve Geudens for AC4 -->
+	</xs:complexType>
+	<!--Added Under PLDA Ticket 17699 -->
+	<xs:complexType name="TCalculationUnitsAC4">
+		<xs:sequence>
+			<xs:element name="calculationCode">
+				<xs:simpleType>
+					<xs:restriction base="calculationCode"/>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="calculationUnits">
+				<xs:simpleType>
+					<xs:restriction base="calculationUnitsAC4">
+						<xs:totalDigits value="18"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TAdditionalInformationAC4">
+		<xs:sequence>
+			<xs:element name="additionalInformationContent" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="additionalInformationContent">
+						<xs:minLength value="0"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="additionalInformationContentEnergy" type="TAdditionalInformationContentEnergy" minOccurs="0"/>
+			<xs:element name="additionalInformationType">
+				<xs:simpleType>
+					<xs:restriction base="additionalInformationType">
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+		<!-- Added by Steve Geudens for AC4 -->
+	</xs:complexType>
+	<xs:complexType name="TPreviousDocumentAC4">
+		<xs:sequence>
+			<xs:element name="Document" type="TPreviousDocument"/>
+			<xs:element name="previousDocumentDate" type="previousDocumentDate" minOccurs="0"/>
+			<xs:element name="previousDocumentArt" type="previousDocumentArt" minOccurs="0"/>
+		</xs:sequence>
+		<!-- Added by Steve Geudens for AC4 -->
+	</xs:complexType>
+	<xs:complexType name="TProducedDocumentAC4">
+		<xs:sequence>
+			<xs:element name="Document" type="TProducedDocument"/>
+			<xs:element name="producedDocumentsInformationDate" type="ProducedDocumentsInformationDate" minOccurs="0"/>
+			<xs:element name="complementaryInformation" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="complementaryInformationProduced">
+						<xs:maxLength value="25"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+		<!-- Added by Steve Geudens for AC4 -->
+	</xs:complexType>
+	<xs:complexType name="TAdditionalInformationContentEnergy">
+		<xs:sequence>
+			<xs:element name="additionalInformationLicenseNumber">
+				<xs:simpleType>
+					<xs:restriction base="additionalInformationLicenseNumber">
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="additionalInformationProductCode">
+				<xs:simpleType>
+					<xs:restriction base="additionalInformationProductCode">
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+		<!-- Added by Steve Geudens for AC4 -->
+	</xs:complexType>
+	<xs:complexType name="TProcedureAC4">
+		<xs:sequence>
+			<xs:element name="procedurePart1" type="procedurePart1"/>
+			<xs:element name="procedurePart2" type="procedurePart2"/>
+		</xs:sequence>
+		<!-- Added by Steve Geudens for AC4 -->
+	</xs:complexType>
+	<!--DV1(Customs Value) header level elements-->
+	<xs:complexType name="TDV1DeclarationHeader">
+		<xs:annotation>
+			<xs:documentation>The necessary information for DV1 on header level, i.e. information which is valid for all articles of the SAD declaration.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<!--Name, Address and Identification of Seller in Block Letters-->
+			<xs:element name="Seller" type="TOperator" minOccurs="0"/>
+			<!--Name, Address and Identification of Buyer in Block Letters-->
+			<xs:element name="Buyer" type="TOperator"/>
+			<!--Number and Date of Contract-->
+			<xs:element name="Contract" type="TContract"/>
+			<!--Number and date of any previous Customs Decisions concerning boxes 7 to 9 of a DV1 Declaration-->
+			<xs:element name="PreviousCustomsDecision" type="TPreviousCustomsDecision" minOccurs="0"/>
+			<!--Box B - QUOTE BELOW previous relevant Customs decisions, if any-->
+			<xs:element name="costRelatedPrevCustDecisions" type="costRelatedPrevCustDecisions" minOccurs="0"/>
+			<!--Particulars about the relationship between Buyer and Seeler and its influence on prices of imported goods-->
+			<xs:element name="BuyerSellerRelation" type="TBuyerSellerRelation" minOccurs="0"/>
+			<!--Particulars about possible Restrictions from Buyer's side. Conditions or Considerations for the goods being valued-->
+			<xs:element name="RestrictionsAndConditions" type="TRestrictionsAndConditions" minOccurs="0"/>
+			<!--Royalties or Licence Fees related to imported goods payable by Buyer either directly or indirectly as a condition of the sale-->
+			<xs:element name="RoyaltiesAndResale" type="TRoyaltiesAndResale" minOccurs="0"/>
+			<!--Place of the signature or stmap  -->
+			<xs:element name="Signature" type="TSignature" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!--DV1 goodsItem level details-->
+	<xs:complexType name="TDV1Detail">
+		<xs:annotation>
+			<xs:documentation>The necessary information for DV1 on goodsItem level, i.e. information which is valid for concerned article of the SAD declaration.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<!--Box A - Basis of Calculation  -->
+			<xs:element name="CalcBasis" type="TCalcBasis" minOccurs="0"/>
+			<!--Box B - Costs not included in Box A-->
+			<xs:element name="Additions" type="TAdditions" minOccurs="0"/>
+			<!--Box C - Deductions included in Box A-->
+			<xs:element name="Deductions" type="TDeductions" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!--DV1 Box 5-->
+	<xs:complexType name="TContract">
+		<xs:annotation>
+			<xs:documentation>Box 5 - Number and date of contract</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<!--5.1 Number of contract-->
+			<xs:element name="contractNumber" type="contractNumber"/>
+			<!--5.1 Date of contract-->
+			<xs:element name="contractDate" type="contractDate"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!--DV1 Box 6-->
+	<xs:complexType name="TPreviousCustomsDecision">
+		<xs:annotation>
+			<xs:documentation>Box 6 - Number and date of any previous Customs Decision concerning boxes 7 to 9 of a DV1 Declaration</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="prevCustDecisionNumber" type="prevCustDecisionNumber" minOccurs="0"/>
+			<xs:element name="prevCustDecisionDate" type="prevCustDecisionDate" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!--DV1 Box 7-->
+	<xs:complexType name="TBuyerSellerRelation">
+		<xs:annotation>
+			<xs:documentation>Box 7 - Buyer and Seller relation and comparable transaction value</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<!--7. a) Are the buyer and seller RELATED in the sense of Article 143 (*) of Regulation (EEC) No 2454/93? If 'NO', go to box 9.-->
+			<xs:element name="relation" type="relation" minOccurs="0"/>
+			<!--7. b) Did the relationship INFLUENCE the price of the imported goods?-->
+			<xs:element name="influence" type="influence" minOccurs="0"/>
+			<!--7. c.1) (reply optional) Does the transaction value of the imported goods CLOSELY APPROXIMATE to a value mentioned in Article 29 (2) (b) of Regulation (EEC) No 2913/92?-->
+			<xs:element name="closeApproximate" type="closeApproximate" minOccurs="0"/>
+			<!--7. c.2) If "YES", give details:-->
+			<xs:element name="closeApprxDetails" type="closeApprxDetails" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!--DV1 Box 8-->
+	<xs:complexType name="TRestrictionsAndConditions">
+		<xs:annotation>
+			<xs:documentation>Box 8 - Limitations, conditions and considerations</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<!--8. a) Are there any RESTRICTIONS as to the disposition or use of the goods by the buyer, other than restrictions which:
+					- are imposed or required by law or by the public authorities in the Community,
+					- Limit the geographical area in which the goods may be resold, or
+					- do not substantially affect the value of the goods?-->
+			<xs:element name="restrictions" type="restrictions" minOccurs="0"/>
+			<!--8. b) Is the sale or price subject to some CONDITION or CONSIDERATION for which a value cannot be determined with respect to the goods being valued?-->
+			<xs:element name="consideration" type="consideration" minOccurs="0"/>
+			<!--8. Specify the nature of restrictions, conditions, considerations as appropriate-->
+			<xs:element name="restrictCondDetails" type="restrictCondDetails" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!--DV1 Box 9-->
+	<xs:complexType name="TRoyaltiesAndResale">
+		<xs:annotation>
+			<xs:documentation>Box 9 - Royalties, license fees and resale</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<!--9. a) Are any ROYALTIES and LICENCE FEES related to the imported goods payable either directly or indirectlyby the buyer as a condition of the sale?-->
+			<xs:element name="royalties" type="royalties" minOccurs="0"/>
+			<!--9. b) Is the sale subject to an arrangement under which part of the proceeds of any subsequent RESALE, DISPOSAL or USE accrues directly or indirectly to the seller?-->
+			<xs:element name="resale" type="resale" minOccurs="0"/>
+			<!--9. If 'YES' to either of these questions, specify conditions and, if possible, indicate the amounts in boxes 15 and 16.-->
+			<xs:element name="conditions" type="conditions" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!--DV1 Box 10(b)-->
+	<xs:complexType name="TSignature">
+		<xs:annotation>
+			<xs:documentation>Box 10(b) - Signature details - place of signature/stamp</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<!--10. b1) Place-->
+			<xs:element name="place" type="place" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!--DV1 Box A-->
+	<xs:complexType name="TCalcBasis">
+		<xs:annotation>
+			<xs:documentation>Box A Basis of calculations</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:annotation>
+				<xs:documentation>11(b) Indirect Payments - see box 8(b)</xs:documentation>
+			</xs:annotation>
+			<!--11. b) Indirect payments- see box 8 (b)-->
+			<xs:element name="IndirectPayments" type="TInvoice" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!--DV1 Box B-->
+	<xs:complexType name="TAdditions">
+		<xs:annotation>
+			<xs:documentation>Box B - Costs not included in Box A to be specified under various heads as categorized below</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<!--13. Costs incurred by the buyer-->
+			<xs:element name="BuyerCosts" type="TBuyerCosts" minOccurs="0"/>
+			<!--14. Goods and services supplied by the buyer free of charge or at reduced cost for use in connection with the production and sale for export of the imported goods: 
+                    The values shown represent an appotionment where appropriate-->
+			<xs:element name="BuyerGoodsServices" type="TBuyerGoodsServices" minOccurs="0"/>
+			<!-- <xs:annotation>
+                <xs:documentation>Box 15 - Royalties, license fees- see box 9 a)</xs:documentation>
+            </xs:annotation> -->
+			<!--15. Royalties, license fees- see box 9 a)-->
+			<xs:element name="Royalties" type="TInvoice" minOccurs="0"/>
+			<!-- <xs:annotation>
+                <xs:documentation>Box 16 - Proceeds or any subsequent resale, disposal or use accruing to the seller- see box 9 b)</xs:documentation>
+            </xs:annotation> -->
+			<!--16. Proceeds or any subsequent resale, disposal or use accruing to the seller- see box 9 b)-->
+			<xs:element name="Proceeds" type="TInvoice" minOccurs="0"/>
+			<!--17. Costs of delivery to (place of introduction)-->
+			<xs:element name="DeliveryCost" type="TDeliveryCost" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!--DV1 Box C-->
+	<xs:complexType name="TDeductions">
+		<xs:annotation>
+			<xs:documentation>Box C - Costs included in Box A but to be deducted under various heads as categorized below</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:annotation>
+				<xs:documentation>Box 19 - Costs of transport after arrival at place of introduction</xs:documentation>
+			</xs:annotation>
+			<!--19. Costs of transport after arrival at place of introduction-->
+			<xs:element name="TransportAfterArrival" type="TInvoice" minOccurs="0"/>
+			<!-- <xs:annotation>
+                <xs:documentation>Box 20 - Charges for construction, erection, assembly, maintenance or technical assistance undertaken after importation</xs:documentation>
+            </xs:annotation> -->
+			<!--20. Charges for construction, erection, assembly, maintenance or technical assistance undertaken after importation.-->
+			<xs:element name="ChargesAfterImport" type="TInvoice" minOccurs="0"/>
+			<!--21. Other charges(specify) -->
+			<xs:element name="OtherCharges" type="TOtherCharges" minOccurs="0"/>
+			<!-- <xs:annotation>
+                <xs:documentation>Box 22 - Customs duties and taxes payable in the Community by reason of the importation or sale of the goods</xs:documentation>
+            </xs:annotation> -->
+			<!--22. Customs duties and taxes payable in the Community by reason of the importation or sale of the goods-->
+			<xs:element name="ImportDutiesAndTaxes" type="TInvoice" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!--DV1 Box 13-->
+	<xs:complexType name="TBuyerCosts">
+		<xs:annotation>
+			<xs:documentation>Box 13 - Costs incurred by the buyer</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<!--13. a) Commissions, except buying commissions-->
+			<xs:element name="Commissions" type="TInvoice" minOccurs="0"/>
+			<!--13. b) Brokerage-->
+			<xs:element name="Brokerage" type="TInvoice" minOccurs="0"/>
+			<!--13. c) Containers and packaging-->
+			<xs:element name="Containers" type="TInvoice" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!--DV1 Box 14-->
+	<xs:complexType name="TBuyerGoodsServices">
+		<xs:annotation>
+			<xs:documentation>Box 14 - Goods and services supplied by the buyer free of charge or at reduced cost for use in connection with the production and sale for export of the imported goods: The values shown represent an appotionment where appropriate</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<!--14. a) Value of materials, components, parts and similar items incorporated in the imported goods-->
+			<xs:element name="MaterialsIncorporated" type="TInvoice" minOccurs="0"/>
+			<!--14. b) Value of tools, dies, moulds and similar items used in the production of the imported goods-->
+			<xs:element name="Tools" type="TInvoice" minOccurs="0"/>
+			<!--14. c) Value of materials consumed in the production of the imported goods-->
+			<xs:element name="MaterialsConsumed" type="TInvoice" minOccurs="0"/>
+			<!--14. d) Value of engineering, development, artwork, design work and plans and sketches undertaken elsewhere than in the Community and necessary for the production of the imported goods-->
+			<xs:element name="Engineering" type="TInvoice" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!--DV1 Box 17-->
+	<xs:complexType name="TDeliveryCost">
+		<xs:annotation>
+			<xs:documentation>Box 17 - Costs of delivery to (place of introduction)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<!--17. Place of introduction-->
+			<xs:element name="placeOfIntro" type="place" minOccurs="0"/>
+			<!--17 a) Costs of the transport-->
+			<xs:element name="Transport" type="TInvoice" minOccurs="0"/>
+			<!--17 b) Loading and handling of charges-->
+			<xs:element name="LoadingAndHandling" type="TInvoice" minOccurs="0"/>
+			<!--17 c) Insurance costs-->
+			<xs:element name="Insurance" type="TInvoice" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!--DV1 Box 21-->
+	<xs:complexType name="TOtherCharges">
+		<xs:sequence>
+			<!--21. Other charges -->
+			<xs:element name="OtherCosts" type="TInvoice" minOccurs="0"/>
+			<!--21. Details of other charges-->
+			<xs:element name="specification" type="specification" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!--DV1 box 5 -->
+	<xs:simpleType name="contractDate">
+		<xs:restriction base="TDate"/>
+	</xs:simpleType>
+	<!--DV1 box 5 -->
+	<xs:simpleType name="contractNumber">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="20"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!--DV1 box 6 -->
+	<xs:simpleType name="prevCustDecisionNumber">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="20"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!--DV1 box 6 -->
+	<xs:simpleType name="prevCustDecisionDate">
+		<xs:restriction base="TDate"/>
+	</xs:simpleType>
+	<!--DV1 box 7(a) -->
+	<xs:simpleType name="relation">
+		<xs:annotation>
+			<xs:documentation>This element is used to indicate the response in terms of Yes/No/NA independent of case.
+            </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="code">
+			<xs:minLength value="2"/>
+			<xs:maxLength value="3"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!--DV1 box 7(b) -->
+	<xs:simpleType name="influence">
+		<xs:annotation>
+			<xs:documentation>This element is used to indicate the response in terms of Yes/No/NA independent of case.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="code">
+			<xs:minLength value="2"/>
+			<xs:maxLength value="3"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!--DV1 box 7(c) -->
+	<xs:simpleType name="closeApproximate">
+		<xs:annotation>
+			<xs:documentation>This element is used to indicate the response in terms of Yes/No/NA independent of case.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="code">
+			<xs:minLength value="2"/>
+			<xs:maxLength value="3"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!--DV1 box 7(Closely Approximate Details) -->
+	<xs:simpleType name="closeApprxDetails">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="300"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!--DV1 box 8(a) -->
+	<xs:simpleType name="restrictions">
+		<xs:annotation>
+			<xs:documentation>This element is used to indicate the response in terms of Yes/No/NA independent of case.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="code">
+			<xs:minLength value="2"/>
+			<xs:maxLength value="3"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!--DV1 box 8(b) -->
+	<xs:simpleType name="consideration">
+		<xs:annotation>
+			<xs:documentation>This element is used to indicate the response in terms of Yes/No/NA independent of case.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="code">
+			<xs:minLength value="2"/>
+			<xs:maxLength value="3"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!--DV1 box 8(text field) -->
+	<xs:simpleType name="restrictCondDetails">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="300"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!--DV1 box 9(a) -->
+	<xs:simpleType name="royalties">
+		<xs:annotation>
+			<xs:documentation>This element is used to indicate the response in terms of Yes/No/NA independent of case.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="code">
+			<xs:minLength value="2"/>
+			<xs:maxLength value="3"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!--DV1 box 9(b) -->
+	<xs:simpleType name="resale">
+		<xs:annotation>
+			<xs:documentation>This element is used to indicate the response in terms of Yes/No/NA independent of case.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="code">
+			<xs:minLength value="2"/>
+			<xs:maxLength value="3"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!--DV1 box 9(conditions details)-->
+	<xs:simpleType name="conditions">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="300"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!--DV1 box 10(b) -->
+	<xs:simpleType name="place">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="50"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!--DV1 box A -->
+	<xs:simpleType name="costRelatedPrevCustDecisions">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="50"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!--DV1 box 21 specifications -->
+	<xs:simpleType name="specification">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="50"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- datePeriod added under e-Globalization -->
+	<xs:simpleType name="datePeriod">
+		<xs:restriction base="TDate"/>
+	</xs:simpleType>
+	<!-- deliveryTermsPlaceCode added under e-Globalization -->
+	<xs:simpleType name="deliveryTermsPlaceCode">
+		<xs:annotation>
+			<xs:documentation>4/1 Delivery terms location code an..17 UCC DIP/GoodsShipment/TradeTerms/location</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="17"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- presentationCustomsOffice added under e-Globalization -->
+	<xs:simpleType name="presentationCustomsOffice">
+		<xs:annotation>
+			<xs:documentation>5/26 Customs office of presentation an8 UCC DIP/PresentationOffice/identification</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="identifier">
+			<xs:maxLength value="8"/>
+			<xs:minLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- supervisingCustomsOffice added under e-Globalization -->
+	<xs:simpleType name="supervisingCustomsOffice">
+		<xs:annotation>
+			<xs:documentation>5/27 Supervising customs office an8 UCC DIP/SupervisingOffice/identification</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="identifier">
+			<xs:maxLength value="8"/>
+			<xs:minLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- internalCurrencyUnit added under e-Globalization -->
+	<xs:simpleType name="internalCurrencyUnit">
+		<xs:annotation>
+			<xs:documentation>UCC D.E. 4/12 Internal currency unit (UCC DIP/CurrencyExchange/currencyType)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:length value="3"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- sequenceNumber added under e-Globalization -->
+	<xs:simpleType name="sequenceNumber">
+		<xs:restriction base="xs:decimal">
+			<xs:totalDigits value="6"/>
+			<xs:fractionDigits value="0"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- status added under e-Globalization -->
+	<xs:simpleType name="status">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="50"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- containerNumbers added under e-Globalization -->
+	<xs:simpleType name="containerNumbers">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="4000"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- authorisationHolderCategory added under e-Globalization -->
+	<xs:simpleType name="authorisationHolderCategory">
+		<xs:annotation>
+			<xs:documentation>UCC D.E. 3/39 Authorisation type code (UCC DIP/AuthorisationHolder/category)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="4"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- authorisationHolderID added under e-Globalization -->
+	<xs:simpleType name="authorisationHolderID">
+		<xs:annotation>
+			<xs:documentation>UCC D.E. 3/39 Authorisation Holder ID (UCC DIP/AuthorisationHolder/identification)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="17"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- TProcedureGlobImport added under e-Globalization -->
+	<xs:complexType name="TProcedureGlobImport">
+		<xs:annotation>
+			<xs:documentation>
+        SAD REF - Box 37 - 44 Procedure DESC - The procedure for which the goods are declared. BOX 37 Code is in three parts : Part
+        1A - First 2 digits. The procedure for which the goods are declared (Community Code) Part 1B - Second 2 digits (Previous
+        Customs procedure, coded) Part 2 - Procedure code (Community procedure, coded BOX44 2 additional codes
+      </xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="procedureType" type="procedureType"/>
+			<xs:element name="procedureNat" minOccurs="0" maxOccurs="3">
+				<xs:simpleType>
+					<xs:restriction base="procedureNat"/>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="nationalProcedureCode" minOccurs="0" maxOccurs="3">
+				<xs:simpleType>
+					<xs:restriction base="nationalProcedureCode"/>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- CUSCode added under e-Globalization -->
+	<xs:simpleType name="CUSCode">
+		<xs:annotation>
+			<xs:documentation>UCC D.E. 6/13 CUS code (UCC DIP/GoodsShipment/GovernmentAgencyGoodsItem/Commodity/Classification/identification)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="8"/>
+			<xs:maxLength value="8"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- Valuationindicators added under e-Globalization -->
+	<xs:simpleType name="Valuationindicators">
+		<xs:annotation>
+			<xs:documentation>UCC D.E. 4/13 Valuation indicators (UCC DIP/GoodsShipment/GovernmentAgencyGoodsItem/ValuationAdjustment/addition)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="4"/>
+			<xs:maxLength value="4"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- messagesequenceNumber added under e-Globalization -->
+	<xs:simpleType name="messagesequenceNumber">
+		<xs:restriction base="sequence">
+			<xs:fractionDigits value="0"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- removeAllArticles added under e-Globalization -->
+	<xs:simpleType name="removeAllArticles">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="0"/>
+			<xs:enumeration value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- TGlobDeleteGoodsItem added under e-Globalization -->
+	<xs:complexType name="TGlobDeleteGoodsItem">
+		<xs:sequence>
+			<xs:element name="sequence" minOccurs="1" maxOccurs="999">
+				<xs:annotation>
+					<xs:documentation>SAD REF - Box 32 - Item number</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="sequence">
+						<xs:fractionDigits value="0"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- guaranteeAccessCode added under e-Globalization -->
+	<xs:simpleType name="guaranteeAccessCode">
+		<xs:annotation>
+			<xs:documentation>UCC D.E. 8/3 Guarantee Access code (UCC DIP/ObligationGuarantee/access)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="4"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- guaranteeAmount added under e-Globalization -->
+	<xs:simpleType name="guaranteeAmount">
+		<xs:annotation>
+			<xs:documentation>UCC D.E. 8/3 Guarantee Customs duties amount (UCC DIP/ObligationGuarantee/amount)
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="amount">
+			<xs:totalDigits value="16"/>
+			<xs:fractionDigits value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- guaranteeOtherRef added under e-Globalization -->
+	<xs:simpleType name="guaranteeOtherRef">
+		<xs:annotation>
+			<xs:documentation>UCC D.E. 8/3 Other guarantee reference (UCC DIP/ObligationGuarantee/identification)
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="35"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- guaranteeCurrencyCode added under e-Globalization -->
+	<xs:simpleType name="guaranteeCurrencyCode">
+		<xs:annotation>
+			<xs:documentation>UCC D.E. 8/3 Guarantee Currency code (UCC DIP/ObligationGuarantee/amount/Amount Currency.Identifier)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="text">
+			<xs:length value="3"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

@@ -1,0 +1,25 @@
+[project]
+name = "file-processor"
+version = "0.1.0"
+description = "Configurable CSV/fixed-width to XML file processor with flows and mapping XLS support."
+requires-python = ">=3.10"
+dependencies = [
+    "watchdog>=4.0.0",
+    "lxml>=5.0.0",
+    "pydantic>=2.7.0",
+    "typer>=0.12.0",
+    "python-dateutil>=2.9.0",
+    "openpyxl>=3.1.0",
+    "pyyaml>=6.0.0",
+]
+
+[project.scripts]
+file-processor = "file_processor.cli:app"
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["file_processor"]
+

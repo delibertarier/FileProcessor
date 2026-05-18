@@ -1,0 +1,10 @@
+FileProcessor deployment bundle: IN-SSW-ROLLS_Test-MFTA01193T
+Inbound XML → CSV (test, MFTA01193T)
+
+Flows in config/flows.yaml: ssw_inbound, emcs_arc_all
+Shared input_dir: E:\FTP\AMFT_Test\IN\MFTA01193T\IN
+
+Reference flows.yaml: scripts/deployment-examples/IN-SSW-ROLLS_Test-MFTA01193T/flows.yaml
+
+Install: see INSTALL.md and WINDOWS_SERVICE_GUIDE.md
+Run: python -m file_processor.cli run-daemon-mode config/flows.yaml -v

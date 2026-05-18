@@ -1,0 +1,10 @@
+FileProcessor deployment bundle: OUT-ROLLS-SSW_Prod-MFTA01192
+Outbound CSV → XML (production, MFTA01192)
+
+Flows in config/flows.yaml: rolls_outbound
+Shared input_dir: E:\FTP\AMFT\OUT\MFTA01192\IN
+
+Reference flows.yaml: scripts/deployment-examples/OUT-ROLLS-SSW_Prod-MFTA01192/flows.yaml
+
+Install: see INSTALL.md and WINDOWS_SERVICE_GUIDE.md
+Run: python -m file_processor.cli run-daemon-mode config/flows.yaml -v
