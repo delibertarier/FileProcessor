@@ -1,10 +1,15 @@
 # Production bundle definitions for prepare_production_bundle.py
 #
-# Copy to production_paths.yaml and edit flow_names per deployment.
+# Copy to production_paths.yaml.
 #
-# - Flow settings come from config/flows.yaml (mapping, file_glob, mode, …)
-# - Folder paths come from scripts/deployment-examples/<deployment>/flows.yaml
-#   (read from the first flow in that example; all flows on one instance share paths)
+# Paths always come from scripts/deployment-examples/<deployment>/flows.yaml
+# (your real test/prod server configs).
+#
+# Flow settings come from config/flows.yaml, filtered by direction:
+#   IN-* deployments → xml_to_csv only (incoming)
+#   OUT-* deployments → csv_to_xml only (outgoing)
+#
+# flow_names is optional; if omitted, all matching flows from config/flows.yaml are included.
 
 source_flows: config/flows.yaml
 
@@ -13,26 +18,17 @@ bundle_output_base: dist
 deployments:
   IN-SSW-ROLLS_Test-MFTA01193T:
     description: Inbound XML → CSV (test, MFTA01193T)
-    example: IN-SSW-ROLLS_Test-MFTA01193T
-    flow_names:
-      - ssw_inbound
-      - emcs_arc_all
 
   IN-SSW-ROLLS_Prod-MFTA01193:
     description: Inbound XML → CSV (production, MFTA01193)
-    example: IN-SSW-ROLLS_Prod-MFTA01193
-    flow_names:
-      - ssw_inbound
-      - emcs_arc_all
 
   OUT-ROLLS-SSW_Test-MFTA01192T:
     description: Outbound CSV → XML (test, MFTA01192T)
-    example: OUT-ROLLS-SSW_Test-MFTA01192T
-    flow_names:
-      - rolls_outbound
 
   OUT-ROLLS-SSW_Prod-MFTA01192:
     description: Outbound CSV → XML (production, MFTA01192)
-    example: OUT-ROLLS-SSW_Prod-MFTA01192
-    flow_names:
-      - rolls_outbound
+
+  # Optional: restrict to specific flows (must match direction):
+  # IN-SSW-ROLLS_Test-MFTA01193T:
+  #   flow_names:
+  #     - ssw_inbound

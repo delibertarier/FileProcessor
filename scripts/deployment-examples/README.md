@@ -1,15 +1,21 @@
 # Deployment example `flows.yaml` files
 
-Reference **production folder paths** (from your server configs).  
-The bundle script reads `input_dir`, `success_dir`, `error_dir`, `archive_dir`, and `in_progress_dir` from the **first flow** in each file here.
+These are your **actual test and production server configs** (folder paths on Windows FTP).
 
-Flow settings (`file_glob`, mapping sheet, mode, …) come from [`config/flows.yaml`](../../config/flows.yaml) — see `config/production_paths.yaml` for which flow names each deployment uses.
+The bundle script always reads directory paths from here and applies them to flows taken from [`config/flows.yaml`](../../config/flows.yaml):
 
-| Folder | Role |
-|--------|------|
+| Deployment folder | Direction | Modes included from config |
+|-------------------|-----------|----------------------------|
+| `IN-*` | Incoming | `xml_to_csv` only |
+| `OUT-*` | Outgoing | `csv_to_xml` only |
+
+Paths are read from the **first flow** in each example file; every included flow on that instance shares those folders.
+
+| Folder | Environment |
+|--------|-------------|
 | `IN-SSW-ROLLS_Test-MFTA01193T` | Inbound test |
 | `IN-SSW-ROLLS_Prod-MFTA01193` | Inbound prod |
 | `OUT-ROLLS-SSW_Test-MFTA01192T` | Outbound test |
 | `OUT-ROLLS-SSW_Prod-MFTA01192` | Outbound prod |
 
-If a deployment runs multiple flows (e.g. `ssw_inbound` and `emcs_arc_all`), they all use the same paths from the matching IN or OUT example file.
+When FTP paths change on a server, update the matching file here and rebuild the bundle.

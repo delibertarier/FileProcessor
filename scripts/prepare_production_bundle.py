@@ -9,7 +9,7 @@ Usage:
   python scripts/prepare_production_bundle.py --purge-local-data
   python scripts/prepare_production_bundle.py --deployment OUT-ROLLS-SSW_Prod-MFTA01192
 
-The examples/ folder is always copied in full and is never purged.
+Production FTP folders are never purged. --purge-local-data only affects ./data inside the bundle.
 """
 
 from __future__ import annotations
@@ -43,9 +43,6 @@ SKIP_FILE_PATTERNS = (
     re.compile(r"\.pyc$"),
     re.compile(r"^\.DS_Store$"),
 )
-
-PRESERVED_BUNDLE_DIRS = ("examples",)
-
 
 def _load_production_config() -> dict:
     path = PRODUCTION_PATHS if PRODUCTION_PATHS.exists() else EXAMPLE_PATHS
@@ -89,62 +86,135 @@ def _load_source_flows(root_cfg: dict) -> dict[str, dict]:
     return flows
 
 
+INBOUND_MODE = "xml_to_csv"
+OUTBOUND_MODE = "csv_to_xml"
+
+
+def _example_flows_path(example_name: str, examples_dir: Path | None = None) -> Path:
+    base = examples_dir or DEPLOYMENT_EXAMPLES_DIR
+    example_path = base / example_name / "flows.yaml"
+    if not example_path.exists():
+        raise FileNotFoundError(f"Deployment example not found: {example_path}")
+    return example_path
+
+
+def _read_example_first_flow(example_name: str, examples_dir: Path | None = None) -> dict:
+    example_path = _example_flows_path(example_name, examples_dir)
+    data = yaml.safe_load(example_path.read_text(encoding="utf-8"))
+    entries = data.get("flows") or []
+    if not entries:
+        raise ValueError(f"No flows in deployment example {example_path}")
+    return entries[0]
+
+
+def _deployment_mode_from_example(example_name: str, examples_dir: Path | None = None) -> str:
+    """
+    Determine inbound vs outbound from the deployment example (test/prod server config).
+
+    Prefer the mode on the first flow in the example flows.yaml; fall back to IN-/OUT- prefix.
+    """
+    first = _read_example_first_flow(example_name, examples_dir)
+    mode = first.get("mode")
+    if mode in (INBOUND_MODE, OUTBOUND_MODE):
+        return mode
+
+    upper = example_name.upper()
+    if upper.startswith("IN-"):
+        return INBOUND_MODE
+    if upper.startswith("OUT-"):
+        return OUTBOUND_MODE
+
+    raise ValueError(
+        f"Cannot determine direction for deployment example {example_name!r}. "
+        f"Name should start with IN- or OUT-, or flows.yaml should set mode."
+    )
+
+
 def _read_dir_paths_from_example(example_name: str, examples_dir: Path | None = None) -> dict[str, str]:
     """
     Read IN/OUT/archive paths from scripts/deployment-examples/<name>/flows.yaml.
     Uses the first flow in that file (all flows on one instance share the same folders).
     """
-    base = examples_dir or DEPLOYMENT_EXAMPLES_DIR
-    example_path = base / example_name / "flows.yaml"
-    if not example_path.exists():
-        raise FileNotFoundError(f"Deployment example not found: {example_path}")
-
-    data = yaml.safe_load(example_path.read_text(encoding="utf-8"))
-    entries = data.get("flows") or []
-    if not entries:
-        raise ValueError(f"No flows in deployment example {example_path}")
-
-    first = entries[0]
+    first = _read_example_first_flow(example_name, examples_dir)
     paths = {key: str(first[key]) for key in DIR_PATH_KEYS if first.get(key) not in (None, "")}
     if len(paths) != len(DIR_PATH_KEYS):
+        example_path = _example_flows_path(example_name, examples_dir)
         missing = [k for k in DIR_PATH_KEYS if k not in paths]
         raise ValueError(f"Deployment example {example_path} missing path keys: {missing}")
     return paths
 
 
-def _purge_dirs_from_paths(paths: dict[str, str]) -> list[str]:
-    return [paths["success_dir"], paths["error_dir"], paths["in_progress_dir"]]
+def _select_flow_names(
+    source_flows: dict[str, dict],
+    required_mode: str,
+    explicit_names: list[str] | None,
+    deployment_name: str,
+) -> list[str]:
+    """Pick flows from config/flows.yaml that match inbound (xml_to_csv) or outbound (csv_to_xml)."""
+    matching = sorted(
+        name for name, flow in source_flows.items() if flow.get("mode") == required_mode
+    )
+
+    if explicit_names:
+        selected: list[str] = []
+        for name in explicit_names:
+            if name not in source_flows:
+                available = ", ".join(sorted(source_flows))
+                raise ValueError(
+                    f"Deployment {deployment_name!r}: flow {name!r} not in source flows. "
+                    f"Available: {available}"
+                )
+            actual_mode = source_flows[name].get("mode")
+            if actual_mode != required_mode:
+                raise ValueError(
+                    f"Deployment {deployment_name!r}: flow {name!r} has mode {actual_mode!r}, "
+                    f"but this target requires {required_mode!r} "
+                    f"({'incoming' if required_mode == INBOUND_MODE else 'outgoing'})."
+                )
+            selected.append(name)
+        return selected
+
+    if not matching:
+        raise ValueError(
+            f"Deployment {deployment_name!r}: no flows with mode {required_mode!r} in source flows.yaml."
+        )
+    return matching
 
 
 def _resolve_deployment(root_cfg: dict, name: str, deployment_cfg: dict) -> dict:
     """
     Build deployment config: flow settings from config/flows.yaml,
     directory paths from scripts/deployment-examples/<name>/flows.yaml.
+
+    Incoming deployments (IN-* / xml_to_csv): only xml_to_csv flows from config.
+    Outgoing deployments (OUT-* / csv_to_xml): only csv_to_xml flows from config.
     """
     merged = dict(deployment_cfg)
     example_name = merged.get("example", name)
-    flow_names = merged.get("flow_names") or []
-
-    if not flow_names:
-        raise ValueError(f"Deployment {name!r} must list flow_names (names from config/flows.yaml).")
 
     source_flows = _load_source_flows(root_cfg)
+    required_mode = _deployment_mode_from_example(example_name)
     dir_paths = _read_dir_paths_from_example(example_name)
+
+    explicit = merged.get("flow_names")
+    if explicit is not None and not explicit:
+        raise ValueError(f"Deployment {name!r}: flow_names is empty.")
+
+    flow_names = _select_flow_names(source_flows, required_mode, explicit, name)
 
     built_flows: dict[str, dict] = {}
     for flow_name in flow_names:
-        if flow_name not in source_flows:
-            available = ", ".join(sorted(source_flows))
-            raise ValueError(
-                f"Deployment {name!r}: flow {flow_name!r} not in source flows. Available: {available}"
-            )
         flow = dict(source_flows[flow_name])
+        if flow.get("mode") != required_mode:
+            raise ValueError(
+                f"Deployment {name!r}: internal error, flow {flow_name!r} mode mismatch."
+            )
         for key, value in dir_paths.items():
             flow[key] = value
         built_flows[flow_name] = flow
 
     merged["flows"] = built_flows
-    merged.setdefault("purge_on_server", _purge_dirs_from_paths(dir_paths))
+    merged["required_mode"] = required_mode
     merged["example"] = example_name
     merged["source_flows"] = root_cfg.get("source_flows", "config/flows.yaml")
     return merged
@@ -159,6 +229,10 @@ def _build_flows_yaml(cfg: dict, *, deployment_name: str, description: str = "")
     ]
     if description:
         lines.append(f"# {description}")
+    mode_label = cfg.get("required_mode", "")
+    if mode_label:
+        direction = "incoming (xml_to_csv)" if mode_label == INBOUND_MODE else "outgoing (csv_to_xml)"
+        lines.append(f"# Flows included: {direction} only")
     lines.extend(["", "flows:"])
 
     for name, flow in cfg.get("flows", {}).items():
@@ -245,22 +319,6 @@ def _copy_tree(src: Path, dst: Path) -> None:
         shutil.copy2(src, dst)
 
 
-def _purge_directory(dir_path: Path) -> int:
-    if not dir_path.is_dir():
-        return 0
-    removed = 0
-    for item in dir_path.iterdir():
-        if item.name == ".gitkeep":
-            continue
-        if item.is_file():
-            item.unlink()
-            removed += 1
-        elif item.is_dir():
-            shutil.rmtree(item)
-            removed += 1
-    return removed
-
-
 def _prepare_local_data(bundle: Path) -> None:
     data = bundle / "data"
     if not data.exists():
@@ -300,14 +358,35 @@ def _write_deployment_readme(bundle: Path, deployment_name: str, cfg: dict) -> N
     (bundle / "DEPLOYMENT.txt").write_text(text, encoding="utf-8")
 
 
+def _confirm_overwrite(output_dir: Path, *, force: bool) -> bool:
+    if not output_dir.exists():
+        return True
+    if force:
+        return True
+    if not sys.stdin.isatty():
+        print(
+            f"  Refusing to overwrite existing {output_dir}. Use --force.",
+            file=sys.stderr,
+        )
+        return False
+    reply = input(f"  Overwrite existing bundle at {output_dir}? [y/N]: ").strip().lower()
+    if reply not in ("y", "yes"):
+        print("  Skipped.")
+        return False
+    return True
+
+
 def prepare_bundle(
     deployment_name: str,
     output_dir: Path,
     *,
     purge_local_data: bool,
-    purge_server_dirs: bool,
+    force: bool,
     cfg: dict[str, Any],
 ) -> None:
+    if not _confirm_overwrite(output_dir, force=force):
+        return
+
     if output_dir.exists():
         shutil.rmtree(output_dir)
     output_dir.mkdir(parents=True)
@@ -338,15 +417,7 @@ def prepare_bundle(
 
     if purge_local_data:
         _prepare_local_data(output_dir)
-
-    if purge_server_dirs:
-        for raw in cfg.get("purge_on_server", []) or []:
-            p = Path(raw)
-            if any(part in PRESERVED_BUNDLE_DIRS for part in p.parts):
-                print(f"  Skipped purge (protected path): {p}")
-                continue
-            n = _purge_directory(p)
-            print(f"  Purged {n} item(s) from {p}")
+        print("  Purged local ./data files in bundle (kept .gitkeep).")
 
     print(f"  Bundle ready: {output_dir.resolve()}")
 
@@ -370,12 +441,12 @@ def main() -> None:
     parser.add_argument(
         "--purge-local-data",
         action="store_true",
-        help="Remove test files from data/ inside each bundle.",
+        help="Remove test files from data/ inside each bundle (not production FTP folders).",
     )
     parser.add_argument(
-        "--purge-server-dirs",
+        "--force",
         action="store_true",
-        help="Empty purge_on_server dirs for selected deployment(s) on Windows.",
+        help="Overwrite existing bundle folder(s) under dist/ without prompting.",
     )
     args = parser.parse_args()
 
@@ -410,7 +481,7 @@ def main() -> None:
             name,
             out,
             purge_local_data=args.purge_local_data,
-            purge_server_dirs=args.purge_server_dirs,
+            force=args.force,
             cfg=cfg,
         )
     print(f"\nDone. {len(selected)} bundle(s) under {ROOT / 'dist'}")

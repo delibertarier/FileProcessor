@@ -1,79 +1,76 @@
 # Scripts
 
+## Dev smoke test (`run_dev_test.py`)
+
+From the repo root:
+
+```bash
+.venv/bin/python scripts/run_dev_test.py
+.venv/bin/python scripts/run_dev_test.py -v
+.venv/bin/python scripts/run_dev_test.py --outbound-only
+.venv/bin/python scripts/run_dev_test.py --skip-run   # purge + copy examples only
+```
+
+Exit code `1` if any file ends up in an `error/` folder (e.g. known EMCS namespace issue on `ARC_ALL*.xml`).
+
+1. Clears `data/` (keeps `.gitkeep`)
+2. Copies `examples/out/TRA*.TXT` → `data/outbound/in/`
+3. Copies `examples/in/SSW/TE_FELUY_*.xml` and `examples/in/EMCS/ARC_ALL*.xml` → `data/inbound/in/`
+4. Runs `run_once` for all flows in `config/flows.yaml`
+5. Prints counts under success / error / archive
+
 ## Production bundle (`prepare_production_bundle.py`)
 
-Builds one deploy folder per Windows app instance (test/prod × inbound/outbound).
+Builds one deploy folder per Windows app instance.
 
-| Source | What it provides |
-|--------|------------------|
-| [`config/flows.yaml`](../config/flows.yaml) | Flow definitions (mode, `file_glob`, mapping sheet, …) |
-| [`deployment-examples/<name>/flows.yaml`](deployment-examples/) | Production **IN/OUT paths** only |
+| Source | Role |
+|--------|------|
+| [`deployment-examples/<name>/flows.yaml`](deployment-examples/) | **Test/prod paths** (always used) |
+| [`config/flows.yaml`](../config/flows.yaml) | Flow settings, filtered by direction |
 
-The **`examples/`** app folder is always copied in full and is never purged.
+| Deployment | Flows taken from config |
+|------------|-------------------------|
+| `IN-*` (incoming) | `xml_to_csv` only |
+| `OUT-*` (outgoing) | `csv_to_xml` only |
 
-### 1. Configure deployments
+The **`examples/`** app folder is always copied in full. **Production FTP folders are never purged** by this script.
+
+### 1. Configure
 
 ```bash
 cp config/production_paths.example.yaml config/production_paths.yaml
 ```
 
-Edit `deployments:` — each entry needs:
+List deployments (names match folders under `scripts/deployment-examples/`).  
+`flow_names` is optional — by default all flows with the correct mode are included.
 
-- `example` — folder under `scripts/deployment-examples/` (defaults to deployment name)
-- `flow_names` — list of flow `name` values from `config/flows.yaml`
-
-All listed flows get the **same** directory paths from that example’s `flows.yaml`.
-
-Example: inbound test with two flows sharing `E:\FTP\AMFT_Test\IN\MFTA01193T\...`:
-
-```yaml
-IN-SSW-ROLLS_Test-MFTA01193T:
-  example: IN-SSW-ROLLS_Test-MFTA01193T
-  flow_names:
-    - ssw_inbound
-    - emcs_arc_all
-```
-
-Update paths on the server? Edit the matching file under `scripts/deployment-examples/`, not `config/flows.yaml`.
-
-When you add or change flows in `config/flows.yaml`, update `flow_names` in `production_paths.yaml` for each deployment that should include them.
-
-### 2. Build bundles
+### 2. Build
 
 ```bash
 python scripts/prepare_production_bundle.py --purge-local-data
 ```
 
-One folder:
+If `dist/<deployment>/` already exists, the script asks before overwriting. Use `--force` to replace without prompting (required in non-interactive shells).
+
+### 3. Verify
 
 ```bash
-python scripts/prepare_production_bundle.py --deployment OUT-ROLLS-SSW_Prod-MFTA01192 --purge-local-data
+# Inbound test: two xml_to_csv flows, same FTP paths
+cat dist/IN-SSW-ROLLS_Test-MFTA01193T/config/flows.yaml
+
+# Outbound prod: csv_to_xml only
+cat dist/OUT-ROLLS-SSW_Prod-MFTA01192/config/flows.yaml
 ```
 
-List deployments:
+### 4. Deploy
 
-```bash
-python scripts/prepare_production_bundle.py --list-deployments
-```
+Zip each `dist/<deployment-name>/` to the matching server folder. See [INSTALL.md](../INSTALL.md).
 
-Output under `dist/<deployment-name>/` with generated `config/flows.yaml`.
+`--purge-local-data` only clears the dev `data/` skeleton inside the bundle zip, not files on the server.
 
-### 3. Install on the server
+### Path or flow changes
 
-Per deployment folder — see [INSTALL.md](../INSTALL.md) and [WINDOWS_SERVICE_GUIDE.md](../WINDOWS_SERVICE_GUIDE.md).
-
-### 4. Optional: purge FTP working folders (on server)
-
-```powershell
-python scripts\prepare_production_bundle.py --deployment OUT-ROLLS-SSW_Prod-MFTA01192 --purge-server-dirs
-```
-
-Purges OUT, error, and in_progress for that example’s paths — not the pickup `IN` folder.
-
-### Regenerate
-
-```bash
-python scripts/prepare_production_bundle.py --purge-local-data
-```
+- **FTP paths** → edit `scripts/deployment-examples/<deployment>/flows.yaml`
+- **Mapping / file_glob** → edit `config/flows.yaml`, rebuild
 
 Do not hand-edit generated `config/flows.yaml` in bundles.

@@ -1,7 +1,0 @@
-FileProcessor deployment bundle: IN-SSW-ROLLS_Prod-MFTA01193
-Inbound XML → CSV (production, interface MFTA01193)
-
-Flows in config/flows.yaml: rolls_inbound
-
-Install: see INSTALL.md and WINDOWS_SERVICE_GUIDE.md
-Run: python -m file_processor.cli run-daemon-mode config/flows.yaml -v

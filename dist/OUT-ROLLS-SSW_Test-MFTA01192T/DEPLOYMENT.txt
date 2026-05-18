@@ -1,7 +1,0 @@
-FileProcessor deployment bundle: OUT-ROLLS-SSW_Test-MFTA01192T
-Outbound CSV → XML (test, interface MFTA01192T)
-
-Flows in config/flows.yaml: rolls_outbound
-
-Install: see INSTALL.md and WINDOWS_SERVICE_GUIDE.md
-Run: python -m file_processor.cli run-daemon-mode config/flows.yaml -v
