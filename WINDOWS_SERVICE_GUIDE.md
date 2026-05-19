@@ -6,7 +6,18 @@ This guide shows how to run FileProcessor in always-on **daemon mode** and autom
 
 - A working Python environment on the server (ideally a venv).
 - FileProcessor code deployed on the server.
-- Your `config/flows.yaml` uses relative paths like `./data/...`, so the service must run with the **working directory** set to the FileProcessor repo root.
+- Production/test bundles use absolute FTP paths in `config/flows.yaml`; the service working directory should be the **bundle root** (folder containing `config/`, `file_processor/`, `examples/`).
+
+## Smoke test on test FTP only
+
+After deploying a **test** bundle (`AMFT_Test` paths), run once from the bundle root:
+
+```powershell
+py scripts\run_server_test.py --dry-run
+py scripts\run_server_test.py
+```
+
+This script **refuses production paths**. It clears test input/success/error/in_progress folders, copies `examples/`, processes files, and prints **All good** when clean. See [scripts/README.md](scripts/README.md).
 
 ## 1) Identify paths (edit these)
 

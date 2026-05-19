@@ -10,6 +10,7 @@ file_processor/processor.py
 file_processor/runner.py
 file_processor/transaction.py
 file_processor/transformations.py
+file_processor/version.py
 file_processor/watcher.py
 file_processor/xml_builder.py
 file_processor.egg-info/PKG-INFO

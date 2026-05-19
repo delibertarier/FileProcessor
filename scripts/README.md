@@ -1,5 +1,24 @@
 # Scripts
 
+## Versioning
+
+Single source of truth: [`file_processor/version.py`](../file_processor/version.py) (`__version__`).
+
+```bash
+python scripts/bump_version.py              # show current
+python scripts/bump_version.py patch        # 0.1.0 -> 0.1.1
+python -m file_processor.cli --version
+python -m file_processor.cli version
+```
+
+**Release checklist**
+
+1. Bump: `python scripts/bump_version.py patch` (or `minor` / `major` / `set 1.2.3`)
+2. Commit and tag: `git tag v0.1.1`
+3. Run dev test: `.venv/bin/python scripts/run_dev_test.py`
+4. Build bundles: `python scripts/prepare_production_bundle.py --force`
+5. Zip `dist/<deployment>/` — each bundle contains a `VERSION` file and version in `DEPLOYMENT.txt`
+
 ## Dev smoke test (`run_dev_test.py`)
 
 From the repo root:
@@ -18,6 +37,25 @@ Exit code `1` if any file ends up in an `error/` folder (e.g. known EMCS namespa
 3. Copies `examples/in/SSW/TE_FELUY_*.xml` and `examples/in/EMCS/ARC_ALL*.xml` → `data/inbound/in/`
 4. Runs `run_once` for all flows in `config/flows.yaml`
 5. Prints counts under success / error / archive
+
+## Windows test server smoke test (`run_server_test.py`)
+
+For a **test** deployment bundle on Windows only (`AMFT_Test` FTP paths). **Refuses production** paths (`E:\FTP\AMFT\...` without `_Test`).
+
+```powershell
+cd C:\Apps\IN-SSW-ROLLS_Test-MFTA01193T
+py scripts\run_server_test.py
+py scripts\run_server_test.py --dry-run
+py scripts\run_server_test.py --force
+```
+
+1. Verifies flow paths are test FTP folders
+2. Prompts, then clears input / success / error / in_progress (not archive unless `--purge-archive`)
+3. Copies bundled `examples/` into each flow’s `input_dir`
+4. Runs all flows once
+5. **All good** when nothing is in `error/`
+
+Do **not** run on production bundles.
 
 ## Production bundle (`prepare_production_bundle.py`)
 

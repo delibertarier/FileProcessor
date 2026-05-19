@@ -1,6 +1,6 @@
 [project]
 name = "file-processor"
-version = "0.1.0"
+dynamic = ["version"]
 description = "Configurable CSV/fixed-width to XML file processor with flows and mapping XLS support."
 requires-python = ">=3.10"
 dependencies = [
@@ -22,4 +22,7 @@ build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
 packages = ["file_processor"]
+
+[tool.setuptools.dynamic]
+version = { attr = "file_processor.version.__version__" }
 

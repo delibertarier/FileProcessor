@@ -6,3 +6,7 @@ Core concepts:
 - Engine: orchestrates folder watching and processing of flows.
 """
 
+from .version import __version__
+
+__all__ = ["__version__"]
+

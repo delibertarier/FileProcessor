@@ -2,15 +2,37 @@ from __future__ import annotations
 
 import logging
 from pathlib import Path
+from typing import Optional
 
 import typer
 from pydantic import ValidationError
 
 from .config import FlowRegistry
 from .runner import FlowRunner
+from .version import __version__
 from .watcher import run_daemon
 
 app = typer.Typer(help="FileProcessor CLI")
+
+
+def _version_callback(value: bool) -> None:
+    if value:
+        typer.echo(__version__)
+        raise typer.Exit()
+
+
+@app.callback()
+def main(
+    version: Optional[bool] = typer.Option(
+        None,
+        "--version",
+        "-V",
+        callback=_version_callback,
+        is_eager=True,
+        help="Show version and exit.",
+    ),
+) -> None:
+    """Configurable CSV/XML file processor."""
 
 
 def _setup_logging(verbose: bool) -> None:
@@ -26,6 +48,12 @@ def _load_registry(config_path: Path) -> FlowRegistry:
         return FlowRegistry.from_yaml(config_path)
     except ValidationError as exc:
         raise typer.BadParameter(f"Invalid config: {exc}") from exc
+
+
+@app.command()
+def version() -> None:
+    """Print the installed FileProcessor version."""
+    typer.echo(__version__)
 
 
 @app.command()

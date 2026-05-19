@@ -104,6 +104,12 @@ def _print_results() -> int:
             print(f"  {f.name}")
         if "error" in label.lower() and files:
             errors += len(files)
+    if errors:
+        print(f"\n{errors} file(s) in error/ — see paths above.")
+    else:
+        from file_processor.version import __version__
+
+        print(f"\nAll good — every example processed with nothing in error/ (v{__version__}).")
     return 1 if errors else 0
 
 

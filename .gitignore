@@ -1,2 +1,8 @@
 # Production bundles (scripts/prepare_production_bundle.py)
 dist/
+
+# Local dev/test drops and processor output (scripts/run_dev_test.py)
+data/**/*
+!data/**/
+!data/**/.gitkeep
+!data/README.md
