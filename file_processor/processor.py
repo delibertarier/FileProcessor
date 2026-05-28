@@ -9,7 +9,7 @@ from lxml import etree
 
 from .config import FlowConfig, FlowRegistry, RowFilter
 from .io_csv import read_csv_rows, read_fixed_width_rows
-from .io_xml import parse_xml_tree, xml_to_row_dicts
+from .io_xml import parse_xml_tree, xml_to_csv_result
 from .mapping import load_mapping_from_xls
 from .xml_builder import build_xml_for_group, validate_xml_with_xsd
 
@@ -47,8 +47,8 @@ def process_file_for_flow(flow: FlowConfig, file_path: Path) -> None:
         _process_rows_csv_to_xml(flow, mapping, file_path, rows)
     elif flow.mode == "xml_to_csv":
         xml_tree = parse_xml_tree(file_path)
-        rows = xml_to_row_dicts(mapping, xml_tree)
-        _write_csv_output(flow, file_path, rows)
+        result = xml_to_csv_result(mapping, xml_tree, flow)
+        _write_csv_output(flow, file_path, result.rows, result.file_suffixes)
     else:
         raise NotImplementedError(f"Unsupported flow mode: {flow.mode}")
 
@@ -128,33 +128,58 @@ def _write_xml_output_to_dir(
     logger.info("Wrote XML output to %s", target_path)
 
 
-def _write_csv_output(flow: FlowConfig, source_file: Path, rows: list[dict[int, str]]) -> None:
-    """
-    Write XML->CSV transformation results to the flow's success_dir.
-
-    For now, we emit one CSV file per XML file, with as many rows as produced
-    by xml_to_row_dicts, without a header line.
-    """
+def _write_csv_row(
+    target_path: Path,
+    row: dict[int, str],
+    *,
+    delimiter: str,
+    max_col: int,
+) -> None:
     import csv
 
+    with target_path.open("w", newline="", encoding="utf-8") as f:
+        writer = csv.writer(f, delimiter=delimiter)
+        writer.writerow([row.get(i, "") for i in range(1, max_col + 1)])
+
+
+def _write_csv_output(
+    flow: FlowConfig,
+    source_file: Path,
+    rows: list[dict[int, str]],
+    file_suffixes: list[str] | None = None,
+) -> None:
+    """
+    Write XML->CSV results to success_dir.
+
+    One CSV per source XML by default. With file_suffixes (one per row), writes
+    stem_<suffix>.csv e.g. ARR_NOT_..._E440.csv from ExciseProductCode on each line.
+    """
     flow.success_dir.mkdir(parents=True, exist_ok=True)
-    base_name = source_file.stem + ".csv"
-    target_path = flow.success_dir / base_name
 
     if not rows:
+        target_path = flow.success_dir / f"{source_file.stem}.csv"
         logger.info("No rows produced for XML->CSV; writing empty file to %s", target_path)
         target_path.write_text("", encoding="utf-8")
         return
 
-    # Determine max column index to keep stable ordering
     max_col = max(max(row.keys(), default=0) for row in rows)
+    suffixes = file_suffixes or []
 
+    if suffixes and len(suffixes) == len(rows):
+        for row, suffix in zip(rows, suffixes):
+            target_path = flow.success_dir / f"{source_file.stem}_{suffix}.csv"
+            _write_csv_row(target_path, row, delimiter=flow.delimiter, max_col=max_col)
+            logger.info("Wrote CSV output to %s", target_path)
+        return
+
+    target_path = flow.success_dir / f"{source_file.stem}.csv"
     with target_path.open("w", newline="", encoding="utf-8") as f:
+        import csv
+
         writer = csv.writer(f, delimiter=flow.delimiter)
         for row in rows:
             writer.writerow([row.get(i, "") for i in range(1, max_col + 1)])
-
-    logger.info("Wrote CSV output to %s", target_path)
+    logger.info("Wrote CSV output to %s (%d row(s))", target_path, len(rows))
 
 
 def process_all_pending_files(registry: FlowRegistry) -> None:

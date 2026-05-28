@@ -2,6 +2,8 @@
 """
 Reset local data/, copy example inputs, and run all flows once (dev smoke test).
 
+Copies only files from examples/ that match each flow's file_glob in config/flows.yaml.
+
 Usage (from repo root, with venv activated or .venv/bin/python):
   python scripts/run_dev_test.py
   python scripts/run_dev_test.py -v
@@ -15,20 +17,18 @@ from __future__ import annotations
 
 import argparse
 import logging
-import shutil
 import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-if str(ROOT) not in sys.path:
-    sys.path.insert(0, str(ROOT))
+SCRIPTS = ROOT / "scripts"
+for p in (ROOT, SCRIPTS):
+    if str(p) not in sys.path:
+        sys.path.insert(0, str(p))
 
 DEFAULT_CONFIG = ROOT / "config" / "flows.yaml"
 DATA_ROOT = ROOT / "data"
-
-OUTBOUND_EXAMPLES = ROOT / "examples" / "out"
-INBOUND_SSW_EXAMPLES = ROOT / "examples" / "in" / "SSW"
-INBOUND_EMCS_EXAMPLES = ROOT / "examples" / "in" / "EMCS"
+EXAMPLES_ROOT = ROOT / "examples"
 
 
 def _purge_data(data_root: Path) -> int:
@@ -43,38 +43,28 @@ def _purge_data(data_root: Path) -> int:
     return removed
 
 
-def _copy_glob(src_dir: Path, pattern: str, dest_dir: Path) -> list[Path]:
-    dest_dir.mkdir(parents=True, exist_ok=True)
-    copied: list[Path] = []
-    for src in sorted(src_dir.glob(pattern)):
-        if not src.is_file():
-            continue
-        dest = dest_dir / src.name
-        shutil.copy2(src, dest)
-        copied.append(dest)
-    return copied
+def _load_registry(config_path: Path, *, outbound_only: bool, inbound_only: bool):
+    import os
+
+    os.chdir(ROOT)
+    from file_processor.config import FlowRegistry
+
+    registry = FlowRegistry.from_yaml(config_path)
+    if outbound_only:
+        registry.flows = [f for f in registry.flows if f.mode == "csv_to_xml"]
+    elif inbound_only:
+        registry.flows = [f for f in registry.flows if f.mode == "xml_to_csv"]
+    return registry
 
 
-def _seed_examples(*, outbound: bool, inbound: bool) -> dict[str, list[Path]]:
-    seeded: dict[str, list[Path]] = {"outbound": [], "inbound": []}
-
-    if outbound:
-        seeded["outbound"] = _copy_glob(
-            OUTBOUND_EXAMPLES,
-            "TRA*.TXT",
-            DATA_ROOT / "outbound" / "in",
-        )
-
-    if inbound:
-        inbound_in = DATA_ROOT / "inbound" / "in"
-        seeded["inbound"].extend(
-            _copy_glob(INBOUND_SSW_EXAMPLES, "TE_FELUY_*.xml", inbound_in)
-        )
-        seeded["inbound"].extend(
-            _copy_glob(INBOUND_EMCS_EXAMPLES, "ARC_ALL*.xml", inbound_in)
-        )
-
-    return seeded
+def _print_seed_report(copied: list[tuple[str, Path, Path]]) -> None:
+    by_flow: dict[str, list[Path]] = {}
+    for flow_name, _src, dest in copied:
+        by_flow.setdefault(flow_name, []).append(dest)
+    for flow_name, dests in by_flow.items():
+        print(f"  [{flow_name}] {len(dests)} file(s)")
+        for dest in dests:
+            print(f"    {dest.name}")
 
 
 def _list_files(dir_path: Path) -> list[Path]:
@@ -135,9 +125,6 @@ def main() -> int:
         print("Cannot use --outbound-only and --inbound-only together.", file=sys.stderr)
         return 2
 
-    do_outbound = not args.inbound_only
-    do_inbound = not args.outbound_only
-
     level = logging.DEBUG if args.verbose else logging.INFO
     logging.basicConfig(
         level=level,
@@ -149,35 +136,27 @@ def main() -> int:
         print(f"Config not found: {config_path}", file=sys.stderr)
         return 2
 
+    registry = _load_registry(
+        config_path,
+        outbound_only=args.outbound_only,
+        inbound_only=args.inbound_only,
+    )
+
     if not args.skip_purge:
         n = _purge_data(DATA_ROOT)
         print(f"Purged {n} file(s) under {DATA_ROOT.relative_to(ROOT)}/")
 
     if not args.skip_copy:
-        seeded = _seed_examples(outbound=do_outbound, inbound=do_inbound)
-        print(f"Copied {len(seeded['outbound'])} outbound file(s) → data/outbound/in/")
-        for p in seeded["outbound"]:
-            print(f"  {p.name}")
-        print(f"Copied {len(seeded['inbound'])} inbound file(s) → data/inbound/in/")
-        for p in seeded["inbound"]:
-            print(f"  {p.name}")
+        from test_seed_examples import seed_flows
+
+        copied = seed_flows(registry, EXAMPLES_ROOT)
+        print(f"Copied {len(copied)} example file(s) (per flow file_glob in {config_path.name}):")
+        _print_seed_report(copied)
 
     if args.skip_run:
         return 0
 
-    # Flow paths in config are relative to cwd — run from repo root.
-    import os
-
-    os.chdir(ROOT)
-
-    from file_processor.config import FlowRegistry  # noqa: E402
     from file_processor.runner import FlowRunner
-
-    registry = FlowRegistry.from_yaml(config_path)
-    if args.outbound_only:
-        registry.flows = [f for f in registry.flows if f.mode == "csv_to_xml"]
-    elif args.inbound_only:
-        registry.flows = [f for f in registry.flows if f.mode == "xml_to_csv"]
 
     print(f"\nRunning {len(registry.flows)} flow(s) from {config_path.relative_to(ROOT)}...")
     FlowRunner(registry).run_all_pending()

@@ -23,6 +23,7 @@ def _fix_windows_dot_before_drive_letter(path: Path) -> Path:
 
 SourceFormat = Literal["csv", "fixed_width"]
 FlowMode = Literal["csv_to_xml", "xml_to_csv"]
+XmlLineOutput = Literal["multi_row_file", "file_per_line"]
 
 
 class RowFilter(BaseModel):
@@ -36,18 +37,11 @@ class RowFilter(BaseModel):
 
 
 class GroupingRule(BaseModel):
-    """Defines how to group source lines into a single XML document."""
+    """Defines how to group CSV rows into one XML document (csv_to_xml)."""
 
     group_by_column_index: int = Field(
         ..., description="1-based CSV column index used as grouping key."
     )
-
-
-class FixedWidthColumn(BaseModel):
-    """Column specification for fixed-width files."""
-
-    start: int = Field(..., description="1-based start position of the field in the line.")
-    length: int = Field(..., description="Length of the field.")
     group_root_xpath: str = Field(
         ...,
         description="XPath to the repeating group node that represents one group (e.g. /Root/Order).",
@@ -56,6 +50,13 @@ class FixedWidthColumn(BaseModel):
         ...,
         description="XPath to the repeating item node for each source row inside the group.",
     )
+
+
+class FixedWidthColumn(BaseModel):
+    """Column specification for fixed-width files."""
+
+    start: int = Field(..., description="1-based start position of the field in the line.")
+    length: int = Field(..., description="Length of the field.")
 
 
 class FlowConfig(BaseModel):
@@ -110,6 +111,30 @@ class FlowConfig(BaseModel):
     # Filtering and grouping
     filters: list[RowFilter] = Field(default_factory=list)
     grouping: Optional[GroupingRule] = None
+
+    # xml_to_csv: repeating line items (e.g. BodyEadEsad)
+    xml_line_xpath: Optional[str] = Field(
+        None,
+        description=(
+            "For xml_to_csv: local name or path of repeating line items. "
+            "Header-level mapping columns are repeated; line-level columns come from each item."
+        ),
+    )
+    xml_line_output: XmlLineOutput = Field(
+        "file_per_line",
+        description=(
+            "When xml_line_xpath is set: file_per_line = one CSV per line item "
+            "(filename suffix from xml_line_filename_element); "
+            "multi_row_file = one CSV with multiple rows."
+        ),
+    )
+    xml_line_filename_element: Optional[str] = Field(
+        "ExciseProductCode",
+        description=(
+            "Local element name under each line item used in the output CSV filename. "
+            "Falls back to BodyRecordUniqueReference, then line index."
+        ),
+    )
 
     @field_validator(
         "input_dir",

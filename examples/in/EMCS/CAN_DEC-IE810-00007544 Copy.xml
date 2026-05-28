@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="ISO-8859-1" ?> 
+<!-- NOOT: dit is een voorbeeld dat qua inhoud niet volledig overeenkomt met de realitiet omwille van testopzet. De structuur van het bericht is wel gelijk aan een productie bericht -->
+<EmcsSswDeclaration xmlns:ie="http://emcs.dgtaxud.ec/v10/cd815/ie" xmlns:tms="http://emcs.dgtaxud.ec/v10/tms" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="V:\PCIL9\Bin\DevMcf\120\Components\Interfaces\definition\Customs\PLDAST~1\EMCSSSW.xsd">
+  <typeDeclaration>ED</typeDeclaration>
+  <version>564.1.005</version>
+  <dateCreation>2026-03-12</dateCreation>
+  <timeCreation>16:56:29</timeCreation>
+  <linkIdERP>7587</linkIdERP>
+  <linkIdERP2>7583</linkIdERP2>
+  <linkCompanyERP2></linkCompanyERP2>
+  <linkIdERP3>BE1C000005808W25000088</linkIdERP3><!-- linkid van dossier -->
+  <CustomsStreamliner>
+    <template>TE_ANR</template>
+    <company>TE</company>
+    <messageStatus>ARC_ALL</messageStatus>
+    <user>ADMIN</user>
+    <printLocation>DEFAULT PRINTGROEP</printLocation>
+    <createDeclaration>F</createDeclaration>
+    <sendingMode>O</sendingMode>
+    <sendDeclaration>F</sendDeclaration>
+    <commercialReference>-250303_075621_T-7587</commercialReference>
+    <ConsigneeTrader>
+      <id>LUACC00000</id>
+      <erpId>LUACC00000308</erpId>	
+    </ConsigneeTrader>
+    <DispatchTrader>
+      <id>TOTALENER2</id>
+      <erpId>BE1C000005808</erpId>	    
+    </DispatchTrader>
+    <ConsignorTrader>
+      <id>BE1C000005</id>
+      <erpId>BE1C000005899</erpId>	
+    </ConsignorTrader>
+    <DeliveryPlaceTrader>
+      <id>LUACC00010</id>
+      <erpId>LUACC00010308</erpId>
+	  </DeliveryPlaceTrader>
+    <FirstTransporterTrader>
+      <id>0</id>
+      <erpId>0</erpId>
+    </FirstTransporterTrader>
+        <ControlValues>
+          <totalGrossmass>1424431.000000</totalGrossmass>
+          <totalNetmass>1424431.000000</totalNetmass>
+          <totalPackages>0</totalPackages> 
+          <totalQuantity>0.000</totalQuantity> 
+        </ControlValues>
+        <AadReferenceCode>SSW7587_7585</AadReferenceCode><!-- fictief omwille van testopzet-->
+ 	<Detail>
+		<sequence>1</sequence>
+		<linkIdItem>1</linkIdItem>
+	</Detail>
+  </CustomsStreamliner>
+  <MessageBody>
+<C_CAN_DAT>
+  <Context>
+    <NameValue>
+      <name>Operation</name>
+      <value>submitCancellation</value>
+    </NameValue>
+    <NameValue>
+      <name>autorisationholder</name>
+      <value>BE1C000497499</value>
+    </NameValue>
+    <NameValue>
+      <name>storageplace</name>
+      <value>BE1C000497400</value>
+    </NameValue>
+  </Context>
+  <IE810>
+    <Header>
+      <MessageSender>NDEA.BE</MessageSender>
+      <MessageRecipient>0462405532</MessageRecipient>
+      <DateOfPreparation>2026-02-03</DateOfPreparation>
+      <TimeOfPreparation>15:38:33.000</TimeOfPreparation>
+      <MessageIdentifier>234914da-b8cf-4cc6-9117-d720c785b819</MessageIdentifier>
+    </Header>
+    <Body>
+      <CancellationOfEAD>
+        <Attributes>
+          <DateAndTimeOfValidationOfCancellation>2026-02-03T16:38:35.766</DateAndTimeOfValidationOfCancellation>
+        </Attributes>
+        <ExciseMovementEad>
+          <AdministrativeReferenceCode>26BEML6CEBSE0004GWCS4</AdministrativeReferenceCode>
+        </ExciseMovementEad>
+        <Cancellation>
+          <CancellationReasonCode>4</CancellationReasonCode>
+        </Cancellation>
+      </CancellationOfEAD>
+    </Body>
+  </IE810>
+</C_CAN_DAT>
+  </MessageBody>  
+</EmcsSswDeclaration>

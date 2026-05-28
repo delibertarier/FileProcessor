@@ -54,7 +54,7 @@ flows:
     archive_dir: ./data/inbound/archive
     in_progress_dir: ./data/inbound/in_progress
 
-    file_glob: "TE_FELUY_*.xml" #file format is BU_typeofmessage
+    file_glob: "TE_FELUY*.xml" #file format is BU_typeofmessage
 
     input_format: csv
     delimiter: "|"
@@ -85,4 +85,31 @@ flows:
     skeleton_xml: null
     xsd_file: null
 
-    root_element_name: EmcsSswDeclaration 
+    root_element_name: EmcsSswDeclaration
+
+  - name: emcs_arr_not
+    mode: xml_to_csv
+
+    input_dir: ./data/inbound/in
+    success_dir: ./data/inbound/success
+    error_dir: ./data/inbound/error
+    archive_dir: ./data/inbound/archive
+    in_progress_dir: ./data/inbound/in_progress
+
+    file_glob: "ARR_NOT*.xml" #files containing IE801 messages
+
+    input_format: csv
+    delimiter: "|"
+
+    mapping_file: ./examples/mapping ROLLS SSW outgoing.xlsx
+    mapping_sheet_name: "Binnenkomende Arrival EAD 801"
+    skeleton_xml: null
+    xsd_file: null
+
+    root_element_name: EmcsSswDeclaration
+
+    # One CSV per BodyEadEsad line; filename suffix from BodyRecordUniqueReference (e.g. ..._1.csv)
+    xml_line_xpath: BodyEadEsad
+    xml_line_output: file_per_line
+    xml_line_filename_element: BodyRecordUniqueReference
+

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?> 
+<EmcsSswDeclaration xmlns:ie="http://emcs.dgtaxud.ec/v10/cd815/ie" xmlns:tms="http://emcs.dgtaxud.ec/v10/tms" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="V:\PCIL9\Bin\DevMcf\120\Components\Interfaces\definition\Customs\PLDAST~1\EMCSSSW.xsd">
+  <typeDeclaration>ED</typeDeclaration>
+  <version>570.0.0-rc008</version>
+  <dateCreation>2026-05-27</dateCreation>
+  <timeCreation>15:37:52</timeCreation>
+  <linkIdERP></linkIdERP>
+  <CustomsStreamliner>
+    <template>TEMPLATE 1</template>
+    <company>STREAMSOFT</company>
+    <messageStatus>EMG_PRT</messageStatus>
+    <user>HBER</user>
+    <printLocation>DEFAULT</printLocation>
+    <createDeclaration>F</createDeclaration>
+    <sendingMode>T</sendingMode>
+    <sendDeclaration>F</sendDeclaration>
+    <Principal>
+      <id>LOMBERG</id>
+      <erpId></erpId>	
+      <ContactPerson>
+		 <contactPersonCode>GUNG</contactPersonCode>
+         <contactPersonName>GUNG</contactPersonName>
+         <contactPersonEmail>phatcharee.lorlertsoontorn@streamsoftware.be</contactPersonEmail>
+	  </ContactPerson>
+    </Principal>		
+    <sendPrincipalEmailAfterARC>T</sendPrincipalEmailAfterARC>	
+	<sendPrincipalEmailAfterARCContactCode>GUNG</sendPrincipalEmailAfterARCContactCode>
+    <commercialReference>EMCSTESTTT20233249584</commercialReference>
+    <ConsigneeTrader>
+      <id>ACCIJNS1</id>
+      <erpId>ACCIJNS1</erpId>	
+    </ConsigneeTrader>
+    <DispatchTrader>
+      <id>ACCIJNS_DI</id>
+      <erpId>ACCIJNS_DI</erpId>	    
+    </DispatchTrader>
+    <ConsignorTrader>
+      <id>ACCIJNS_CO</id>
+      <erpId>ACCIJNS_CO</erpId>	
+    </ConsignorTrader>
+    <DeliveryPlaceTrader>
+      <id>ACCIJNS2TE</id>
+      <erpId>ACCIJNS2TE</erpId>
+	  </DeliveryPlaceTrader>
+    <FirstTransporterTrader>
+      <id>TRANSPO</id>
+    </FirstTransporterTrader>
+        <AadReferenceCode></AadReferenceCode>
+ 	<Detail>
+		<sequence>1</sequence>
+		<linkIdItem>1</linkIdItem>
+	</Detail>
+  </CustomsStreamliner>
+  <MessageBody>
+  </MessageBody>  
+</EmcsSswDeclaration>

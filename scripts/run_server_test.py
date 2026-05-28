@@ -25,8 +25,10 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-if str(ROOT) not in sys.path:
-    sys.path.insert(0, str(ROOT))
+SCRIPTS = ROOT / "scripts"
+for p in (ROOT, SCRIPTS):
+    if str(p) not in sys.path:
+        sys.path.insert(0, str(p))
 
 DEFAULT_CONFIG = ROOT / "config" / "flows.yaml"
 EXAMPLES_ROOT = ROOT / "examples"
@@ -103,24 +105,17 @@ def _copy_glob(src_dir: Path, pattern: str, dest_dir: Path) -> list[Path]:
     return copied
 
 
-def _examples_dir_for_flow(flow) -> Path | None:
-    """Pick examples/in subfolder for xml_to_csv based on file_glob."""
-    glob_upper = (flow.file_glob or "").upper()
-    if "ARC_ALL" in glob_upper or glob_upper.startswith("ARC"):
-        return EXAMPLES_ROOT / "in" / "EMCS"
-    if flow.mode == "xml_to_csv":
-        return EXAMPLES_ROOT / "in" / "SSW"
-    if flow.mode == "csv_to_xml":
-        return EXAMPLES_ROOT / "out"
-    return None
-
-
 def _seed_flow(flow) -> list[Path]:
-    src_root = _examples_dir_for_flow(flow)
-    if src_root is None or not src_root.is_dir():
-        return []
-    pattern = flow.file_glob or "*.*"
-    return _copy_glob(src_root, pattern, Path(flow.input_dir))
+    from test_seed_examples import find_example_files
+
+    dest_dir = Path(flow.input_dir)
+    copied: list[Path] = []
+    for src in find_example_files(flow, EXAMPLES_ROOT):
+        dest_dir.mkdir(parents=True, exist_ok=True)
+        dest = dest_dir / src.name
+        shutil.copy2(src, dest)
+        copied.append(dest)
+    return copied
 
 
 def _list_files(dir_path: Path) -> list[Path]:
@@ -243,9 +238,13 @@ def main() -> int:
             n = len(_list_files(path))
             print(f"  {path} ({n} file(s) now) — {label}")
         print("\n[dry-run] Would copy examples → input_dir per flow:")
+        from test_seed_examples import find_example_files
+
         for flow in registry.flows:
-            src = _examples_dir_for_flow(flow)
-            print(f"  {flow.name}: {src} / {flow.file_glob} → {flow.input_dir}")
+            matches = find_example_files(flow, EXAMPLES_ROOT)
+            print(f"  {flow.name}: {flow.file_glob!r} → {flow.input_dir} ({len(matches)} file(s))")
+            for path in matches:
+                print(f"    {path.name}")
         if not args.skip_run:
             print("\n[dry-run] Would run FlowRunner.run_all_pending()")
         return 0

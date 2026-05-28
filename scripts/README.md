@@ -34,7 +34,7 @@ Exit code `1` if any file ends up in an `error/` folder (e.g. known EMCS namespa
 
 1. Clears `data/` (keeps `.gitkeep`)
 2. Copies `examples/out/TRA*.TXT` → `data/outbound/in/`
-3. Copies `examples/in/SSW/TE_FELUY_*.xml` and `examples/in/EMCS/ARC_ALL*.xml` → `data/inbound/in/`
+3. Copies from `examples/` only files matching each flow's `file_glob` → that flow's `input_dir`
 4. Runs `run_once` for all flows in `config/flows.yaml`
 5. Prints counts under success / error / archive
 

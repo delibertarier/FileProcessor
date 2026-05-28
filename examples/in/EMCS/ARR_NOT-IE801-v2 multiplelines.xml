@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?> 
+<EmcsSswDeclaration xmlns:ie="http://emcs.dgtaxud.ec/v10/cd815/ie" xmlns:tms="http://emcs.dgtaxud.ec/v10/tms" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="V:\PCIL9\Bin\DevMcf\120\Components\Interfaces\definition\Customs\PLDAST~1\EMCSSSW.xsd">
+  <typeDeclaration>EA</typeDeclaration>
+  <version>550.1.010</version>
+  <dateCreation>2025-09-15</dateCreation>
+  <timeCreation>15:12:57</timeCreation>
+  <linkIdERP>BE1C000005808W25000088</linkIdERP>
+  <CustomsStreamliner>
+    <template></template>
+    <company>TE</company>
+    <messageStatus>ARR_NOT</messageStatus>
+    <user></user>
+    <printLocation></printLocation>
+    <createDeclaration>F</createDeclaration>
+    <sendingMode>O</sendingMode>
+    <sendDeclaration>F</sendDeclaration>
+    <commercialReference>-250303_075621_T-7587</commercialReference>
+        <AadReferenceCode>25BEBXL9G06R0003Wtest</AadReferenceCode>
+ 	<Detail>
+		<sequence>1</sequence>
+	</Detail>
+  </CustomsStreamliner>
+  <MessageBody>
+<ns2:C_EAD_VAL xmlns="http://emcs.minfin.fgov.be/xsd/Context" xmlns:ns2="http://emcs.minfin.fgov.be/xsd/MSAMessage" xmlns:ns3="urn:publicid:-:EC:DGTAXUD:EMCS:PHASE4:TMS:V3.01" xmlns:ns4="urn:publicid:-:EC:DGTAXUD:EMCS:PHASE4:IE801:V3.01">
+  <ns2:Context>
+    <NameValue>
+      <name>Operation</name>
+      <value>forwardAAD</value>
+    </NameValue>
+    <NameValue>
+      <name>autorisationholder</name>
+      <value>BE1A000098899</value>
+    </NameValue>
+    <NameValue>
+      <name>storageplace</name>
+      <value>BE1A000099100</value>
+    </NameValue>
+  </ns2:Context>
+  <ns4:IE801>
+    <ns4:Header>
+      <ns3:MessageSender>NDEA.BE</ns3:MessageSender>
+      <ns3:MessageRecipient>0404586901</ns3:MessageRecipient>
+      <ns3:DateOfPreparation>2025-09-1513</ns3:DateOfPreparation>
+      <ns3:TimeOfPreparation>13:38:04.084</ns3:TimeOfPreparation>
+      <ns3:MessageIdentifier>4318f8d7-1b8f-41d1-45e2-f809e29e152b</ns3:MessageIdentifier>
+    </ns4:Header>
+    <ns4:Body>
+      <ns4:EADESADContainer>
+        <ns4:ConsigneeTrader language="nl">
+          <ns4:Traderid>BE1C000005899</ns4:Traderid>
+          <ns4:TraderName>TOTALENERGIES REFINERY</ns4:TraderName>
+          <ns4:StreetName>SCHELDELAAN 16</ns4:StreetName>
+          <ns4:Postcode>2030</ns4:Postcode>
+          <ns4:City>ANTWERPEN</ns4:City>
+        </ns4:ConsigneeTrader>
+        <ns4:ExciseMovement>
+          <ns4:AdministrativeReferenceCode>25BEBXL9G06R0003Wtest</ns4:AdministrativeReferenceCode>
+          <ns4:DateAndTimeOfValidationOfEadEsad>2025-09-30T13:38:04.084</ns4:DateAndTimeOfValidationOfEadEsad>
+        </ns4:ExciseMovement>
+        <ns4:ConsignorTrader language="nl">
+          <ns4:TraderExciseNumber>BE1A000098899</ns4:TraderExciseNumber>
+          <ns4:TraderName>DE WIT BUNKERING</ns4:TraderName>
+          <ns4:StreetName>ASIADOK OOSTKAAI 28D</ns4:StreetName>
+          <ns4:Postcode>2030</ns4:Postcode>
+          <ns4:City>ANTWERPEN</ns4:City>
+        </ns4:ConsignorTrader>
+        <ns4:PlaceOfDispatchTrader language="nl">
+          <ns4:ReferenceOfTaxWarehouse>BE1A000099100</ns4:ReferenceOfTaxWarehouse>
+          <ns4:TraderName>DE WIT BUNKERING</ns4:TraderName>
+          <ns4:StreetName>ASIADOK OOSTKAAI 28D</ns4:StreetName>
+          <ns4:Postcode>2030</ns4:Postcode>
+          <ns4:City>ANTWERPEN</ns4:City>
+        </ns4:PlaceOfDispatchTrader>
+        <ns4:DeliveryPlaceTrader language="nl">
+          <ns4:Traderid>BE1C000005801</ns4:Traderid>
+          <ns4:TraderName>TOTALENERGIES REFINERY</ns4:TraderName>
+          <ns4:StreetName>HAVEN 447 SCHELDELAAN 14</ns4:StreetName>
+          <ns4:Postcode>2030</ns4:Postcode>
+          <ns4:City>ANTWERPEN</ns4:City>
+        </ns4:DeliveryPlaceTrader>
+        <ns4:CompetentAuthorityDispatchOffice>
+          <ns4:ReferenceNumber>BE101000</ns4:ReferenceNumber>
+        </ns4:CompetentAuthorityDispatchOffice>
+        <ns4:FirstTransporterTrader language="nl">
+          <ns4:TraderName>TRANSPORT WALTER </ns4:TraderName>
+          <ns4:StreetName>STRAAT 1</ns4:StreetName>
+          <ns4:Postcode>2000</ns4:Postcode>
+          <ns4:City>ANTWERPEN</ns4:City>
+        </ns4:FirstTransporterTrader>
+        <ns4:EadEsad>
+          <ns4:LocalReferenceNumber>250462405532T000005060</ns4:LocalReferenceNumber>
+          <ns4:InvoiceNumber>SSW</ns4:InvoiceNumber>
+          <ns4:InvoiceDate>2025-09-10</ns4:InvoiceDate>
+          <ns4:OriginTypeCode>1</ns4:OriginTypeCode>
+          <ns4:DateOfDispatch>2025-09-15</ns4:DateOfDispatch>
+          <ns4:TimeOfDispatch>22:00:00.000</ns4:TimeOfDispatch>
+        </ns4:EadEsad>
+        <ns4:HeaderEadEsad>
+          <ns4:SequenceNumber>1</ns4:SequenceNumber>
+          <ns4:DateAndTimeOfUpdateValidation>2025-09-30T13:38:04.084</ns4:DateAndTimeOfUpdateValidation>
+          <ns4:DestinationTypeCode>1</ns4:DestinationTypeCode>
+          <ns4:JourneyTime>D05</ns4:JourneyTime>
+          <ns4:TransportArrangement>1</ns4:TransportArrangement>
+        </ns4:HeaderEadEsad>
+        <ns4:TransportMode>
+          <ns4:TransportModeCode>3</ns4:TransportModeCode>
+        </ns4:TransportMode>
+        <ns4:MovementGuarantee>
+          <ns4:GuarantorTypeCode>1</ns4:GuarantorTypeCode>
+        </ns4:MovementGuarantee>
+        <ns4:BodyEadEsad>
+          <ns4:BodyRecordUniqueReference>1</ns4:BodyRecordUniqueReference>
+          <ns4:ExciseProductCode>E440</ns4:ExciseProductCode>
+          <ns4:CnCode>27102011</ns4:CnCode>
+          <ns4:Quantity>1000.000</ns4:Quantity>
+          <ns4:GrossMass>1234567890.000000</ns4:GrossMass>
+          <ns4:NetMass>1234567890.000000</ns4:NetMass>
+          <ns4:FiscalMarkUsedFlag>0</ns4:FiscalMarkUsedFlag>
+          <ns4:Density>0.76</ns4:Density>
+          <ns4:CommercialDescription language="nl">GASOLIE (DIESEL), BEVAT BIODIESEL MET EEN ZWAVELGEHALTE KLEINER DAN 0.001% BEVAT ACCUTRACE EN KLEURSTOF</ns4:CommercialDescription>
+          <ns4:Package>
+            <ns4:KindOfPackages>VL</ns4:KindOfPackages>
+          </ns4:Package>
+        </ns4:BodyEadEsad>
+		        <ns4:BodyEadEsad>
+          <ns4:BodyRecordUniqueReference>2</ns4:BodyRecordUniqueReference>
+          <ns4:ExciseProductCode>E430</ns4:ExciseProductCode>
+          <ns4:CnCode>27102011</ns4:CnCode>
+          <ns4:Quantity>1000.000</ns4:Quantity>
+          <ns4:GrossMass>1234567890.000000</ns4:GrossMass>
+          <ns4:NetMass>1234567890.000000</ns4:NetMass>
+          <ns4:FiscalMarkUsedFlag>0</ns4:FiscalMarkUsedFlag>
+          <ns4:Density>0.76</ns4:Density>
+          <ns4:CommercialDescription language="nl">DIESEL / GAZOLE MOTEUR, CONTENANT DU BIODIESEL, AVEC UNE TENEUR EN POIDS DE SOUFRE N'EXCEDENT PAS 0,001 %.</ns4:CommercialDescription>
+          <ns4:Package>
+            <ns4:KindOfPackages>VL</ns4:KindOfPackages>
+          </ns4:Package>
+        </ns4:BodyEadEsad>
+		        <ns4:BodyEadEsad>
+          <ns4:BodyRecordUniqueReference>3</ns4:BodyRecordUniqueReference>
+          <ns4:ExciseProductCode>E460</ns4:ExciseProductCode>
+          <ns4:CnCode>27102011</ns4:CnCode>
+          <ns4:Quantity>1000.000</ns4:Quantity>
+          <ns4:GrossMass>1234567890.000000</ns4:GrossMass>
+          <ns4:NetMass>1234567890.000000</ns4:NetMass>
+          <ns4:FiscalMarkUsedFlag>0</ns4:FiscalMarkUsedFlag>
+          <ns4:Density>0.76</ns4:Density>
+          <ns4:CommercialDescription language="nl">KEROSINE ,ANDERE DAN REACTIEMOTORBRANDSTOF,+ACCUTRACE PLUS + RED(&gt;12.5en&lt;18.72mg/l)</ns4:CommercialDescription>
+          <ns4:Package>
+            <ns4:KindOfPackages>VL</ns4:KindOfPackages>
+          </ns4:Package>
+        </ns4:BodyEadEsad>
+        <ns4:TransportDetails>
+          <ns4:TransportUnitCode>2</ns4:TransportUnitCode>
+          <ns4:IdentityOfTransportUnits>1</ns4:IdentityOfTransportUnits>
+        </ns4:TransportDetails>
+      </ns4:EADESADContainer>
+    </ns4:Body>
+  </ns4:IE801>
+</ns2:C_EAD_VAL>
+  </MessageBody>  
+</EmcsSswDeclaration>
