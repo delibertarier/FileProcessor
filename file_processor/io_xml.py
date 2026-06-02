@@ -188,13 +188,23 @@ def _resolve_xpath_nodes(root: etree._Element, raw_xpath: str) -> list:
     """
     abs_xpath, rel_xpath = _normalize_mapping_xpath(raw_xpath)
     parts, attr_name = _xpath_parts(abs_xpath)
+    root_local = _local_name(root.tag)
+    rel_without_root = ""
+    if parts and parts[0].lower() == root_local.lower():
+        rel_without_root = "/".join(parts[1:])
 
     nodes = _safe_xpath(root, abs_xpath)
     if not nodes and rel_xpath:
         nodes = _safe_xpath(root, f".//{rel_xpath}")
+    if not nodes and rel_without_root:
+        nodes = _safe_xpath(root, f".//{rel_without_root}")
 
     if not nodes and parts:
         nodes = _xpath_by_local_names(root, parts, attr_name)
+    if not nodes and rel_without_root:
+        parts_wo_root, _ = _xpath_parts("/" + rel_without_root)
+        if parts_wo_root:
+            nodes = _xpath_by_local_names(root, parts_wo_root, attr_name)
 
     if nodes:
         return nodes
@@ -202,6 +212,8 @@ def _resolve_xpath_nodes(root: etree._Element, raw_xpath: str) -> list:
     fallback_node = _find_node_case_insensitive(root, abs_xpath)
     if fallback_node is None and rel_xpath:
         fallback_node = _find_descendant_case_insensitive(root, rel_xpath)
+    if fallback_node is None and rel_without_root:
+        fallback_node = _find_descendant_case_insensitive(root, rel_without_root)
 
     if fallback_node is None:
         return []

@@ -113,3 +113,65 @@ flows:
     xml_line_output: file_per_line
     xml_line_filename_element: BodyRecordUniqueReference
 
+  - name: emcs_dec_rej
+    mode: xml_to_csv
+
+    input_dir: ./data/inbound/in
+    success_dir: ./data/inbound/success
+    error_dir: ./data/inbound/error
+    archive_dir: ./data/inbound/archive
+    in_progress_dir: ./data/inbound/in_progress
+
+    file_glob: "DEC_REJ*.xml" #files containing IE801 messages
+
+    input_format: csv
+    delimiter: "|"
+
+    mapping_file: ./examples/mapping ROLLS SSW outgoing.xlsx
+    mapping_sheet_name: "IE704 functional error"
+    skeleton_xml: null
+    xsd_file: null
+
+    root_element_name: EmcsSswDeclaration
+
+  - name: emcs_cmd_err
+    mode: xml_to_csv
+
+    input_dir: ./data/inbound/in
+    success_dir: ./data/inbound/success
+    error_dir: ./data/inbound/error
+    archive_dir: ./data/inbound/archive
+    in_progress_dir: ./data/inbound/in_progress
+
+    file_glob: "CMD_ERR*.xml" #files containing IE801 messages
+
+    input_format: csv
+    delimiter: "|"
+
+    mapping_file: ./examples/mapping ROLLS SSW outgoing.xlsx
+    mapping_sheet_name: "IE917 xml error"
+    skeleton_xml: null
+    xsd_file: null
+
+    root_element_name: EmcsSswDeclaration
+
+  - name: emcs_dec_dat
+    mode: xml_to_csv
+
+    input_dir: ./data/inbound/in
+    success_dir: ./data/inbound/success
+    error_dir: ./data/inbound/error
+    archive_dir: ./data/inbound/archive
+    in_progress_dir: ./data/inbound/in_progress
+
+    file_glob: "DEC_DAT*.xml" #files containing IE801 messages
+
+    input_format: csv
+    delimiter: "|"
+
+    mapping_file: ./examples/mapping ROLLS SSW outgoing.xlsx
+    mapping_sheet_name: "IE815 confirmation"
+    skeleton_xml: null
+    xsd_file: null
+
+    root_element_name: EmcsSswDeclaration

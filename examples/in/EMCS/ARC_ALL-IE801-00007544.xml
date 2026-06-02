@@ -86,7 +86,7 @@
         </ConsigneeTrader>
         <ExciseMovement>
           <AdministrativeReferenceCode>SSW7587_7585</AdministrativeReferenceCode>
-          <DateAndTimeOfValidationOfEad>2022-01-17T10:55:11</DateAndTimeOfValidationOfEad>
+          <DateAndTimeOfValidationOfEadEsad>2022-01-17T10:55:11</DateAndTimeOfValidationOfEadEsad>
         </ExciseMovement>
         <ConsignorTrader language="nl">
           <TraderExciseNumber>BE1C000005899</TraderExciseNumber>

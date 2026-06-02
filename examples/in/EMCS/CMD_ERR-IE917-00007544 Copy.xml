@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="ISO-8859-1" ?> 
+<!-- NOOT: dit is een voorbeeld dat qua inhoud niet volledig overeenkomt met de realitiet omwille van testopzet. De structuur van het bericht is wel gelijk aan een productie bericht -->
+<EmcsSswDeclaration xmlns:ie="http://emcs.dgtaxud.ec/v10/cd815/ie" xmlns:tms="http://emcs.dgtaxud.ec/v10/tms" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="V:\PCIL9\Bin\DevMcf\120\Components\Interfaces\definition\Customs\PLDAST~1\EMCSSSW.xsd">
+  <typeDeclaration>ED</typeDeclaration>
+  <version>564.1.005</version>
+  <dateCreation>2026-03-12</dateCreation>
+  <timeCreation>16:56:29</timeCreation>
+  <linkIdERP>7587</linkIdERP>
+  <linkIdERP2>7583</linkIdERP2>
+  <linkCompanyERP2></linkCompanyERP2>
+  <linkIdERP3>BE1C000005808W25000088</linkIdERP3><!-- linkid van dossier -->
+  <CustomsStreamliner>
+    <template>TE_ANR</template>
+    <company>TE</company>
+    <messageStatus>CMD_ERR</messageStatus>
+    <user>ADMIN</user>
+    <printLocation>DEFAULT PRINTGROEP</printLocation>
+    <createDeclaration>F</createDeclaration>
+    <sendingMode>O</sendingMode>
+    <sendDeclaration>F</sendDeclaration>
+    <commercialReference>-250303_075621_T-7587</commercialReference>
+    <ConsigneeTrader>
+      <id>LUACC00000</id>
+      <erpId>LUACC00000308</erpId>	
+    </ConsigneeTrader>
+    <DispatchTrader>
+      <id>TOTALENER2</id>
+      <erpId>BE1C000005808</erpId>	    
+    </DispatchTrader>
+    <ConsignorTrader>
+      <id>BE1C000005</id>
+      <erpId>BE1C000005899</erpId>	
+    </ConsignorTrader>
+    <DeliveryPlaceTrader>
+      <id>LUACC00010</id>
+      <erpId>LUACC00010308</erpId>
+	  </DeliveryPlaceTrader>
+    <FirstTransporterTrader>
+      <id>0</id>
+      <erpId>0</erpId>
+    </FirstTransporterTrader>
+        <ControlValues>
+          <totalGrossmass>1424431.000000</totalGrossmass>
+          <totalNetmass>1424431.000000</totalNetmass>
+          <totalPackages>0</totalPackages> 
+          <totalQuantity>0.000</totalQuantity> 
+        </ControlValues>
+        <AadReferenceCode>SSW7587_7585</AadReferenceCode><!-- fictief omwille van testopzet-->
+ 	<Detail>
+		<sequence>1</sequence>
+		<linkIdItem>1</linkIdItem>
+	</Detail>
+  </CustomsStreamliner>
+  <MessageBody>
+<IE917>
+  <Header>
+    <MessageSender>NDEA.BE</MessageSender>
+    <MessageRecipient>NDEA.BE</MessageRecipient>
+    <DateOfPreparation>2026-04-22</DateOfPreparation>
+    <TimeOfPreparation>13:54:36.409</TimeOfPreparation>
+    <MessageIdentifier>00156a59-3014-4cc2-a60b-7c8913795d8b</MessageIdentifier>
+    <CorrelationIdentifier>260462405532E000007747</CorrelationIdentifier>
+  </Header>
+  <Body>
+    <XmlNegativeAcknowledgement>
+      <Attributes />
+      <XmlError>
+        <ErrorLineNumber>1</ErrorLineNumber>
+        <ErrorColumnNumber>1</ErrorColumnNumber>
+        <ErrorReason>Contenu non valide trouvé à partir de l'élément '{"urn:publicid:-:EC:DGTAXUD:EMCS:PHASE4:IE815:V3.23":FirstTransporterTrader}'. L'une des valeurs '{"urn:publicid:-:EC:DGTAXUD:EMCS:PHASE4:IE815:V3.23":DispatchImportOffice, "urn:publicid:-:EC:DGTAXUD:EMCS:PHASE4:IE815:V3.23":ComplementConsigneeTrader, "urn:publicid:-:EC:DGTAXUD:EMCS:PHASE4:IE815:V3.2</ErrorReason>
+      </XmlError>
+      <XmlError>
+        <ErrorLineNumber>1</ErrorLineNumber>
+        <ErrorColumnNumber>1</ErrorColumnNumber>
+        <ErrorReason>La valeur '111111111' n'est pas un facet valide par rapport au modèle '[A-Z]{2}[a-zA-Z0-9]{11}' pour le type 'ExciseNumberType'.</ErrorReason>
+      </XmlError>
+      <XmlError>
+        <ErrorLineNumber>1</ErrorLineNumber>
+        <ErrorColumnNumber>1</ErrorColumnNumber>
+        <ErrorReason>La valeur '111111111' de l'élément 'ns0:TraderExciseNumber' n'est pas valide.</ErrorReason>
+      </XmlError>
+      <XmlError>
+        <ErrorLineNumber>1</ErrorLineNumber>
+        <ErrorColumnNumber>1</ErrorColumnNumber>
+        <ErrorReason>La valeur '222222222222' n'est pas un facet valide par rapport au modèle '[A-Z]{2}[a-zA-Z0-9]{11}' pour le type 'ExciseNumberType'.</ErrorReason>
+      </XmlError>
+      <XmlError>
+        <ErrorLineNumber>1</ErrorLineNumber>
+        <ErrorColumnNumber>1</ErrorColumnNumber>
+        <ErrorReason>La valeur '222222222222' de l'élément 'ns0:TraderExciseNumber' n'est pas valide.</ErrorReason>
+      </XmlError>
+    </XmlNegativeAcknowledgement>
+  </Body>
+</IE917>
+  </MessageBody>  
+</EmcsSswDeclaration>

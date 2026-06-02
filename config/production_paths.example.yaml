@@ -18,15 +18,33 @@ bundle_output_base: dist
 deployments:
   IN-SSW-ROLLS_Test-MFTA01193T:
     description: Inbound XML → CSV (test, MFTA01193T)
+    flow_names:
+      - ssw_inbound
+      - emcs_arc_all
+      - emcs_arr_not
+      - emcs_dec_rej
+      - emcs_cmd_err
+      - emcs_dec_dat
 
   IN-SSW-ROLLS_Prod-MFTA01193:
     description: Inbound XML → CSV (production, MFTA01193)
+    flow_names:
+      - ssw_inbound
+      - emcs_arc_all
+      - emcs_arr_not
+      - emcs_dec_rej
+      - emcs_cmd_err
+      - emcs_dec_dat
 
   OUT-ROLLS-SSW_Test-MFTA01192T:
     description: Outbound CSV → XML (test, MFTA01192T)
+    flow_names:
+      - rolls_outbound
 
   OUT-ROLLS-SSW_Prod-MFTA01192:
     description: Outbound CSV → XML (production, MFTA01192)
+    flow_names:
+      - rolls_outbound
 
   # Optional: restrict to specific flows (must match direction):
   # IN-SSW-ROLLS_Test-MFTA01193T:
