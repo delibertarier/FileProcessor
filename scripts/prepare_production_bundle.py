@@ -277,6 +277,15 @@ def _build_flows_yaml(cfg: dict, *, deployment_name: str, description: str = "")
         else:
             lines.extend(["    skeleton_xml: null", "    xsd_file: null"])
         lines.append(f"    root_element_name: {flow.get('root_element_name', 'PldaSswDeclaration')}")
+        if flow.get("xml_line_xpath"):
+            lines.append("")
+            lines.append(f"    xml_line_xpath: {flow['xml_line_xpath']}")
+            if flow.get("xml_line_output"):
+                lines.append(f"    xml_line_output: {flow['xml_line_output']}")
+            if flow.get("xml_line_filename_element"):
+                lines.append(
+                    f"    xml_line_filename_element: {flow['xml_line_filename_element']}"
+                )
         lines.append("")
 
     return "\n".join(lines) + "\n"

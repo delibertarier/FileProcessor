@@ -25,6 +25,8 @@ deployments:
       - emcs_dec_rej
       - emcs_cmd_err
       - emcs_dec_dat
+      - emcs_can_dec
+      - emcs_emg_prt
 
   IN-SSW-ROLLS_Prod-MFTA01193:
     description: Inbound XML → CSV (production, MFTA01193)
@@ -35,6 +37,8 @@ deployments:
       - emcs_dec_rej
       - emcs_cmd_err
       - emcs_dec_dat
+      - emcs_can_dec
+      - emcs_emg_prt
 
   OUT-ROLLS-SSW_Test-MFTA01192T:
     description: Outbound CSV → XML (test, MFTA01192T)
